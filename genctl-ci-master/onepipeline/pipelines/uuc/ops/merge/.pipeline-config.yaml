@@ -1,0 +1,117 @@
+version: '2'
+
+# UUC Ops Merge Pipeline: Team Onboarding Automation
+# This pipeline runs when PRs are merged to provision infrastructure and create repositories
+
+tasks:
+  devmode-code-build:    
+    displayName: 01 - Create Compliance Repositories
+    steps:
+      - name: setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/uuc/ops/merge
+          
+          ${PATH_TO_PIPELINE}/steps/create_compliance_repos_step.sh
+      
+      - name: unit-test
+        when: 'false'
+      
+      - name: build-artifact
+        when: 'false'
+
+  devmode-code-build-2:    
+    from: devmode-code-build
+    displayName: 02 - Provision Team Infrastructure & Secrets
+    steps:
+      - name: setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/uuc/ops/merge
+          ${PATH_TO_PIPELINE}/steps/provision_team_infrastructure_step.sh
+      
+      - name: unit-test
+        when: 'false'
+      
+      - name: build-artifact
+        when: 'false'
+
+  devmode-code-build-3:
+    runAfter:
+      - devmode-code-build
+      - devmode-code-build-2
+    from: devmode-code-build
+    displayName: 03 - Provision Team CI Toolchains
+    steps:
+      - name: setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/uuc/ops/merge
+          ${PATH_TO_PIPELINE}/steps/provision_team_ci_toolchains_step.sh
+      
+      - name: unit-test
+        when: 'false'
+      
+      - name: build-artifact
+        when: 'false'
+
+  devmode-code-build-4:
+    runAfter:
+      - devmode-code-build
+      - devmode-code-build-2
+    from: devmode-code-build
+    displayName: 04 - Provision Team CD Toolchains
+    steps:
+      - name: setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/uuc/ops/merge
+          ${PATH_TO_PIPELINE}/steps/provision_team_cd_toolchains_step.sh
+      
+      - name: unit-test
+        when: 'false'
+      
+      - name: build-artifact
+        when: 'false'
+
+  devmode-deploy-checks:
+    when: 'false'
+
+  devmode-deploy-release:
+    when: 'false'
+
+finally:
+  code-ci-finish:
+    steps:
+      - name: run-stage
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        script: |
+          #!/usr/bin/env bash
+          
+          if [[ "$PIPELINE_DEBUG" == 1 ]]; then
+            trap env EXIT
+            env
+            set -x
+          fi
+          
+          echo "╔════════════════════════════════════════════════════════════════════════════╗"
+          echo "║                                                                            ║"
+          echo "║  UUC Ops Merge Pipeline Finished                                          ║"
+          echo "║                                                                            ║"
+          echo "╚════════════════════════════════════════════════════════════════════════════╝"
+          
+          exit 0
+
+# Made with Bob

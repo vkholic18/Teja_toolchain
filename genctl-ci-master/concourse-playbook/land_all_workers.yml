@@ -1,0 +1,18 @@
+#Land an individual worker
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+  - name: Landing all workers
+    shell: |
+      for worker in `fly workers -t test-integration | cut -f 1 -d ' ' `
+      do
+        concourse land-worker --name $worker --tsa-host 127.0.0.1 --tsa-public-key /etc/concourse/keys/worker/tsa_host_key.pub --tsa-worker-private-key /etc/concourse/keys/worker/worker_key > /var/log/concourse-worker.log &
+      done
+    args:
+      chdir: /usr/local/bin/
+      executable: /bin/bash
+    changed_when: false
+    register: results
+  - debug: var=results.stdout_lines

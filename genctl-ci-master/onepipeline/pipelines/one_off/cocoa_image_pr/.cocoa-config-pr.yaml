@@ -1,0 +1,37 @@
+version: '1'
+
+setup:
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  script: |
+    #!/usr/bin/env bash
+
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/cocoa_image_pr
+    export PATH_TO_COMMON_REPO="${WORKSPACE}/cicd-common"
+
+    # run the setup
+    ${PATH_TO_PIPELINE}/steps/setup.sh
+
+test:
+  dind: true
+  abort_on_failure: false
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  script: |
+    #!/usr/bin/env bash
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/cocoa_image_pr
+
+    # run the test
+    ${PATH_TO_PIPELINE}/steps/test.sh
+compliance-checks:
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  dind: true
+  abort_on_failure: false
+  image_pull_policy: IfNotPresent
+  script: |
+    #!/bin/sh
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/cocoa_image_pr
+    export DOCKERBUILDFLAGS="--build-arg COCOA_HOST=icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.49"
+    # run the compliance checks
+    ${PATH_TO_PIPELINE}/steps/compliance-checks.sh

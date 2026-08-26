@@ -1,0 +1,105 @@
+#
+# =============================================================================================
+# IBM Confidential
+# (C) Copyright IBM Corp. 2022
+# The source code for this program is not published or otherwise divested of its trade secrets,
+# irrespective of what has been deposited with the U.S. Copyright Office.
+# =============================================================================================
+#
+
+##############################################################
+# This file is used to define the docker images that are uploaded as third-party-images
+#
+# How to update this file? Check out https://confluence.swg.usma.ibm.com:8445/display/DevOps/Request+CI+for+third-party+image+uploads
+##############################################################
+
+---
+
+uploads:
+  - workspace: genctl/genctl-cicd
+    images:
+      - genctl/cos-action-job:1.364.0
+  - workspace: genctl/infrastructure-service-workspace
+    images:
+      - tutum/curl:v1
+  - workspace: hashicorp
+    images:
+      - hashicorp/vault-enterprise:1.15.4-ent
+      - docker.io/hashicorp/vault-enterprise:1.13.2-ent
+      - docker.io/hashicorp/vault-k8s:1.0.1
+  - workspace: kube
+    images:
+      - kube/csr-approver:1.0.0
+      - registry.k8s.io/kube-apiserver:v1.25.16
+      - registry.k8s.io/kube-scheduler:v1.25.16
+      - registry.k8s.io/kube-controller-manager:v1.25.16
+      - registry.k8s.io/kube-proxy-s390x:v1.25.16
+      - registry.k8s.io/kube-proxy:v1.25.16
+      - registry.k8s.io/coredns/coredns:v1.9.3
+  - workspace: genctl/kerberos-workspace
+    images:
+      - kubernetes-ingress-controller/nginx-ingress-controller:1.4.0
+      - kubernetes-ingress-controller/nginx-ingress-controller:1.6.3
+      - kubernetes-ingress-controller/nginx-ingress-controller:1.7.0
+      - kubernetes-ingress-controller/nginx-ingress-controller:1.7.1
+      - kubernetes-ingress-controller/nginx-ingress-controller:1.8.1
+      - kubernetes-ingress-controller/nginx-ingress-controller:v1.9.0-beta.0
+      - kubernetes-ingress-controller/nginx-ingress-controller:1.9.3
+      - kubernetes-ingress-controller/nginx-ingress-controller:1.9.5
+  - workspace: genctl/apigateway-workspace
+    images:
+      - ingress-nginx/controller:1.5.1-api
+      - ingress-nginx/controller:1.7.0-api
+      - ingress-nginx/controller:1.7.1-api
+      - ingress-nginx/controller:1.8.0-api
+      - ingress-nginx/controller:1.8.1-api
+      - ingress-nginx/controller:1.9.0-api
+      - ingress-nginx/controller:1.9.4-api
+      - ingress-nginx/controller:1.9.5-api
+      - ingress-nginx/controller:1.9.6-api
+  - workspace: genctl/monitoring-workspace
+    images:
+      - sysdig/agent-slim:12.20.0
+      - sysdig/agent-slim:12.19.0
+      - sysdig/agent-slim:12.18.0
+      - sysdig/agent-slim:12.17.1
+      - sysdig/agent-slim:12.17.0
+      - sysdig/agent-slim:12.16.2
+      - sysdig/agent-slim:12.16.1
+      - sysdig/agent-slim:12.15.0
+      - sysdig/agent-slim:12.14.1
+      - sysdig/agent-slim:12.14.0
+      - sysdig/agent-slim:12.13.0
+      - sysdig/agent-slim:12.12.1
+      - sysdig/agent-slim:12.11.0
+      - sysdig/agent-slim:12.9.1
+      - sysdig/agent-kmodule:12.20.0
+      - sysdig/agent-kmodule:12.19.0
+      - sysdig/agent-kmodule:12.18.0
+      - sysdig/agent-kmodule:12.17.1
+      - sysdig/agent-kmodule:12.17.0
+      - sysdig/agent-kmodule:12.16.2
+      - sysdig/agent-kmodule:12.16.1
+      - sysdig/agent-kmodule:12.15.0
+      - sysdig/agent-kmodule:12.14.1
+      - sysdig/agent-kmodule:12.14.0
+      - sysdig/agent-kmodule:12.13.0
+      - sysdig/agent-kmodule:12.12.1
+      - sysdig/agent-kmodule:12.11.0
+      - sysdig/agent-kmodule:12.9.1
+  - workspace: genctl/tracing
+    images:
+      - jaeger/jaeger-collector:v1.38.0
+      - jaeger/jaeger-collector:v1.40.0
+  - workspace: rias/regional-file
+    images:
+      - rias/regional-file:1.142.0
+      - rias/regional-file:09112fb6fd3282a0e8dfdf5840012231d53e550b
+      - rias/regional-file-eventing:09112fb6fd3282a0e8dfdf5840012231d53e550b
+      - rias/regional-file-cleanup-cronjob:1.142.0
+      - rias/regional-file-cleanup-cronjob:09112fb6fd3282a0e8dfdf5840012231d53e550b
+  - workspace: ipops/jumpod
+    images:
+      - alpine:3.19.1
+
+

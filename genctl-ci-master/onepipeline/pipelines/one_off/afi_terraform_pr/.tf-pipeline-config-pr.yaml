@@ -1,0 +1,50 @@
+version: '2'
+
+# AFI Terraform PR Pipeline
+tasks:
+  pr-code-checks:
+    include:      
+      - dind
+      - step-extension
+    displayName: Cloud Infra Plan
+    steps:
+      - name: checks-setup
+        when: 'false'
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+            #!/usr/bin/env bash
+            export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+            export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/afi_terraform_pr
+
+            # run the test
+            ${PATH_TO_PIPELINE}/steps/test.sh
+      - name: step-extension
+        displayName: auto-merge
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        runAfter:
+          - unit-test
+        script: |
+            #!/usr/bin/env bash
+            export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+            export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/afi_terraform_pr
+            echo "auto-merge is not enabled"
+            # run auto-merge if BOB verdict is APPROVE
+            # ${PATH_TO_PIPELINE}/steps/auto-merge.sh
+      - name: compliance-checks
+        when: 'false'
+
+finally:  
+  code-pr-finish:
+    steps:
+      - name: run-stage
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/afi_terraform_pr
+          exit 0

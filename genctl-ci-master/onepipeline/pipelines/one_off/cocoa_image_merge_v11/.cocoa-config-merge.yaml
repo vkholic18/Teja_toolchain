@@ -1,0 +1,142 @@
+version: '2'
+
+# CI Pipeline: code-checks, code-build, deploy-checks, deploy-release
+tasks:
+  code-checks:
+    include:
+    - dind
+    # code-checks includes five configurable steps: setup, detect-secrets, compliance-checks, peer-review, static-scan
+    displayName: pre-checks-cocoa
+    steps:
+    - name: checks-setup
+      when: 'false'
+
+    - name: detect-secrets
+      include:
+      - docker-socket
+      when: 'false'
+
+    - name: compliance-checks
+      image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+      include:
+      - docker-socket
+      onError: stopAndFail
+      script: |
+        #!/bin/sh
+        export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+        export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/cocoa_image_merge_v11
+        ${PATH_TO_PIPELINE}/steps/compliance-checks.sh
+      when: 'false'
+
+    - name: static-scan
+      when: 'false'
+
+    - name: peer-review
+      when: 'false'
+
+  code-build:
+    include:
+    - dind
+    # code-build includes five configurable steps: setup, unit-test, build-artifact, sign-artifact, scan-artifact
+    displayName: build-amd64
+    runAfter:
+    - code-checks
+    steps:
+    - name: setup
+      when: 'false'
+    - name: build-artifact
+      when: 'false'
+    - name: sign-artifact
+      when: 'false'
+    - name: scan-artifact
+      when: 'false'
+    - name: unit-test
+      image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+      include:
+      - docker-socket
+      onError: stopAndFail
+      script: |
+        #!/usr/bin/env bash
+        export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+        export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/cocoa_image_merge_v11
+        export BUILD_ARTIFACT_TYPE="images"
+        # run the test
+        ${PATH_TO_PIPELINE}/steps/test.sh
+
+  code-build-2:
+    include:
+    - dind
+    from: code-build
+    displayName: build-s390x
+    runAfter:
+    - code-checks
+    steps:
+    - name: unit-test
+      onError: stopAndFail
+      image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533-amd64
+      include:
+      - docker-socket
+      script: |
+        #!/usr/bin/env bash 
+        set -x          
+        export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+        export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/cocoa_image_merge_v11
+        export BUILD_ARTIFACT_TYPE="images"
+        # run the test
+        ${PATH_TO_PIPELINE}/steps/build_s390x_images.sh
+    - name: setup
+      when: 'false'
+    - name: build-artifact
+      when: 'false'
+    - name: sign-artifact
+      when: 'false'
+    - name: scan-artifact
+      when: 'false'
+
+  code-build-3:
+    include:
+    - dind
+    from: code-build
+    # code-build includes five configurable steps: setup, unit-test, build-artifact, sign-artifact, scan-artifact
+    displayName: create-manifest
+    runAfter:
+    - code-build
+    - code-build-2
+    steps:
+    - name: setup
+      when: 'false'
+    - name: build-artifact
+      when: 'false'
+    - name: sign-artifact
+      when: 'false'
+    - name: scan-artifact
+      when: 'false'
+    - name: unit-test
+      onError: stopAndFail
+      image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+      include:
+      - docker-socket
+      script: |
+        #!/usr/bin/env bash    
+        set -x       
+        export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+        export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/cocoa_image_merge_v11
+        export CREATE_MANIFEST="true"
+        # run the test
+        ${PATH_TO_PIPELINE}/steps/test.sh
+
+finally:
+  code-merge-finish:
+    steps:
+    - name: run-stage
+      image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.54
+      script: |
+        #!/usr/bin/env bash
+
+        if [[ "$PIPELINE_DEBUG" == 1 ]]; then
+          trap env EXIT
+          env
+          set -x
+        fi
+        echo "Running code-merge-finish"
+        exit 0

@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+# =============================================================================================
+# IBM Confidential
+# (C) Copyright IBM Corp. 2024
+# The source code for this program is not published or otherwise divested of its trade secrets,
+# irrespective of what has been deposited with the U.S. Copyright Office.
+# ===========================
+
+# Source bash tools
+source ${PATH_TO_GENCTL_CI}/tools/ci_bash_tools/tools.sh
+
+# Source one-pipeline utils
+source ${PATH_TO_GENCTL_CI}/onepipeline/utils/one_pipeline_utils.sh
+
+# Source colors
+source ${PATH_TO_GENCTL_CI}/onepipeline/utils/colors.sh
+
+# Source runners
+source ${PATH_TO_GENCTL_CI}/onepipeline/utils/ci_logic_runners.sh
+
+# Set the flag that exits if the task failed
+EXIT_ON_TASK_FAILURE="false"
+
+# In some flows we want to skip unit tests so check 
+if [[ $SKIP_UNIT_TESTS = true ]]; then
+    echo "Skipping unit tests"
+else
+    ## Unit tests ##
+    
+    ## Check if we can reuse evidence, if yes, no need to run UT ##
+    check-evidence-for-reuse --tool-type "unittest" \
+    --evidence-type "com.ibm.unit_tests" \
+    --asset-type "repo" \
+    --asset-key "app-repo" 
+
+    if [[ $? -eq 0 ]]
+    then
+        echo "Will re-use evidence, no need to run UT"
+    else    
+        cd ${WORKSPACE}
+        mkdir coverage
+        ln -s ${PATH_TO_WORKSPACE_REPO} workspace-repo
+        echo -e "${BYellow}Unit Tests starts at: $(date)............. ${NC}"
+        START=$(date +%s)
+        run_task ${SET_GHE_STATUSES} ${CHECKS_PREFIX} "UNIT_TEST" ${EXIT_ON_TASK_FAILURE} \
+        ${PATH_TO_WORKSPACE_REPO}/hack/ci/run-unit-tests.sh
+        END=$(date +%s)
+        DIFF=$(( $END - $START ))
+        echo -e "${BYellow}Unit Tests ends at: $(date)............. ${NC}"
+        echo -e "${BYellow}Unit Tests took `date -d@$DIFF -u +%Hh:%Mm:%Ss` to complete............. ${NC}"
+
+        echo "RUN_TASK_RESULT for UNIT_TEST" ${RUN_TASK_RESULT}
+        if [[ ${RUN_TASK_RESULT} == "FAILED" ]]; then
+            #update evidence for unit tests
+            collect_evidence "unittest" "failure" "com.ibm.unit_tests" "repo" "app-repo"
+            echo -e "${BRed}Exiting UNIT_TEST with failure ......................................................... ${NC}"
+            exit 1
+        fi
+
+        ## Code coverage ##
+        cd ${WORKSPACE}
+        mkdir -p output
+
+        run_task ${SET_GHE_STATUSES} ${CHECKS_PREFIX} "CODE_COVERAGE" ${EXIT_ON_TASK_FAILURE} \
+        ${PATH_TO_GENCTL_CI}/scripts/code-coverage.sh ${PATH_TO_WORKSPACE_REPO} coverage output
+
+        if [[ ${RUN_TASK_RESULT} == "FAILED" ]]; then
+            collect_evidence "unittest" "failure" "com.ibm.unit_tests" "repo" "app-repo"
+            echo -e "${BRed}Exiting CODE_COVERAGE with failure ......................................................... ${NC}"
+            exit 1
+        else
+            collect_evidence "unittest" "success" "com.ibm.unit_tests" "repo" "app-repo"
+        fi
+    fi
+fi

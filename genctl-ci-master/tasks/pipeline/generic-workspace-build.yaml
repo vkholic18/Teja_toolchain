@@ -1,0 +1,45 @@
+##
+## =============================================================================================
+## IBM Confidential
+## © Copyright IBM Corp. 2020-2021
+## The source code for this program is not published or otherwise divested of its trade secrets,
+## irrespective of what has been deposited with the U.S. Copyright Office.
+## =============================================================================================
+##
+
+---
+platform: linux
+
+inputs:
+- name: workspace-repo
+- name: genctl-ci-repo
+- name: downloads
+  optional: true
+- name: pipe-data
+  optional: true
+outputs:
+- name: build
+
+params:
+  ARTIFACTORY_USER: ((wcp-genctl-docker-local-artifactory-username))
+  CC_ARTIF_ACCESS_TOKEN: ((wcp-genctl-docker-local-artifactory-token))
+  GIT_PRIVATE_KEY: ((ghe-private-key))
+  CC_GITHUB_TOKEN: ((ghe-access-token))
+  VAULT_GIT_CONFIG_USER_EMAIL: ((vault-git-config-user-email))
+  VAULT_GIT_CONFIG_USERNAME: ((vault-git-config-username))
+  CC_ARTIFACTORY_READER: ((clgitchk-artifactory-username))          # Needed to access GOPROXY in build.sh
+  CC_ARTIFACTORY_READER_APIKEY: ((clgitchk-artifactory-token))   # Needed to access GOPROXY in build.sh
+  GHE_USERNAME: ((clconc-ghe-username))
+  GHE_RO_TOKEN: ((clconc-ghe-ro-token))
+  GPG_SIGNING_KEY: ((gpg-signing-key))
+  GPG_SIGNING_PW: ((gpg-signing-pw))
+
+run:
+  path: /bin/entrypoint.sh
+  args:
+  - bash
+  - -euc
+  - |
+    export PATH_TO_GENCTL_CI="${PWD}/genctl-ci-repo"
+    export PATH_TO_WORKSPACE_REPO="${PWD}/workspace-repo"
+    ${PATH_TO_GENCTL_CI}/tasks/pipeline/generic-workspace-build.sh

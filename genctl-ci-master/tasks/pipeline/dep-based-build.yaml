@@ -1,0 +1,68 @@
+##
+## =============================================================================================
+## IBM Confidential
+## © Copyright IBM Corp. 2020
+## The source code for this program is not published or otherwise divested of its trade secrets,
+## irrespective of what has been deposited with the U.S. Copyright Office.
+## =============================================================================================
+##
+
+# Note: This task depends on setup-dep-structure having been run prior to this task in order to setup "prepared-repo"
+---
+platform: linux
+
+inputs:
+- name: genctl-ci-repo
+- name: prepared-repo # created by setup-dep-env.yaml
+
+outputs:
+- name: build
+
+params:
+  GO_DIR: prepared-repo
+  UPLOAD: false # Override this value for merge pipelines only (not PR)
+  ARTIFACTORY_DOCKER_URL:
+  ARTIFACTORY_USER: ((wcp-genctl-docker-local-artifactory-username))
+  CC_ARTIF_ACCESS_TOKEN: ((wcp-genctl-docker-local-artifactory-token))
+
+run:
+  path: /bin/entrypoint.sh
+  args:
+  - bash
+  - -euc
+  - |
+    # build_root for local use
+    build_root="${PWD}"
+    # BUILD_ROOT to be able to be utilized by repos
+    export BUILD_ROOT="${PWD}"
+
+    # Assign secrets to local vars and unset env vars so they don't propagate into build.sh
+    artifactory_user=${ARTIFACTORY_USER}
+    unset ARTIFACTORY_USER
+    artifactory_api_key=${CC_ARTIF_ACCESS_TOKEN}
+    unset CC_ARTIF_ACCESS_TOKEN
+
+    # setup var for the repo directory
+    repo_dir=$(cat ${GO_DIR}/repo_dir)
+
+    # Other vars that should not be modified by the repo (but whose env var counterparts are ok for the repo to see/use)
+    upload=${UPLOAD}
+    artifactory_docker_url=${ARTIFACTORY_DOCKER_URL}
+
+    # Now that the required structure for dep has been setup, and that we've ensured our vars won't be overwritten, run the repos build.sh file
+    # We should be at the entrypoint (build_root) before passing to the repo's build script, similar to where the repo would be if we had called a task file for the build
+    # This is because we pass the "GO_DIR" var to the repo, which indicates the directory where the structure for dep starts
+    ${repo_dir}/hack/ci/build.sh
+
+    if [[ ${upload} == true ]]; then
+      echo "docker login"
+      echo ${artifactory_api_key} | docker login ${artifactory_docker_url} -u ${artifactory_user} --password-stdin
+      echo "Uploading image and creating manifest"
+
+      cd ${build_root}/${repo_dir}
+      # This script requires we are in the repo's directory, as it works relative to that location
+      ${build_root}/genctl-ci-repo/scripts/process_build_meta.sh process_images
+
+      echo "Uploaded image and manifest"
+      echo "done"
+    fi

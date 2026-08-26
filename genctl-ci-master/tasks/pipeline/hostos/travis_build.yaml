@@ -1,0 +1,60 @@
+##
+## =============================================================================
+## IBM Confidential
+## © Copyright IBM Corp. 2021
+##
+## The source code for this program is not published or otherwise divested of
+## its trade secrets, irrespective of what has been deposited with the
+## U.S. Copyright Office.
+## =============================================================================
+##
+
+---
+platform: linux
+
+params:
+  CC_ARTIF_ACCESS_TOKEN:            ((wcp-genctl-docker-local-artifactory-token))
+  CC_ARTIFACTORY_HOST:              ((artifactory-docker-url))
+  CC_ARTIFACTORY_USERNAME:          ((wcp-genctl-docker-local-artifactory-username))
+  CC_GITHUB_TOKEN:                  ((ghe-access-token))
+  CC_PRIVATE_KEY:                   ((ghe-private-key))
+  CC_TRAVIS_API_ENDPOINT:           ((travis-api-endpoint))
+  CC_TRAVIS_CLI_VERSION:            ((travis-cli-version))
+  CC_REPO_BRANCH:                   ((refstates-branch))
+  CC_REPO_NAME:                     ((refstates-repo-name))
+  CC_REPO_ORG:                      ((refstates-org-name))
+
+inputs:
+- name: refstates-repo
+
+run:
+  path: /bin/bash
+  args:
+  - -c
+  - |
+    #get the repo hash from the workspace passed in from concourse
+    #this ensures that we are referencing the git hash that originally triggered concourse
+    CC_GIT_SHA=$(cd refstates-repo; git rev-parse --verify HEAD)
+
+    # Create a temporary file to store the private SSH key
+    keyfile=$(mktemp keyfileXXXX)
+    # Remove the first line and leading spaces from CC_PRIVATE_KEY
+    keyvalue="$(echo -e "${CC_PRIVATE_KEY}" | sed -e 's/^[[:space:]]*//')"
+    keyvalue="$(echo -e "${keyvalue}" | tail -n +1)"
+
+    # Store the key value to the temp file
+    echo "$keyvalue" > $keyfile
+
+    echo "Cloning cicd common repo..."
+    GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $keyfile" git clone git@github.ibm.com:genctl-cicd/common.git cicd-common
+    rm $keyfile
+
+    # specify variables that need to be passed in Travis request body
+    TRAVIS_CC_ARGS="CC_GIT_SHA CC_ARTIFACTORY_HOST CC_REPO_ORG CC_REPO_NAME CC_REPO_BRANCH"
+
+    source cicd-common/travis_utils.sh
+
+    travis_install
+    travis_login
+    travis_build
+    exit $?

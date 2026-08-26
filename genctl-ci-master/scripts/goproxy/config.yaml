@@ -1,0 +1,15 @@
+# =============================================================================================
+# IBM Confidential
+# (C) Copyright IBM Corp. 2021
+# The source code for this program is not published or otherwise divested of its trade secrets,
+# irrespective of what has been deposited with the U.S. Copyright Office.
+# =============================================================================================
+
+
+---
+create_jira_ticket: false
+jira_issue_params:
+  summary: 'Use GOPROXY to comply with the Service Framework ARCH014'
+  issue_type: 'Story'
+  epic_link: 'CIGC-3061'
+  due_date: '2021-06-07'

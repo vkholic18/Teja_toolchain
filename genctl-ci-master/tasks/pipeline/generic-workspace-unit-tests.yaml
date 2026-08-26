@@ -1,0 +1,50 @@
+##
+## =============================================================================================
+## IBM Confidential
+## © Copyright IBM Corp. 2020
+## The source code for this program is not published or otherwise divested of its trade secrets,
+## irrespective of what has been deposited with the U.S. Copyright Office.
+## =============================================================================================
+##
+---
+platform: linux
+
+inputs:
+- name: workspace-pr
+
+outputs:
+- name: coverage
+
+params:
+  WORKSPACE_DIRECTORY: workspace-pr
+  GIT_PRIVATE_KEY:
+  CC_ARTIFACTORY_READER: ((clgitchk-artifactory-username))          # Needed to access GOPROXY
+  CC_ARTIFACTORY_READER_APIKEY: ((clgitchk-artifactory-token))   # Needed to access GOPROXY
+
+run:
+  path: /bin/bash
+  args:
+  - -euc
+  - |
+    # This is passed to repo scripts, and is needed so the unit-tests can get the coverage directory
+    export BUILD_ROOT="${PWD}"
+    export COVERAGE_DIR=${BUILD_ROOT}/coverage
+    
+    # make a softlink from ${WORKSPACE_DIRECTORY} to workspace-pr
+    # this is to support any repos that use something other than "workspace-pr" in their scripts
+    if [[ ${WORKSPACE_DIRECTORY} != "workspace-pr" ]]; then
+      ln -s workspace-pr ${WORKSPACE_DIRECTORY}
+    fi
+
+    # output the go version in the build log
+    go version
+
+    # If the GIT_PRIVATE_KEY has a non-zero length, start ssh-agent and add that key to it
+    if [[ -n ${GIT_PRIVATE_KEY} ]]; then
+        eval "$(ssh-agent -s)"
+        ssh-add - <<< "${GIT_PRIVATE_KEY}"
+        unset GIT_PRIVATE_KEY
+    fi
+
+    # Call the repo's file:
+    ${WORKSPACE_DIRECTORY}/hack/ci/run-unit-tests.sh

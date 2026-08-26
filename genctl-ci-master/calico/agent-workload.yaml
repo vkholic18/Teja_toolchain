@@ -1,0 +1,33 @@
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: agent-workload
+spec:
+  egress:
+  - action: Allow
+    destination:
+      ports:
+      - 53
+      selector: k8s-app == 'kube-dns' && projectcalico.org/namespace == 'kube-system'
+      namespaceSelector: all()
+    protocol: UDP
+  - action: Allow
+    destination:
+      ports:
+      - 53
+      selector: k8s-app == 'kube-dns' && projectcalico.org/namespace == 'kube-system'
+      namespaceSelector: all()
+    protocol: TCP
+  - action: Deny
+    destination:
+      selector: ibm.role == 'worker_private' || ibm.role == 'worker_public'
+  - action: Allow
+    destination:
+      nets:
+      - 0.0.0.0/0
+      notNets:
+      - 172.16.0.0/12 # This is the reserved subnet. Kubernetes uses internally for mapping services inside the cluster
+  order: 1150
+  selector: app.kubernetes.io/managed-by == 'tekton-pipelines'
+  types:
+  - Egress

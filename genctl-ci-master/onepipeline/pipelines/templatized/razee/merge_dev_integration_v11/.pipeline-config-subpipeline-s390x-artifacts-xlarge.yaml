@@ -1,0 +1,34 @@
+version: '2'
+
+tasks:
+  async-stage:
+    include:      
+      - podman
+    runtimeClassName: s390x-xlarge
+    # async-stage includes one configurable step: run-stage
+    steps:
+      - name: run-stage
+        onError: stopAndFail
+        include:
+          - rootful-podman
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+      - name: build-s390x-packages-as-subpipeline
+        script: |
+          #!/usr/bin/env bash
+
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/merge_dev_integration_v11
+          export BUILD_ARTIFACT_TYPE="packages"
+          ${PATH_TO_PIPELINE}/steps/build_s390x_packages_as_subpipeline.sh
+      
+      - name: build-s390x-images-as-subpipeline
+        script: |
+          #!/usr/bin/env bash
+
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/merge_dev_integration_v11
+          export BUILD_ARTIFACT_TYPE="images"
+          ${PATH_TO_PIPELINE}/steps/build_s390x_images_as_subpipeline.sh
+
+      - name: finish
+        when: false

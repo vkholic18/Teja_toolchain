@@ -1,0 +1,8 @@
+name: mzone7x1
+ops:
+  slack_channel: region-dal-g5-integ-mzr7x1
+apps:
+  release_bundles:
+  - name: genctl-release
+    runs:
+    - version: 20211012T001658Z_854e1535d147fe63ccf101fe98e70105e2b08a9d #(stable_0ee04f96 v8.65.1)

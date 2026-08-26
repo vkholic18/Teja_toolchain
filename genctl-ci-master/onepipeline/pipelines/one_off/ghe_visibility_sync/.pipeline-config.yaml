@@ -1,0 +1,13 @@
+version: '1'
+
+test:
+  abort_on_failure: true
+  dind: true
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  script: |
+    #!/usr/bin/env bash
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    echo PATH_TO_GENCTL_CI: $PATH_TO_GENCTL_CI
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/ghe_visibility_sync
+    echo PATH_TO_PIPELINEL: $PATH_TO_PIPELINE
+    ${PATH_TO_PIPELINE}/steps/test.sh

@@ -1,0 +1,20 @@
+{
+    "master": {
+      "ci_checks_prefix": "concourse-ci",
+      "required_pull_request_reviews": false  ,
+      "required_status_checks": true  ,
+      "required_status_checks_names": [ "workspace_tests" ],
+      "checks_that_should_not_be_required": ["VERIFY_REPOSITORY_CONFIGURATION", "VERIFY_PROTECTED_BRANCHES_CONFIGURATION", "VERIFY_WORKSPACE_DEPENDENCIES_FILE" ] ,
+      "required_linear_history": false ,
+      "enforce_admins": true
+    },
+    "dev-integration": {
+      "ci_checks_prefix": "tekton-vpc-ci",
+      "required_pull_request_reviews": true,
+      "required_status_checks": true  ,
+      "required_status_checks_names": ["VERIFY_REPOSITORY_CONFIGURATION", "VERIFY_PROTECTED_BRANCHES_CONFIGURATION", "VERIFY_WORKSPACE_DEPENDENCIES_FILE"] ,
+      "checks_that_should_not_be_required": ["workspace_tests"] ,
+      "required_linear_history": true ,
+      "enforce_admins": true
+    }
+} 

@@ -1,0 +1,13 @@
+pr:
+  notification:
+    success:
+      author: true
+    failure:
+      author: true
+    abort:
+      author: true
+
+mend_sast_info: 
+  mend-product-name: PSIRT_PRD0014515
+  mend-user-email: psirt_prd0014515service_user@ibm.com
+  mend-secret-group: sg-mend-PSIRT_PRD0014515

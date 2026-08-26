@@ -1,0 +1,47 @@
+apps:
+  release_bundles:
+  - name: etcd-base-release
+    version: XXXX
+  - name: genctl-release
+    version: XXXX
+  - name: hostos-base-net-sw-release
+    version: XXXX
+  - name: hostos-base-os-sw-release
+    version: XXXX
+  - name: hostos-boot-release
+    version: XXXX
+  - name: hostos-config-release
+    version: XXXX
+  - name: hostos-nextgen-os-sw-release
+    version: XXXX
+  - name: hostos-validate-release
+    version: XXXX
+  - name: hostos-post-config-release
+    version: XXXX
+  - name: kube-addon-release
+    version: XXXX
+  - name: kube-base-release
+    version: XXXX
+  - name: kube-define-release
+    version: XXXX
+  - name: pds-config-release
+    version: XXXX
+  - name: pds-firmware-release
+    version: XXXX
+  - name: rias-etcd-release
+    version: XXXX
+  - name: rias-release
+    version: XXXX
+tools:
+  - name: ddt-deploy
+    flags:
+      - "--local-registry"
+      - "--artifrepo=docker-na-public.artifactory.swg-devops.com/wcp-genctl-docker-local"
+  - name: riasdeploy
+    flags:
+      - "--artifrepo=docker-na-public.artifactory.swg-devops.com/wcp-genctl-docker-local"
+  - name: goku
+    cmd: readiness
+    flags:
+      - "--resource=pods"
+      - "--pod-readiness-timeout=1500"

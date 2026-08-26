@@ -1,0 +1,18 @@
+version:
+  etcd-base-release: 4.1.0_20210926T175040Z_c3e5fd0
+  genctl-release: 20211009T103752Z_26adafd3ba728b90f3061bd2958cbe77e6f035d0
+  hostos-base-net-sw-release: 2.5.4-20211003T013546Z_699de90
+  hostos-base-os-sw-release: 2.4.47-20211007T134310Z_f7c1ef8
+  hostos-boot-release: 2.2.3-20210926T180954Z_4928c26
+  hostos-config-release: 2.5.41-20211007T183040Z_c45b5b8
+  hostos-kernel-patch-release: 2.1.6-20210926T165959Z_fe64f1c
+  hostos-nextgen-os-sw-release: 2.1.62-20211008T121543Z_1b9eddb
+  hostos-validate-release: 0.0.2-20210926T181534Z_3cdf793
+  kube-addon-release: 4.1.1_20211001T125450Z_80eee92
+  kube-base-release: 4.2.0_20210926T181334Z_4bbbf16
+  kube-define-release: 4.1.0_20210926T180549Z_568c155
+  pds-config-release: 1.2.5-f206462
+  pds-firmware-release: 1.1.41.1-3d40d63
+  rias-etcd-release: 20211007T230551Z_033a26802ad08f1051d05dbea7d7089b97fb4f8e
+  rias-release: 20211008T200931Z_bb1b0dca6accdc47e07ee76336408344b3ba2f75
+  smotainer-release: 20211008T192628Z_16a3a591c7f76e328a671ae2af6af3753f578d99

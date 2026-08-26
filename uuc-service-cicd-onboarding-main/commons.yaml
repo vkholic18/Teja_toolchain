@@ -1,0 +1,124 @@
+# Team Commons Configuration
+# For detailed documentation, refer to: https://github.ibm.com/genctl-cicd/uuc-service-cicd-onboarding/blob/main/README.md
+#
+# This file holds all team-level data shared across every service onboarding file
+# in this branch. It must exist at the root of every <team-slug>-onboarding branch.
+#
+# ONE commons.yaml per team branch — do NOT create per-service copies.
+# Individual service files (<service-name>-onboarding.yaml) must NOT contain any
+# of the fields defined here. The validator will error if it finds duplicates.
+
+# Team name - Select from available teams
+# Available teams: Fabric, DCMS, SLAD, Core Services, COS, File Block, Network Underlay,
+# Network Services, Observability, PAG, Pentest, Seceng, VPC
+team_name: myteamname
+
+# Service Functional IDs
+# IMPORTANT: These FIDs must have appropriate permissions on all repositories
+#            (app, inventory, incident) for every service in this team branch.
+service_fid_dev: my_fid@ibm.com
+service_fid_prod: my_fid_prod@ibm.com
+
+# Service Functional ID GitHub Usernames (MANDATORY)
+service_fid_dev_github_username: my_fid_github_username
+service_fid_prod_github_username: my_fid_prod_github_username
+
+# PSIRT ID for Mend SAST configuration
+# Used by all services in this team branch that require SAST scanning (ci_only / ci_cd profiles).
+psirt_id: PSIRT_PRD0000000
+
+# IBM Cloud accounts (team-level — same for all services)
+ibm_cloud_account_dev: my_dev_account
+ibm_cloud_account_prod: my_prod_account
+
+# Secrets Configuration
+# All secrets for this team's secret group (sg-uuc-<team-slug>) are declared here.
+# One secret group is shared across all services in the team.
+#
+# Mandatory secrets (mandatory: true)  — PLATFORM-MANAGED, DO NOT MODIFY
+# Custom secrets   (mandatory: false)  — team-managed, add as needed
+#
+# Secret name format rules for CUSTOM secrets:
+#   global:   <name>                              → stored as sg-uuc-<team-slug>-<name>
+#   regional: <name>                              → stored as sg-uuc-<team-slug>-<region>-<name>
+#   zonal:    <name>                              → stored as sg-uuc-<team-slug>-<region>-<AZ>-<name>
+# Do NOT include the secret group prefix in the name — it is added automatically.
+#
+# unique_per_cluster (optional, custom secrets only):
+#   false (default) — one secret entry covers all clusters in the target scope
+#   true            — a separate secret instance is provisioned per cluster
+secrets:
+  - name: CI
+    items:
+      # PLATFORM-MANAGED - DO NOT MODIFY
+      - description: GARA code signing credentials
+        name: gara-signing-credentials
+        mandatory: true
+      # PLATFORM-MANAGED - DO NOT MODIFY
+      - description: GARA code signing key
+        name: gara-signing-key
+        mandatory: true
+      # PLATFORM-MANAGED - DO NOT MODIFY
+      - description: Mend SAST organization token
+        name: PSIRT_PRD0000000-mend-org-token
+        mandatory: true
+      # PLATFORM-MANAGED - DO NOT MODIFY
+      - description: Mend SAST user key
+        name: PSIRT_PRD0000000-mend-user-key
+        mandatory: true
+      # PLATFORM-MANAGED - DO NOT MODIFY
+      - description: Mend SAST product token
+        name: PSIRT_PRD0000000-mend-product-token
+        mandatory: true
+      # OPTIONAL — add custom CI secrets below (mandatory: false)
+      # - description: <your_secret_description>
+      #   name: <your_secret_name>
+      #   mandatory: false
+      #   type: <zonal|regional|global>
+      #   unique_per_cluster: false  # optional — default: false
+
+  - name: CD
+    items:
+      # PLATFORM-MANAGED - DO NOT MODIFY
+      - description: ServiceNow production IAM token
+        name: service-now-prod-iam-token
+        mandatory: true
+      # PLATFORM-MANAGED - DO NOT MODIFY
+      - description: ServiceNow test IAM token
+        name: service-now-test-iam-token
+        mandatory: true
+      # PLATFORM-MANAGED - DO NOT MODIFY
+      - description: GARA code signing certificate
+        name: gara-code-signing-certificate
+        mandatory: true
+      # OPTIONAL — add custom CD secrets below (mandatory: false)
+      # - description: <your_secret_description>
+      #   name: <your_secret_name>
+      #   mandatory: false
+      #   type: <zonal|regional|global>
+      #   unique_per_cluster: false  # optional — default: false
+
+  - name: common
+    items:
+      # PLATFORM-MANAGED - DO NOT MODIFY
+      - description: Service functional ID dev IBM Cloud API key
+        name: service-functional-id-dev-cloud-apikey
+        mandatory: true
+      # PLATFORM-MANAGED - DO NOT MODIFY
+      - description: Service functional ID production IBM Cloud API key
+        name: service-functional-id-prod-cloud-apikey
+        mandatory: true
+      # PLATFORM-MANAGED - DO NOT MODIFY
+      - description: Service functional ID dev GitHub Enterprise personal access token
+        name: service-functional-id-dev-ghe-pat
+        mandatory: true
+      # PLATFORM-MANAGED - DO NOT MODIFY
+      - description: Service functional ID production GitHub Enterprise personal access token
+        name: service-functional-id-prod-ghe-pat
+        mandatory: true
+      # OPTIONAL — add custom common secrets below (mandatory: false)
+      # - description: <your_secret_description>
+      #   name: <your_secret_name>
+      #   mandatory: false
+      #   type: <zonal|regional|global>
+      #   unique_per_cluster: false  # optional — default: false

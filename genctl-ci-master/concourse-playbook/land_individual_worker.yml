@@ -1,0 +1,18 @@
+#Land an individual worker --extra-vars
+#run using: ansible-playbook land_individual_worker.yml --extra-vars "worker=worker name"
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    my_worker: "{{ worker }}"
+  tasks:
+  - name: Landing individual worker
+    shell: |
+      concourse land-worker --name {{worker}} --tsa-host 127.0.0.1 --tsa-public-key /Users/babatundeolu-isa/keys/worker/tsa_host_key.pub --tsa-worker-private-key /Users/babatundeolu-isa/keys/worker/worker_key > /var/log/concourse-worker.log &
+    args:
+      chdir: /usr/local/bin/
+      executable: /bin/bash
+    changed_when: false
+    register: results
+  - debug: var=results.stdout_lines

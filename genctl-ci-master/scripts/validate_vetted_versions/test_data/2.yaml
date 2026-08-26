@@ -1,0 +1,3 @@
+version:
+  etcd-base-release: 4.1.0_20210926T175040Z_c3e5fd0
+  genctl-release:

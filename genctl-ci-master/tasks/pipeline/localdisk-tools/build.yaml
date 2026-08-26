@@ -1,0 +1,64 @@
+##
+## =============================================================================================
+## IBM Confidential
+## © Copyright IBM Corp. 2020
+## The source code for this program is not published or otherwise divested of its trade secrets,
+## irrespective of what has been deposited with the U.S. Copyright Office.
+## =============================================================================================
+##
+---
+platform: linux
+
+inputs:
+  - name: workspace-repo
+
+params:
+  ARTIFACTORY_DEBIAN_REPO_PATH:
+  ARTIFACTORY_HOST:
+  CC_ARTIF_ACCESS_TOKEN: ((wcp-genctl-docker-local-artifactory-token))
+  ARTIFACTORY_PACKAGE_SUBDIR:
+  PACKAGE_PREFIX:
+
+run:
+  path: /bin/bash
+  args:
+    - -euc
+    - |
+
+      build_root="${PWD}"
+      # Script vairables
+      ARTIFACTORY_PATH="https://${ARTIFACTORY_HOST}/artifactory"
+      # Running the build script
+      echo "Building packages.."
+      pushd workspace-repo
+      ./package.sh && mv *.deb "${build_root}"
+      popd
+
+      push_packages() {
+        local __pkg_location=${1}
+        local __pkg_list=${2}
+        # Support multiple packages based with the local_disk_tools prefix
+        for pkg in ${__pkg_list}; do
+            pkg_name="$(basename ${pkg}_*.deb)"
+            echo "Push deb package to artifactory REPO ${ARTIFACTORY_PATH}/${ARTIFACTORY_DEBIAN_REPO_PATH}/${__pkg_location}/${pkg_name} : $pkg_name"
+
+            ARTIFACT_LOCAL_FILE_PATH="${pkg_name}"
+            ARTIFACTORY_FILE_PATH="${ARTIFACTORY_PATH}/${ARTIFACTORY_DEBIAN_REPO_PATH}/${__pkg_location}/${pkg_name}"
+            ARTIFACT_META=';deb.distribution=bionic;deb.component=main;deb.architecture=amd64'
+            set +x # so we don't log anything
+            curl --fail -X PUT -T "${ARTIFACT_LOCAL_FILE_PATH}" \
+                -H "Authorization: Bearer ${CC_ARTIF_ACCESS_TOKEN}" \
+                "${ARTIFACTORY_FILE_PATH}${ARTIFACT_META}"
+            set -x
+
+            rc=$?
+            if [ $rc -ne 0 ]; then
+              echo "ERROR: Curl failed! rc=$rc"
+              exit 1
+            fi
+        done
+      }
+      echo "Pushing packages to remote..."
+      # Upload deb packages to artifactory
+      push_packages "${ARTIFACTORY_PACKAGE_SUBDIR}" "${PACKAGE_PREFIX}"
+      echo "Build has completed successfully."

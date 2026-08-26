@@ -1,0 +1,44 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ff-namespaces
+  namespace: rias
+data:
+  ffnamespaces: |-
+    {
+      "namespace-list": ["rias",  "riaasiam", "riaasstorage", "ops"]
+    }
+---
+apiVersion: deploy.razee.io/v1alpha2
+kind: MustacheTemplate
+metadata:
+  name: featureflags-data-mtp
+  namespace: rias
+  labels:
+    deploy.razee.io/mode: AdditiveMergePatch
+spec:
+  templateEngine: handlebars
+  env:
+  - name: featureflags-namespaces
+    valueFrom:
+      configMapKeyRef:
+        name: ff-namespaces
+        namespace: rias
+        key: ffnamespaces
+        type: json
+  strTemplates:
+  - |
+    apiVersion: v1
+    kind: List
+    items:
+    {{#each  featureflags-namespaces.namespace-list as | namespace |}}
+    - apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: featureflags-data
+        namespace:  {{ namespace }}
+        labels:
+          deploy.razee.io/mode: AdditiveMergePatch
+      data: 
+        flags.json: |-

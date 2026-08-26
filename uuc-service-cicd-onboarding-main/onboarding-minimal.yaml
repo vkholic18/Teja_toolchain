@@ -1,0 +1,59 @@
+# CI/CD Onboarding Configuration — Profile: minimal
+# For detailed documentation, refer to: https://github.ibm.com/genctl-cicd/uuc-service-cicd-onboarding/blob/main/README.md
+#
+# Profile: minimal
+#   Documentation repositories only (e.g. product docs, user guides, documentation websites).
+#   PR/CI based publishing with no CI scanning, no inventory, and no CD pipeline.
+#
+# IMPORTANT: Team-level common data (FIDs, psirt_id, IBM Cloud accounts, secrets) must be
+#   defined in commons.yaml — NOT in this file.
+#
+# Fields validated in this file:  service_name, cicd_profile,
+#   compliance_bucket, app_repo,
+#   slack_member_ids, slack_channel,
+#   mandatory_files.CI → hack/ci/build.sh only
+# Fields NOT required for this profile: inventory_repo, incident_repo,
+#   servicenow_crn, mandatory_files.CD, optional_files.mend, deployment_targets
+# Fields validated in commons.yaml: team_name, service_fid_dev,
+#   service_fid_dev_github_username, ibm_cloud_account_dev,
+#   secrets.common (4 mandatory)
+
+version: 1.0
+
+# Service name (must match filename: <service_name>-onboarding.yaml)
+service_name: myservicename
+
+# CI/CD Profile
+cicd_profile: minimal  # Required — allowed values: minimal | ci_only | ci_cd | cd_only
+
+# Application repositories
+app_repo:
+  - repo: https://github.ibm.com/myorg/myrepo
+    branch: main
+
+# Compliance evidence COS bucket
+compliance_bucket:
+  endpoint: https://s3.eu-gb.cloud-object-storage.appdomain.cloud
+  name: my_bucket
+  use_existing: false
+
+# Slack Notifications for Secrets Management (service-specific)
+slack_member_ids:
+  - U01234ABCDE  # Example - replace with your Slack member ID
+  - U56789FGHIJ  # Example - replace with your Slack member ID
+
+# Slack Channel for Notifications (service-specific, optional)
+# If not provided, notifications will be sent to #uuc-secrets-manager-notifications
+slack_channel: "#my-team-alerts"
+
+# Mandatory Files Configuration
+# Only hack/ci/build.sh is enforced for the minimal profile
+mandatory_files:
+  - name: CI
+    repo: https://github.ibm.com/myorg/myrepo
+    branch: main
+    files:
+      # DO NOT MODIFY - PLATFORM MANAGED: Build script for CI pipeline
+      - path: hack/ci/build.sh
+        can_be_empty: false
+        executable: true

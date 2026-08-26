@@ -1,0 +1,18 @@
+version: '1'
+
+setup:
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  script: |
+    #!/usr/bin/env bash
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/artifactory_cleanup_merge
+    ${PATH_TO_PIPELINE}/steps/setup.sh
+test:
+  abort_on_failure: true
+  dind: true
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  script: |
+    #!/usr/bin/env bash
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/artifactory_cleanup_merge
+    ${PATH_TO_PIPELINE}/steps/test.sh

@@ -1,0 +1,70 @@
+version: '2'
+
+# UUC Ops Merge Pipeline: Team Onboarding Automation
+# This pipeline runs when PRs are merged to provision infrastructure and create repositories
+
+tasks:
+  devmode-code-build:
+    include:      
+      - dind
+      - step-extension
+    displayName: Manual Onboarding
+    steps:
+      - name: setup
+        when: 'false'        
+      - name: unit-test
+        when: 'false'      
+      - name: build-artifact
+        when: 'false'
+      - name: step-extension
+        displayName: manual-onboarding        
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/uuc/ops/merge
+
+          # Export all required env properties
+          export PIPELINE_MODE=$(get_env "PIPELINE_MODE")
+          export PROCESS_ALL_FILES=$(get_env "PROCESS_ALL_FILES")
+          export ONBOARDING_FILES=$(get_env "ONBOARDING_FILES")
+          export ONBOARDING_DIR=$(get_env "ONBOARDING_DIR")
+          export ONBOARDING_BRANCH=$(get_env "ONBOARDING_BRANCH")
+          export ACCOUNT_TYPE=$(get_env "ACCOUNT_TYPE")
+          export ENABLE_TRIGGER_CREATION=$(get_env "ENABLE_TRIGGER_CREATION")
+          export INCLUDE_DEVELOPMENT=$(get_env "INCLUDE_DEVELOPMENT" || echo "false")
+          export ENABLE_SECRETS_CREATION=$(get_env "ENABLE_SECRETS_CREATION" || echo "false")
+          _auto_pr_token=$(get_env "AUTO_PR_GITHUB_TOKEN" 2>/dev/null || true)
+          [ -n "$_auto_pr_token" ] && export AUTO_PR_GITHUB_TOKEN="$_auto_pr_token"
+          ${PATH_TO_PIPELINE}/steps/run_manual_onboarding_step.sh
+
+  devmode-deploy-checks:
+    when: 'false'
+
+  devmode-deploy-release:
+    when: 'false'
+
+finally:
+  code-ci-finish:
+    steps:
+      - name: run-stage
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        script: |
+          #!/usr/bin/env bash
+          
+          if [[ "$PIPELINE_DEBUG" == 1 ]]; then
+            trap env EXIT
+            env
+            set -x
+          fi
+          
+          echo "╔════════════════════════════════════════════════════════════════════════════╗"
+          echo "║                                                                            ║"
+          echo "║  UUC Ops Manual Pipeline Finished                                          ║"
+          echo "║                                                                            ║"
+          echo "╚════════════════════════════════════════════════════════════════════════════╝"
+          
+          exit 0
+
+# Made with Bob

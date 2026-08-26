@@ -1,0 +1,374 @@
+version: '2'
+
+# CI Pipeline: code-checks, code-build, deploy-checks, deploy-release
+tasks:
+  code-checks:
+    include:
+      - dind
+    # code-checks includes five configurable steps: setup, detect-secrets, compliance-checks, peer-review, static-scan
+    displayName: auto-semver-task-1
+    steps:
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/merge_dev_integration_v11_backup                    
+          ${PATH_TO_PIPELINE}/steps/auto_semver.sh
+
+      - name: detect-secrets
+        include:
+          - docker-socket
+        onError: stopAndFail
+      
+      - name: compliance-checks
+        when: 'false'
+      
+      - name: static-scan
+        when: 'false'
+
+  code-checks-2:
+    include:
+      - dind
+    from: code-checks
+    displayName: unit-tests-task-2
+    runtimeClassName: large
+    steps:      
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        include:
+          - docker-socket
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/merge_dev_integration_v11_backup
+          ${PATH_TO_PIPELINE}/steps/unit-tests.sh
+ 
+      - name: detect-secrets
+        when: 'false'
+
+      - name: compliance-checks
+        when: 'false'
+      
+      - name: peer-review
+        when: 'false'
+      
+      - name: static-scan
+        when: 'false'
+
+  code-checks-3:
+    include:
+      - dind
+    from: code-checks
+    displayName: static-scan-task-3
+    runtimeClassName: large    
+    steps:      
+      - name: checks-setup
+        when: 'false'
+ 
+      - name: detect-secrets
+        when: 'false'
+
+      - name: compliance-checks
+        when: 'false'
+      
+      - name: peer-review
+        when: 'false'
+      
+      - name: static-scan
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: continue
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/merge_dev_integration_v11_backup
+          ${PATH_TO_PIPELINE}/steps/code-static-scan.sh
+
+  code-checks-4:
+    include:
+      - dind
+    # code-checks includes five configurable steps: setup, detect-secrets, compliance-checks, peer-review, static-scan
+    from: code-checks
+    displayName: build-amd64-images-task-4
+    runtimeClassName: large
+    runAfter:
+      - code-checks #autosemver-task-1
+      - code-checks-2 #unit-tests-task-2
+    steps:      
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/merge_dev_integration_v11_backup          
+          export BUILD_ARTIFACT_TYPE="images"
+          ${PATH_TO_PIPELINE}/steps/build_amd64_artifacts.sh
+
+      - name: compliance-checks
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        include:
+          - docker-socket
+        onError: stopAndFail
+        script: |
+          #!/bin/sh
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/merge_dev_integration_v11_backup
+          ${PATH_TO_PIPELINE}/steps/compliance-checks.sh
+      
+      - name: detect-secrets        
+        when: 'false'          
+      
+      - name: peer-review        
+        when: 'false'
+      
+      - name: static-scan        
+        when: 'false'
+  
+  code-checks-5:
+    include:
+      - dind
+    # code-checks includes five configurable steps: setup, detect-secrets, compliance-checks, peer-review, static-scan
+    from: code-checks
+    displayName: build-amd64-packages-task-5
+    runtimeClassName: large
+    runAfter:
+      - code-checks #autosemver-task-1
+      - code-checks-2 #unit-tests-task-2
+    steps:      
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        include:
+          - docker-socket
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/merge_dev_integration_v11_backup          
+          export BUILD_ARTIFACT_TYPE="packages"
+          ${PATH_TO_PIPELINE}/steps/build_amd64_artifacts.sh
+
+      - name: compliance-checks
+        when: 'false'
+      
+      - name: detect-secrets        
+        when: 'false'          
+      
+      - name: peer-review        
+        when: 'false'
+      
+      - name: static-scan        
+        when: 'false'
+
+  code-checks-6:
+    include:
+      - dind
+    from: code-checks
+    displayName: build-s390x-images-task-6
+    runtimeClassName: large
+    runAfter:
+      - code-checks #autosemver-task-1
+      - code-checks-2 #unit-tests-task-2
+    # code-checks includes five configurable steps: setup, detect-secrets, compliance-checks, peer-review, static-scan
+    steps:      
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        include:
+          - docker-socket
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/merge_dev_integration_v11_backup          
+          export BUILD_ARTIFACT_TYPE="images"
+          ${PATH_TO_PIPELINE}/steps/build_s390x_images.sh
+
+      - name: detect-secrets               
+        when: 'false'    
+
+      - name: compliance-checks        
+        when: 'false'
+      
+      - name: peer-review        
+        when: 'false'
+      
+      - name: static-scan        
+        when: 'false'   
+
+  code-checks-7:
+    include:
+      - dind
+    from: code-checks
+    displayName: build-s390x-packages-task-7
+    runtimeClassName: large
+    runAfter:
+      - code-checks #autosemver-task-1
+      - code-checks-2 #unit-tests-task-2
+    # code-checks includes five configurable steps: setup, detect-secrets, compliance-checks, peer-review, static-scan
+    steps:      
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        include:
+          - docker-socket
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/merge_dev_integration_v11_backup          
+          export BUILD_ARTIFACT_TYPE="packages"
+          ${PATH_TO_PIPELINE}/steps/build_s390x_packages.sh          
+
+      - name: detect-secrets
+        when: 'false'
+
+      - name: compliance-checks
+        when: 'false'
+      
+      - name: peer-review
+        when: 'false'
+      
+      - name: static-scan
+        when: 'false'
+        
+  code-checks-8:
+    include:
+      - dind
+    from: code-checks
+    displayName: create-manifest-task-8
+    runAfter:
+      - code-checks-4 #build-amd64-images-task-4
+      - code-checks-6 #build-s390x-images-task-6
+    # code-checks includes five configurable steps: setup, detect-secrets, compliance-checks, peer-review, static-scan
+    steps:      
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        include:
+          - docker-socket
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/merge_dev_integration_v11_backup          
+          ${PATH_TO_PIPELINE}/steps/manifest.sh
+
+      - name: detect-secrets
+        when: 'false'
+
+      - name: compliance-checks
+        when: 'false'
+      
+      - name: peer-review
+        when: 'false'
+      
+      - name: static-scan
+        when: 'false'
+
+  code-build:
+    include:
+      - dind
+    runAfter:
+      - code-checks-8 #create-manifest-task-8
+    displayName: sign-and-scan-artifacts-task-9
+    runtimeClassName: large
+    # code-build includes five configurable steps: setup, unit-test, build-artifact, sign-artifact, scan-artifact
+    steps:
+      - name: setup        
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        include:
+          - docker-socket
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/merge_dev_integration_v11_backup
+          ${PATH_TO_PIPELINE}/steps/save_artifacts.sh
+      - name: unit-test
+        when: 'false'
+      - name: build-artifact
+        when: 'false'
+      - name: sign-artifact
+        include:
+          - docker-socket
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/merge_dev_integration_v11_backup
+          ${PATH_TO_PIPELINE}/steps/sign_artifact.sh          
+      - name: scan-artifact
+        include:
+          - docker-socket
+        onError: stopAndFail        
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        script: |
+          #!/bin/sh
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/merge_dev_integration_v11_backup
+          ${PATH_TO_PIPELINE}/steps/scan_artifact.sh
+
+  deploy-checks:
+    include:
+      - dind
+    runAfter:
+      - code-build
+    displayName: deploy-checks-task-10
+    # deploy-checks includes three configurable steps: deploy, dynamic-scan, acceptance-test
+    steps:
+      - name: deploy
+        when: 'false'
+
+      - name: dynamic-scan
+        when: 'false'
+
+      - name: acceptance-test
+        when: 'false'
+
+  deploy-release:
+    include:
+      - dind
+    runAfter:
+      - deploy-checks
+    displayName: deploy-release-task-11    
+    # deploy-release includes one configurable step: run-stage
+    steps:
+      - name: run-stage
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        include:
+          - docker-socket
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/merge_dev_integration_v11_backup
+          ${PATH_TO_PIPELINE}/steps/release.sh
+  
+
+finally:
+  code-ci-finish:
+    steps:
+      - name: run-stage
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        script: |
+          #!/usr/bin/env bash
+
+          if [[ "$PIPELINE_DEBUG" == 1 ]]; then
+            trap env EXIT
+            env
+            set -x
+          fi
+          echo "Running code-ci-finish"
+          exit 0

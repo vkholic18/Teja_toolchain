@@ -1,0 +1,13 @@
+version: "1.0"
+external_services:
+- name: globalcatalog
+- name: redis
+- name: resource-controller
+workspaces:
+- name: regional-extension-workspace
+  version: "1.85.0"
+  feature_flag: rew-image-version
+- name: security-service-workspace
+  version: "1.17.0"
+  feature_flag: ssw-image-version
+  grpc: Bauthz

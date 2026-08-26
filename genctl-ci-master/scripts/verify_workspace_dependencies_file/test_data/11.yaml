@@ -1,0 +1,11 @@
+version: "1.0"
+external_services:
+  - name: Ceph/RHCS
+workspaces:
+   - name: "keylore"
+     version: 487bb528ee0683f9ebcf762add3f7520a9c3aa67
+     feature_flag: keylore-image-version
+     apis:
+      - /v3/generate_wdek
+      - /v3/rewrap_wdek
+      - /v3/unwrap_wdek

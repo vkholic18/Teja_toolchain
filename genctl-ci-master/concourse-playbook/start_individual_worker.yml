@@ -1,0 +1,18 @@
+#Start an individual worker
+#run using : ansible-playbook start_individual_worker.yml  --ask-become-pass
+---
+- hosts: localhost
+  connection: local
+  become: yes
+  become_user: root
+  gather_facts: no
+  tasks:
+  - name: Starting individual worker
+    shell: |
+     concourse worker --work-dir /opt/concourse/worker --tsa-host 127.0.0.1 --tsa-public-key /etc/concourse/keys/worker/tsa_host_key.pub --tsa-worker-private-key /etc/concourse/keys/worker/worker_key > /var/log/concourse-worker.log &
+    args:
+      chdir: /usr/local/bin/
+      executable: /bin/bash
+    changed_when: false
+    register: results
+  - debug: var=results.stdout_lines

@@ -1,0 +1,9 @@
+{
+  "service": "is-continuous-integration",
+  "production_code": "yes",
+  "production_branches": [
+    "master"
+  ],
+  "security_sensitive": "yes",
+  "ip_sensitive": "no"
+}

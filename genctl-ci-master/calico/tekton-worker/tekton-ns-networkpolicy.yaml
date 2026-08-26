@@ -1,0 +1,9 @@
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: tekton-ns
+  namespace: tekton-pipelines
+spec:
+  types:
+  - Egress
+  - Ingress

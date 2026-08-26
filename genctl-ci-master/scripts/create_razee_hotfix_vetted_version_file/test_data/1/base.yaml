@@ -1,0 +1,7 @@
+name: mzone7x1
+ops:
+  slack_channel: region-dal-g5-integ-mzr7x1
+apps:
+  release_bundles:
+  - name: hostos-boot-release
+    version: 3.0.4-20210311T160002Z_54c54e8

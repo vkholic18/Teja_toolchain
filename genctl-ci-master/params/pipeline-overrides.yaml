@@ -1,0 +1,3653 @@
+###############################################
+# Override File Format
+#
+# To override a single, templated, pipeline with one or more values:
+# * Create an additional entry following the given format *
+#  #<template-name>
+#  - name: <pipeline-name>
+#      overrides:
+#        <overrides to add>
+#
+# All values in this file will be merged with pipeline-params.yaml and the
+# resultant merged file will be used as the final pipeline meta file when automation performs a set-pipeline command.
+###############################################
+---
+pipelines:
+  #GENCTL
+  #acadia-baremetal-storage-workspace
+  - name: acadia-baremetal-storage-workspace-dev-integration-pr
+    overrides:
+      required-coverage-percent: 60
+      skip-upload-packages-on-pr-pipeline: false 
+
+  #api-extension-workspace
+  - name: api-extension-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+
+  #apigateway-workspace
+  # - name: apigateway-workspace-merge
+  #   overrides:
+  #     upload-to-registry-flag: false
+  #     iccr-push-skip-flag: true
+
+  # - name: apigateway-workspace-pr
+  #   overrides:
+  #     upload-to-registry-flag: false
+
+  #baremetal-workspace
+  - name: baremetal-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+
+  #RIAS / GENCTL
+  #bss-integration-workspace
+  - name: bss-integration-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #RIAS
+  #calico-network-policies-workspace
+
+  - name: calico-network-policies-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+
+  - name: calico-network-policies-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #cloudinit-workspace
+  - name: cloudinit-workspace-merge
+    overrides:
+      TEST_COMPONENT_IN_GENCTL_RELEASE: false
+
+  - name: cloudinit-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  # cvoaas-service-controller
+  - name: cvoaas-service-controller-dev-integration-pr
+    overrides:
+      workspace-pipelines-status: onepipeline
+      skip-k3s: false
+
+  #cvoaas-sds-interface-controller
+  - name: cvoaas-sds-interface-controller-dev-integration-pr
+    overrides:
+      workspace-pipelines-status: onepipeline
+      skip-k3s: false
+
+  #GENCTL
+  #acadia-storage-workspace
+  - name: acadia-storage-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+      upload-to-registry-flag: false
+      timeout-min: 120m
+
+  - name: acadia-storage-workspace-dev-integration-merge
+    overrides:
+      upload-to-registry-flag: true
+      upload-to-cos-python-issue-workaround: true
+
+  - name: acadia-storage-workspace-pr
+    overrides:
+      upload-to-registry-flag: false
+
+  - name: acadia-storage-workspace-dev-integration-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-code-static-scan: false
+      upload-to-cos-python-issue-workaround: true
+  
+  - name: acadia-storage-workspace-travis-migration-v11-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-code-static-scan: false
+      upload-to-cos-python-issue-workaround: true
+  
+  - name: acadia-storage-workspace-travis-migration-v11-merge
+    overrides:
+      upload-to-registry-flag: true
+      upload-to-cos-python-issue-workaround: true
+
+  #compute-workspace
+  - name: compute-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+      upload-to-registry-flag: false
+      timeout-min: 120m
+
+  - name: compute-workspace-dev-integration-merge
+    overrides:
+      upload-to-registry-flag: true
+
+  - name: compute-workspace-pr
+    overrides:
+      upload-to-registry-flag: false
+
+  - name: compute-workspace-dev-integration-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false
+
+  - name: compute-workspace-travis-migration-v11-merge
+    overrides:
+      upload-to-registry-flag: true
+
+  - name: compute-workspace-travis-migration-v11-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false
+
+  #smartnic-store-workspace
+  - name: smartnic-store-workspace-dev-integration-pr
+    overrides:
+      skip-upload-packages-on-pr-pipeline: false
+
+  #console-proxy-workspace
+  - name: console-proxy-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+
+  #dal-prod
+  - name: dal-prod-pr
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-prod-api-key))
+      cd-smotainer-meta-tag-environment: integration
+      ibmcloud-key: ((clconc-Jason-ibmcloud-apikey))
+      ibmcloud-account-id: ((clconc-Jason-ibmcloud-account-id))
+      snowgo-flags: "-uj"
+      launch-darkly-relay-proxy-id: ld-api-key-relay-proxy-prod
+      launch-darkly-upload-environment: prod
+
+  #device-tools
+  - name: device-tools-merge
+    overrides:
+      skip-auto-semver: true
+
+  #GENCTL
+  #diagnostics-workspace
+  - name: diagnostics-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+
+  #etcd-base-release
+  - name: etcd-base-release-pr
+    overrides:
+      component: kube
+      skip-deploy-dal: true
+
+  - name: etcd-base-release-merge
+    overrides:
+      component: kube
+
+  #etcd-base-release_upgrade
+  - name: etcd-base-release-release_upgrade-pr
+    overrides:
+      etcd-base-release-branch: "release_upgrade"
+      genctl-vetted-versions-file: release-upgrade.yaml
+      hotfix-branch: "release_upgrade"
+      component: kube
+      skip-deploy-dal: true
+
+  - name: etcd-base-release-release_upgrade-merge
+    overrides:
+      component: kube
+      genctl-vetted-versions-file: release-upgrade.yaml
+      etcd-base-release-branch: "release_upgrade"
+      hotfix-branch: "release_upgrade"
+
+  #RIAS / GENCTLS
+  #featureflags-workspace
+  - name: featureflags-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #GENCTL
+  #fleetman-workspace
+
+  - name: fleetman-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+
+  #fra-prod
+  - name: fra-prod-pr
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-prod-api-key))
+      cd-smotainer-meta-tag-environment: integration
+      ibmcloud-key: ((clconc-Jason-ibmcloud-apikey))
+      ibmcloud-account-id: ((clconc-Jason-ibmcloud-account-id))
+      snowgo-flags: "-uj"
+      launch-darkly-relay-proxy-id: ld-api-key-relay-proxy-prod
+      launch-darkly-upload-environment: prod
+
+  #RIAS / GENCTL
+  #genesis-deploy-artifacts
+  - name: genesis-deploy-artifacts-merge
+    overrides:
+      rias-deploy-component-type: genctl
+      component: genctl
+      package: genctl-release
+      apply-dmm-deploy-process: true
+      use-qz2-worker: true
+
+  - name: genesis-deploy-artifacts-dev-integration-pr
+    overrides:
+      skip-validate-remote-resource: true
+
+  - name: genesis-deploy-artifacts-pr
+    overrides:
+      use-qz2-worker: true
+
+  - name: goku-merge
+    overrides:
+      create-tag-mode: gomod
+      artifactory-golang-binaries-sandbox-repo-path: wcp-genctl-generic-local
+
+  - name: mds-merge
+    overrides:
+      create-tag-mode: gomod
+
+  - name: snowgo-merge
+    overrides:
+      create-tag-mode: gomod
+
+  - name: ffedex-merge
+    overrides:
+      create-tag-mode: gomod
+
+  - name: go-notify-merge
+    overrides:
+      create-tag-mode: gomod
+
+  - name: rolo-merge
+    overrides:
+      create-tag-mode: gomod
+
+  - name: changeloggen-merge
+    overrides:
+      create-tag-mode: gomod
+
+  #GENCTL
+  #kali
+
+  - name: kali-dev-integration-merge
+    overrides:
+      packages-path-to-use-in-artifact-field-in-json: vetted
+      upload-to-registry-flag: true
+      skip-upload-packages-on-merge-pipeline: true
+
+  - name: kali-merge
+    overrides:
+      rias-deploy-component-type: genctl
+      component: genctl
+      package: genctl-release
+      inventory-org-specific-for_debian: cloudnet
+      inventory-repo_specific-for_debian: sdn-inventory
+      skip-move-packages-from-vetted-to-final-destination: true
+      lock-pool: "release-deploy-lock-sdn"
+      check-if-need-to-run-semver: true
+      apply-dmm-deploy-process: true
+      use-qz2-worker: true
+
+  - name: kali-dev-integration-pr
+    overrides:
+      skip-conventional-commit-enforcement: true
+      skip-validate-global-keys: false
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: true
+
+  - name: kali-pr
+    overrides:
+      skip-auto-merge: true
+  
+  - name: kali-travis-migration-v11-merge
+    overrides:
+      packages-path-to-use-in-artifact-field-in-json: vetted
+      upload-to-registry-flag: true
+      skip-upload-packages-on-merge-pipeline: false
+  
+  - name: kali-travis-migration-v11-pr
+    overrides:
+      skip-conventional-commit-enforcement: true
+      skip-validate-global-keys: false
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false
+
+  #nscon
+  - name: nscon-merge
+    overrides:
+      rias-deploy-component-type: genctl
+      component: genctl
+      package: genctl-release
+      inventory-org-specific-for_debian: cloudnet
+      inventory-repo_specific-for_debian: sdn-inventory
+      skip-move-packages-from-vetted-to-final-destination: true
+      lock-pool: "release-deploy-lock-sdn"
+      check-if-need-to-run-semver: true
+      apply-dmm-deploy-process: true
+      use-qz2-worker: true
+
+  - name: nscon-dev-integration-merge
+    overrides:
+      packages-path-to-use-in-artifact-field-in-json: vetted
+      upload-to-registry-flag: true
+      skip-upload-packages-on-merge-pipeline: true
+
+  - name: nscon-dev-integration-pr
+    overrides:
+      skip-conventional-commit-enforcement: true
+      skip-validate-global-keys: false
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: true
+
+  - name: nscon-pr
+    overrides:
+      skip-auto-merge: true
+
+  - name: nscon-travis-migration-v11-merge
+    overrides:
+      packages-path-to-use-in-artifact-field-in-json: vetted
+      upload-to-registry-flag: true
+
+  - name: nscon-travis-migration-v11-pr
+    overrides:
+      skip-conventional-commit-enforcement: true
+      skip-validate-global-keys: false
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false
+
+  - name: cbuild-merge
+    overrides:
+      skip-auto-semver: true
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+
+  - name: cbuild-pr
+    overrides:
+      skip-unit-tests: true
+      skip-go-vetting: true
+      upload-to-registry-flag: false
+      skip-manifest: true
+  
+  - name: cbuild-travis-migration-v11-merge
+    overrides:
+      skip-auto-semver: true
+      skip-unit-tests: true
+      upload-to-registry-flag: true
+
+  - name: cbuild-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+      skip-go-vetting: true
+      upload-to-registry-flag: true
+
+  #general-prod
+  - name: global-prod-pr
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-prod-api-key))
+      snowgo-flags: "-uj"
+      launch-darkly-relay-proxy-id: ld-api-key-relay-proxy-prod
+      launch-darkly-upload-environment: prod
+      validate-ff-config: true
+
+  - name: global-prod-merge
+    overrides:
+      ff-ibm-cloud-api-key: ((ff-ibm-cloud-api-key))
+      ibm-cloud-endpoint: "https://cloud.ibm.com"
+
+  #general-staging
+  - name: global-staging-pr
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-staging-api-key))
+      snowgo-flags: "-uj"
+      launch-darkly-relay-proxy-id: ld-api-key-relay-proxy-prod
+      launch-darkly-upload-environment: prod
+      validate-ff-config: true
+
+  - name: global-staging-merge
+    overrides:
+      ff-ibm-cloud-api-key: ((ff-ibm-cloud-api-key))
+      ibm-cloud-endpoint: "https://cloud.ibm.com"
+
+  #global-integ
+  - name: global-integ-pr
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-integ-api-key))
+      validate-ff-config: true
+
+  - name: global-integ-merge
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-integ-api-key))
+
+  - name: global-dev-pr
+    overrides:
+      validate-ff-config: true
+
+  #hostos-base-net-sw-release (master branch)
+  - name: hostos-base-net-sw-release-pr
+    overrides:
+      hostos-deploy-job-name: "DEPLOY_DAL"
+      hostos-deploy-task-name: "deploy-dal"
+      mds-config-hostos-brt-template-file: mzone_mds_config_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-sdn"
+      apply-dmm-deploy-process: true
+      skip-ngdc-deploy: false
+
+  #hostos-base-net-sw-release (master branch)
+  - name: hostos-base-net-sw-release-merge
+    overrides:
+      component: hostos
+  
+    #hostos-base-net-sw-release-8
+  - name: hostos-base-net-sw-release-8-pr
+    overrides:
+      hostos-base-net-sw-release-branch: "release-8"
+      genctl-vetted-versions-file: hostos-release-8.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos8_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+
+  - name: hostos-base-net-sw-release-8-merge
+    overrides:
+      hostos-base-net-sw-release-branch: "release-8"
+      genctl-vetted-versions-file: hostos-release-8.yaml
+      component: hostos
+
+  #hostos-base-net-sw-release-7
+  - name: hostos-base-net-sw-release-7-pr
+    overrides:
+      hostos-base-net-sw-release-branch: "release-7"
+      genctl-vetted-versions-file: hostos-release-7.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos7_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+
+  - name: hostos-base-net-sw-release-7-merge
+    overrides:
+      hostos-base-net-sw-release-branch: "release-7"
+      genctl-vetted-versions-file: hostos-release-7.yaml
+      component: hostos
+
+  #hostos-base-net-sw-release-6
+  - name: hostos-base-net-sw-release-6-pr
+    overrides:
+      hostos-base-net-sw-release-branch: "release-6"
+      genctl-vetted-versions-file: hostos-release-6.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos6_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      skip-ngdc-deploy: false
+      apply-dmm-deploy-process: true
+
+  - name: hostos-base-net-sw-release-6-merge
+    overrides:
+      hostos-base-net-sw-release-branch: "release-6"
+      genctl-vetted-versions-file: hostos-release-6.yaml
+      component: hostos
+
+  - name: hostos-base-os-sw-release-pr
+    overrides:
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+      skip-ngdc-deploy: false
+
+  - name: hostos-base-os-sw-release-merge
+    overrides:
+      component: hostos
+
+  #hostos-base-os-sw-release-8
+  - name: hostos-base-os-sw-release-8-merge
+    overrides:
+      hostos-base-os-sw-release-branch: "release-8"
+      genctl-vetted-versions-file: hostos-release-8.yaml
+      component: hostos
+
+  - name: hostos-base-os-sw-release-8-pr
+    overrides:
+      hostos-base-os-sw-release-branch: "release-8"
+      genctl-vetted-versions-file: hostos-release-8.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos8_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+  
+  #hostos-base-os-sw-release-7
+  - name: hostos-base-os-sw-release-7-merge
+    overrides:
+      hostos-base-os-sw-release-branch: "release-7"
+      genctl-vetted-versions-file: hostos-release-7.yaml
+      component: hostos
+
+  - name: hostos-base-os-sw-release-7-pr
+    overrides:
+      hostos-base-os-sw-release-branch: "release-7"
+      genctl-vetted-versions-file: hostos-release-7.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos7_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+
+  #hostos-base-os-sw-release-6
+  - name: hostos-base-os-sw-release-6-merge
+    overrides:
+      hostos-base-os-sw-release-branch: "release-6"
+      genctl-vetted-versions-file: hostos-release-6.yaml
+      component: hostos
+
+  - name: hostos-base-os-sw-release-6-pr
+    overrides:
+      hostos-base-os-sw-release-branch: "release-6"
+      genctl-vetted-versions-file: hostos-release-6.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos6_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      skip-ngdc-deploy: false
+      apply-dmm-deploy-process: true
+
+  #hostos-boot-release (master branch)
+  - name: hostos-boot-release-pr
+    overrides:
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+      skip-ngdc-deploy: false
+
+  - name: hostos-boot-release-merge
+    overrides:
+      component: hostos
+  
+   #hostos-boot-release-8
+  - name: hostos-boot-release-8-merge
+    overrides:
+      hostos-boot-release-branch: "release-8"
+      genctl-vetted-versions-file: hostos-release-8.yaml
+      component: hostos
+
+  - name: hostos-boot-release-8-pr
+    overrides:
+      hostos-boot-release-branch: "release-8"
+      genctl-vetted-versions-file: hostos-release-8.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos8_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+    
+  #hostos-boot-release-7
+  - name: hostos-boot-release-7-merge
+    overrides:
+      hostos-boot-release-branch: "release-7"
+      genctl-vetted-versions-file: hostos-release-7.yaml
+      component: hostos
+
+  - name: hostos-boot-release-7-pr
+    overrides:
+      hostos-boot-release-branch: "release-7"
+      genctl-vetted-versions-file: hostos-release-7.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos7_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+
+  #hostos-boot-release-6
+  - name: hostos-boot-release-6-merge
+    overrides:
+      hostos-boot-release-branch: "release-6"
+      genctl-vetted-versions-file: hostos-release-6.yaml
+      component: hostos
+
+  - name: hostos-boot-release-6-pr
+    overrides:
+      hostos-boot-release-branch: "release-6"
+      genctl-vetted-versions-file: hostos-release-6.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos6_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      skip-ngdc-deploy: false
+      apply-dmm-deploy-process: true
+
+  #hostos-config-release (master branch)
+  - name: hostos-config-release-pr
+    overrides:
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+      skip-ngdc-deploy: false
+
+  - name: hostos-config-release-merge
+    overrides:
+      component: hostos
+
+  #hostos-config-release-8
+  - name: hostos-config-release-8-pr
+    overrides:
+      hostos-config-release-branch: "release-8"
+      genctl-vetted-versions-file: hostos-release-8.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos8_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+
+  - name: hostos-config-release-8-merge
+    overrides:
+      hostos-config-release-branch: "release-8"
+      genctl-vetted-versions-file: hostos-release-8.yaml
+      component: hostos
+  
+  #hostos-config-release-7
+  - name: hostos-config-release-7-pr
+    overrides:
+      hostos-config-release-branch: "release-7"
+      genctl-vetted-versions-file: hostos-release-7.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos7_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+
+  - name: hostos-config-release-7-merge
+    overrides:
+      hostos-config-release-branch: "release-7"
+      genctl-vetted-versions-file: hostos-release-7.yaml
+      component: hostos
+
+  #hostos-config-release-6
+  - name: hostos-config-release-6-pr
+    overrides:
+      hostos-config-release-branch: "release-6"
+      genctl-vetted-versions-file: hostos-release-6.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos6_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      skip-ngdc-deploy: false
+      apply-dmm-deploy-process: true
+
+  - name: hostos-config-release-6-merge
+    overrides:
+      hostos-config-release-branch: "release-6"
+      genctl-vetted-versions-file: hostos-release-6.yaml
+      component: hostos
+
+  #hostos-kernel-patch-release-8
+  - name: hostos-kernel-patch-release-8-pr
+    overrides:
+      hostos-kernel-patch-release-branch: "release-8"
+      genctl-vetted-versions-file: hostos-release-8.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos8_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+
+  - name: hostos-kernel-patch-release-8-merge
+    overrides:
+      hostos-kernel-patch-release-branch: "release-8"
+      genctl-vetted-versions-file: hostos-release-8.yaml
+      component: hostos
+
+  #hostos-kernel-patch-release-7
+  - name: hostos-kernel-patch-release-7-pr
+    overrides:
+      hostos-kernel-patch-release-branch: "release-7"
+      genctl-vetted-versions-file: hostos-release-7.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos7_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+
+  - name: hostos-kernel-patch-release-7-merge
+    overrides:
+      hostos-kernel-patch-release-branch: "release-7"
+      genctl-vetted-versions-file: hostos-release-7.yaml
+      component: hostos
+
+  #hostos-kernel-patch-release-6
+  - name: hostos-kernel-patch-release-6-pr
+    overrides:
+      hostos-kernel-patch-release-branch: "release-6"
+      genctl-vetted-versions-file: hostos-release-6.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos6_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      skip-ngdc-deploy: false
+      apply-dmm-deploy-process: true
+
+  - name: hostos-kernel-patch-release-6-merge
+    overrides:
+      hostos-kernel-patch-release-branch: "release-6"
+      genctl-vetted-versions-file: hostos-release-6.yaml
+      component: hostos
+
+  #hostos-kernel-patch-release (master branch)
+  - name: hostos-kernel-patch-release-pr
+    overrides:
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+      skip-ngdc-deploy: false
+
+  - name: hostos-kernel-patch-release-merge
+    overrides:
+      component: hostos
+
+  #hostos-nextgen-os-sw-release (master branch)
+  - name: hostos-nextgen-os-sw-release-pr
+    overrides:
+      hostos-deploy-job-name: "DEPLOY_DAL"
+      hostos-deploy-task-name: "deploy-dal"
+      mds-config-hostos-brt-template-file: mzone_mds_config_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+      skip-ngdc-deploy: false
+      use-qz2-worker: true
+
+  - name: hostos-nextgen-os-sw-release-merge
+    overrides:
+      component: hostos
+
+  #hostos-nextgen-os-sw-release-8
+  - name: hostos-nextgen-os-sw-release-8-merge
+    overrides:
+      hostos-nextgen-os-sw-release-branch: "release-8"
+      genctl-vetted-versions-file: hostos-release-8.yaml
+      component: hostos
+
+  - name: hostos-nextgen-os-sw-release-8-pr
+    overrides:
+      hostos-nextgen-os-sw-release-branch: "release-8"
+      genctl-vetted-versions-file: hostos-release-8.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos8_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+
+  #hostos-nextgen-os-sw-release-7
+  - name: hostos-nextgen-os-sw-release-7-merge
+    overrides:
+      hostos-nextgen-os-sw-release-branch: "release-7"
+      genctl-vetted-versions-file: hostos-release-7.yaml
+      component: hostos
+
+  - name: hostos-nextgen-os-sw-release-7-pr
+    overrides:
+      hostos-nextgen-os-sw-release-branch: "release-7"
+      genctl-vetted-versions-file: hostos-release-7.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos7_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+
+  #hostos-nextgen-os-sw-release-6
+  - name: hostos-nextgen-os-sw-release-6-merge
+    overrides:
+      hostos-nextgen-os-sw-release-branch: "release-6"
+      genctl-vetted-versions-file: hostos-release-6.yaml
+      component: hostos
+
+  - name: hostos-nextgen-os-sw-release-6-pr
+    overrides:
+      hostos-nextgen-os-sw-release-branch: "release-6"
+      genctl-vetted-versions-file: hostos-release-6.yaml
+      mds-config-hostos-brt-template-file: mzone_mds_config_hostos6_template.yaml
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      skip-ngdc-deploy: false
+      apply-dmm-deploy-process: true
+      
+
+  - name: hostos-validate-release-pr
+    overrides:
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      apply-dmm-deploy-process: true
+      skip-ngdc-deploy: true
+      
+  - name: hostos-validate-release-merge
+    overrides:
+      component: hostos
+
+  #RIAS / GENCTL
+  #hypersync-integration-workspace
+  - name: hypersync-integration-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #GENCTL
+  #image-service-workspace
+  - name: image-service-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+
+  #image-utils
+  - name: image-utils-merge
+    overrides:
+      skip-update-hostos: true
+      hostos-payload-group-name: ""
+      hostos-payload-manifest-name: ""
+
+      # merge-fail-enabled allows this to fail when no pr data is available
+      # other pipelines use 'merge' but this does not do anything in the code and passes.
+      # we cannot enable 'fail' for merge pipelines until all others conform to conventional commit format
+      pipeline-type-default: merge
+
+  #RIAS / GENCTL
+  #infrastructure-service-workspace
+  - name: infrastructure-service-workspace-dev-integration-merge
+    overrides:
+
+  - name: infrastructure-service-workspace-merge
+    overrides:
+      rias-deploy-component-type: genctl
+      component: genctl
+      package: genctl-release
+      apply-dmm-deploy-process: true
+
+  - name: infrastructure-service-workspace-pr
+    overrides:
+      use-qz2-worker: true
+
+  - name: infrastructure-service-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #RIAS
+  #keyreact
+  - name: keyreact-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #GENCTL
+  #kerberos-workspace
+  - name: kerberos-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+
+  #kube-addon-release_upgrade
+  - name: kube-addon-release-release_upgrade-pr
+    overrides:
+      kube-addon-release-branch: "release_upgrade"
+      genctl-vetted-versions-file: release-upgrade.yaml
+      hotfix-branch: "release_upgrade"
+      component: kube
+      skip-deploy-dal: true
+      lock-pool: "release-deploy-lock-kube"
+
+  - name: kube-addon-release-release_upgrade-merge
+    overrides:
+      component: kube
+      genctl-vetted-versions-file: release-upgrade.yaml
+
+  - name: kube-addon-release-pr
+    overrides:
+      component: kube
+      skip-deploy-dal: true
+      lock-pool: "release-deploy-lock-kube"
+
+  #kube_addon_release
+  - name: kube-addon-release-merge
+    overrides:
+      component: kube
+
+  #kube-base-deployer
+
+  - name: kube-base-deployer-pr
+    overrides:
+      skip-go-vetting: true
+
+  - name: kube-base-deployer-merge
+    overrides:
+      skip-auto-semver: true
+
+  #kube-base-deployer_upgrade
+
+  - name: kube-base-deployer-release_upgrade-pr
+    overrides:
+      skip-go-vetting: true
+      lock-pool: "release-deploy-lock-kube"
+
+  - name: kube-base-deployer-release_upgrade-merge
+    overrides:
+      kube-base-deployer-branch: "release_upgrade"
+      kube-base-release-branch: "release_upgrade"
+      kube-define-release-branch: "release_upgrade"
+      kube-addon-release-branch: "release_upgrade"
+      etcd-base-release-branch: "release_upgrade"
+      skip-auto-semver: true
+
+  #kube_base_release
+
+  - name: kube-base-release-pr
+    overrides:
+      component: kube
+      skip-deploy-dal: true
+      lock-pool: "release-deploy-lock-kube"
+
+  - name: kube-base-release-merge
+    overrides:
+      component: kube
+
+  #kube-base-release_upgrade
+  - name: kube-base-release-release_upgrade-pr
+    overrides:
+      kube-base-release-branch: "release_upgrade"
+      genctl-vetted-versions-file: release-upgrade.yaml
+      hotfix-branch: "release_upgrade"
+      component: kube
+      skip-deploy-dal: true
+      lock-pool: "release-deploy-lock-kube"
+
+  - name: kube-base-release-release_upgrade-merge
+    overrides:
+      kube-base-release-branch: "release_upgrade"
+      genctl-vetted-versions-file: release-upgrade.yaml
+      hotfix-branch: "release_upgrade"
+      component: kube
+      skip-deploy-dal: true
+
+  #kube-bootstrap-release_upgrade
+  - name: kube-bootstrap-release_upgrade-merge
+    overrides:
+      kube-bootstrap-branch: "release_upgrade"
+
+  - name: kube-bootstrap-release_upgrade-pr
+    overrides:
+      kube-bootstrap-branch: "release_upgrade"
+      genctl-vetted-versions-file: release-upgrade.yaml
+      hotfix-branch: "release_upgrade"
+
+  #kube_define_release
+  - name: kube-define-release-merge
+    overrides:
+      component: kube
+
+  - name: kube-define-release-pr
+    overrides:
+      component: kube
+      skip-deploy-dal: true
+
+  #kube-define-release_upgrade
+  - name: kube-define-release-release_upgrade-pr
+    overrides:
+      kube-define-release-branch: "release_upgrade"
+      genctl-vetted-versions-file: release-upgrade.yaml
+      hotfix-branch: "release_upgrade"
+      component: kube
+      skip-deploy-dal: true
+      lock-pool: "release-deploy-lock-kube"
+
+  - name: kube-define-release-release_upgrade-merge
+    overrides:
+      kube-define-release-branch: "release_upgrade"
+      component: kube
+      genctl-vetted-versions-file: release-upgrade.yaml
+
+  - name: kube-kopilot-release-pr
+    overrides:
+      hostos-component: kopilot
+      skip-deploy-dal: "true"
+      hotfix-branch: "master" # workaround for automerge bug
+      lock-pool: "release-deploy-lock-kube"
+      component: kube
+
+  - name: kube-kopilot-release-merge
+    overrides:
+      component: kopilot
+
+  - name: kube-kopilot-release-release_upgrade-pr
+    overrides:
+      genctl-vetted-versions-file: release-upgrade.yaml
+      hotfix-branch: "release_upgrade"
+      component: kube
+      lock-pool: "release-deploy-lock-kube"
+
+  - name: kube-kopilot-release-release_upgrade-merge
+    overrides:
+      component: kube
+      genctl-vetted-versions-file: release-upgrade.yaml
+      skip-vetted-version-update: "true"
+
+  #localdisk-tools
+  #- name: localdisk-tools-merge
+  #  overrides:
+  #    hostos-payload-group-name: compute
+  #    hostos-payload-manifest-name: nextgen-os-sw
+
+  #logger
+  - name: logger-dev-integration-pr
+    overrides:
+      required-coverage-percent: 80
+
+  - name: logger-pr
+    overrides:
+      required-coverage-percent: 80
+
+  #logging-workspace
+  - name: logging-merge
+    overrides:
+      rias-deploy-component-type: rias
+      component: rias
+      package: rias-etcd-release
+      component-release-bundles: "rias-etcd"
+
+  - name: logging-workspace-dev-integration-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: true
+
+  - name: logging-workspace-pr
+    overrides:
+      upload-to-registry-flag: false
+      use-qz2-worker: true
+
+  - name: logging-workspace-dev-integration-merge
+    overrides:
+      upload-to-registry-flag: true
+      skip-validate-global-keys: false
+      skip-upload-packages-on-merge-pipeline: true
+
+  - name: logging-workspace-merge
+    overrides:
+      upload-to-registry-flag: false
+      component-release-bundles: "rias-etcd"
+  
+  - name: logging-workspace-travis-migration-v11-merge
+    overrides:
+      upload-to-registry-flag: true
+      skip-validate-global-keys: false
+      skip-upload-packages-on-merge-pipeline: true
+
+  - name: logging-workspace-travis-migration-v11-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: true
+
+  #lon-prod
+  - name: lon-prod-pr
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-prod-api-key))
+      cd-smotainer-meta-tag-environment: integration
+      smotainer-extra-flags: "--abf-enable --tc=hpcs_instance:c4227609-0c1d-4a76-a3b0-2ebbd4ee250b --tc=hpcs_kms_endpoint:api.eu-de.hs-crypto.cloud.ibm.com --tc=hpcs_kms_port:9296"
+      ibmcloud-key: ((clconc-Jason-ibmcloud-apikey))
+      ibmcloud-account-id: ((clconc-Jason-ibmcloud-account-id))
+      snowgo-flags: "-uj"
+      launch-darkly-relay-proxy-id: ld-api-key-relay-proxy-prod
+      launch-darkly-upload-environment: prod
+
+  #mad-prod
+  - name: mad-prod-pr
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-prod-api-key))
+      cd-smotainer-meta-tag-environment: integration
+      ibmcloud-key: ((clconc-Jason-ibmcloud-apikey))
+      ibmcloud-account-id: ((clconc-Jason-ibmcloud-account-id))
+      snowgo-flags: "-uj"
+      launch-darkly-relay-proxy-id: ld-api-key-relay-proxy-prod
+      launch-darkly-upload-environment: prod
+
+  #mds-image
+  - name: mds-image-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: true
+
+  - name: mds-image-pr
+    overrides:
+      skip-unit-tests: true
+
+  #ads-agent
+  - name: ads-agent-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: true
+
+  - name: ads-agent-pr
+    overrides:
+      skip-unit-tests: true
+
+  #ads-image
+  - name: ads-image-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: true
+
+  - name: ads-image-pr
+    overrides:
+      skip-unit-tests: true
+
+  #micro-deploy-server
+  - name: micro-deploy-server-merge
+    overrides:
+      skip-unit-tests: true
+      skip-build: true
+
+  - name: micro-deploy-server-pr
+    overrides:
+      skip-unit-tests: true
+      skip-build: true
+
+  # citrix-api
+  - name: citrix-api-merge
+    overrides:
+      skip-unit-tests: true
+      skip-build: true
+
+  - name: citrix-apir-pr
+    overrides:
+      skip-unit-tests: true
+      skip-build: true
+      
+  #RIAS / GENCTL
+  #monitoring-workspace
+  - name: monitoring-workspace-merge
+    overrides:
+      rias-deploy-component-type: rias
+      component: rias
+      package: rias-etcd-release
+      component-release-bundles: "rias-etcd"
+
+  - name: monitoring-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #kopilot
+  - name: kopilot-pr
+    overrides:
+      component: kopilot
+      lock-pool: "release-deploy-lock-kube"
+      skip-deploy-dal: true
+
+  - name: kopilot-merge
+    overrides:
+      component: kopilot
+
+  #kopilot-csr
+  - name: kopilot-csr-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: kopilot-csr-merge
+    overrides:
+      skip-unit-tests: true
+
+  #GENCTL
+  #network-workspace
+  - name: network-workspace-dev-integration-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false
+
+  - name: network-workspace-dev-integration-merge
+    overrides:
+      upload-to-registry-flag: true
+
+  - name: network-workspace-pr
+    overrides:
+      upload-to-registry-flag: false
+
+  - name: network-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+      upload-to-registry-flag: false
+  
+  - name: network-workspace-travis-migration-v11-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false      
+
+  - name: network-workspace-travis-migration-v11-merge
+    overrides:
+      upload-to-registry-flag: true
+
+  #observability-workspace
+  - name: observability-workspace-pr
+    overrides:
+      upload-to-registry-flag: true
+      golang-ci-image-tag: '22.20260817071533-amd64'
+      golang-ci-image-manifest-tag: '22.20260817071533'
+      skip-upload-packages-on-pr-pipeline: false
+
+  - name: observability-workspace-merge
+    overrides:
+      upload-to-registry-flag: true
+      upload-to-debian-registry-flag: false
+      skip-update-hostos: true
+      hostos-payload-group-name: ""
+      hostos-payload-manifest-name: ""
+      skip-auto-semver: true
+      skip-upload-packages-on-merge-pipeline: false # Skip the OnePipeline upload of package because package is uploaded from Travis
+      golang-ci-image-tag: '22.20260817071533-amd64'
+      golang-ci-image-manifest-tag: '22.20260817071533'
+  
+  - name: observability-workspace-travis-migration-v11-pr
+    overrides:
+      upload-to-registry-flag: true
+      golang-ci-image-tag: '22.20260817071533-amd64'
+      golang-ci-image-manifest-tag: '22.20260817071533'
+      skip-upload-packages-on-pr-pipeline: false
+
+  - name: observability-workspace-travis-migration-v11-merge
+    overrides:
+      upload-to-registry-flag: true
+      upload-to-debian-registry-flag: false
+      skip-update-hostos: true
+      hostos-payload-group-name: ""
+      hostos-payload-manifest-name: ""
+      skip-auto-semver: true
+      skip-upload-packages-on-merge-pipeline: false
+      golang-ci-image-tag: '22.20260817071533-amd64'
+      golang-ci-image-manifest-tag: '22.20260817071533'
+
+  #operatorvault-wiki
+  - name: operatorvault-wiki-merge
+    overrides:
+      package-artifactory-generic-root: pool/vaultpki/vaultpkicerts
+      deb-package-file-prefix: vaultpkicerts
+      deb-common-build-path: vault_pki_certs/hack/ci/build.yaml
+      hostos-payload-component-name: vaultpkicerts
+      hostos-payload-manifest-name: nextgen-os-sw
+      hostos-payload-group-name: security
+      common-workspace-input-name: workspace-repo/vault_pki_certs
+
+  #GENCTL
+  #operator-services-workspace
+  - name: operator-services-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+
+  #ops-data-zonal
+  - name: ops-data-zonal-merge
+    overrides:
+      run-brt-stat-exporter: false
+
+  #ops-node-projection
+  - name: ops-node-projection-merge
+    overrides:
+      genesis-deploy-artifacts-genctl-cluster-remote-resource: ops-genctl-cluster-remote-resource.yaml
+
+  #ops-vm-projection
+  - name: ops-vm-projection-merge
+    overrides:
+      genesis-deploy-artifacts-genctl-cluster-remote-resource: ops-genctl-cluster-remote-resource.yaml
+
+  #ops-zonal-operator-agent
+  - name: ops-zonal-operator-agent-merge
+    overrides:
+      genesis-deploy-artifacts-genctl-cluster-remote-resource: ops-genctl-cluster-remote-resource.yaml
+
+  #ops-extension-server
+  - name: ops-extension-server-merge
+    overrides:
+      genesis-deploy-artifacts-genctl-cluster-remote-resource: ops-cluster-remote-resource.yaml
+
+  #osa-prod
+  - name: osa-prod-pr
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-prod-api-key))
+      cd-smotainer-meta-tag-environment: integration
+      smotainer-extra-flags: "--abf-enable --tc=keyprotect_instance:1f176b63-6596-4907-9d91-a817465c1252 --tc=kms_endpoint:jp-tok.kms.cloud.ibm.com --tc=hpcs_instance:f7b63f61-18e4-4701-9e24-687ff9573c42 --tc=hpcs_kms_endpoint:api.au-syd.hs-crypto.cloud.ibm.com --tc=hpcs_kms_port:9690"
+      ibmcloud-key: ((clconc-Jason-ibmcloud-apikey))
+      ibmcloud-account-id: ((clconc-Jason-ibmcloud-account-id))
+      snowgo-flags: "-uj"
+      launch-darkly-relay-proxy-id: ld-api-key-relay-proxy-prod
+      launch-darkly-upload-environment: prod
+
+  #par-prod
+  - name: par-prod-pr
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-prod-api-key))
+      cd-smotainer-meta-tag-environment: integration
+      smotainer-extra-flags: "--abf-enable --tc=keyprotect_instance:fc634f35-0113-4045-9b71-a49d9d9b5874 --tc=kms_endpoint:eu-de.kms.cloud.ibm.com --tc=hpcs_instance:c4227609-0c1d-4a76-a3b0-2ebbd4ee250b --tc=hpcs_kms_endpoint:api.eu-de.hs-crypto.cloud.ibm.com --tc=hpcs_kms_port:9296"
+      ibmcloud-key: ((clconc-Jason-ibmcloud-apikey))
+      ibmcloud-account-id: ((clconc-Jason-ibmcloud-account-id))
+      snowgo-flags: "-uj"
+      launch-darkly-relay-proxy-id: ld-api-key-relay-proxy-prod
+      launch-darkly-upload-environment: prod
+
+  #pds-config-release
+  - name: pds-config-release-merge
+    overrides:
+      hostos-component: cloudnet
+      component: cloudnet
+
+  - name: pds-config-release-pr
+    overrides:
+      mds-config-template-file: mzone_mds_config_pds_cfg_template.yaml
+      hostos-component: cloudnet
+      skip-deploy-dal: "true"
+      component: cloudnet
+
+  #pds-firmware-release
+  - name: pds-firmware-release-merge
+    overrides:
+      hostos-component: cloudnet
+      component: cloudnet
+
+  - name: pds-firmware-release-pr
+    overrides:
+      mds-config-template-file: mzone_mds_config_pds_template.yaml
+      hostos-component: cloudnet
+      skip-deploy-dal: "true"
+      component: cloudnet
+
+  #platform-inventory
+  - name: platform-inventory-merge
+    overrides:
+      skip-release-flag: true
+
+  #projection-controller-workspace
+  - name: projection-controller-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+
+  - name: projection-controller-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: true
+
+  #RIAS
+  #regional-baremetal-workspace
+  - name: regional-baremetal-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #regional-compute-workspace
+  - name: regional-compute-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  - name: regional-compute-workspace-pr
+    overrides:
+
+  #regional-dedicated-compute
+  - name: regional-dedicated-compute-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #regional-extension-workspace
+
+
+  - name: regional-extension-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #regional-file-workspace
+
+  - name: regional-file-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #regional-flowlogs-workspace
+
+  - name: regional-flowlogs-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  - name: regional-dnlb-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #regional-vpe-workspace
+
+  - name: regional-vpe-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  - name: regional-vpe-workspace-pr
+    overrides:
+
+  #regional-group-workspace
+  - name: regional-group-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #regional-health-workspace
+  - name: regional-health-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #regional-image
+  - name: regional-image-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  - name: regional-image-pr
+    overrides:
+
+  #regional-ims-account
+  - name: regional-ims-account-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #regional-migration-workspace
+  - name: regional-migration-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #regional-network-workspace
+
+  - name: regional-network-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #RIAS-ETCD
+  #regional-redis-workspace
+  - name: regional-redis-workspace-merge
+    overrides:
+      component-release-bundles: "rias rias-etcd"
+
+  - name: regional-redis-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  - name: regional-redis-workspace-pr
+    overrides:
+      run-brt-stat-exporter: false
+
+  #autoscale-processor
+  - name: autoscale-processor-merge
+    overrides:
+      component-release-bundles: "rias rias-etcd"
+
+  - name: autoscale-processor-pr
+    overrides:
+      run-brt-stat-exporter: false
+
+  - name: autoscale-processor-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #RIAS
+  #regional-slm-workspace
+  - name: regional-slm-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #regional-snapshot-workspace
+  - name: regional-snapshot-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  - name: regional-storage-pr
+    overrides:
+      workspace-pipelines-status: migration
+
+  - name: regional-storage-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+      workspace-pipelines-status: migration
+      skip-k3s: false
+
+  #resource-metadata-workspace
+  - name: resource-metadata-workspace-merge
+    overrides:
+      skip-update-release-version: false
+
+  - name: resource-metadata-workspace-dev-integration-merge
+    overrides:
+      skip-update-release-version: false
+
+  - name: resource-metadata-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #resize-controller-workspace
+  - name: resize-controller-workspace-pr
+    overrides:
+      skip-check-pr-to-master-is-from-dev-int: true
+      skip-auto-merge: true
+      skip-check-pr-title: false
+      skip-conventional-commit-enforcement: true
+
+  - name: resize-controller-workspace-dev-integration-pr
+    overrides:
+      skip-conventional-commit-enforcement: true
+
+  #rias-etcd-workspace
+  - name: rias-etcd-workspace-dev-integration-pr
+    overrides:
+      upload-to-registry-flag: false
+
+  - name: rias-etcd-workspace-dev-integration-merge
+    overrides:
+      upload-to-registry-flag: false
+      iccr-push-skip-flag: true
+
+  #rias-ingress-templates
+
+  - name: rias-ingress-templates-pr
+    overrides:
+      custom-brt-environment-lock-name: rias-ng-us-south-dal-dev0n
+
+  - name: rias-ingress-templates-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #sao-prod
+  - name: sao-prod-pr
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-prod-api-key))
+      cd-smotainer-meta-tag-environment: integration
+      smotainer-extra-flags: "--abf-enable --tc=hpcs_instance:bbdd701e-e2a8-4e24-aaaa-70214f92a081 --tc=hpcs_kms_endpoint:api.us-east.hs-crypto.cloud.ibm.com --tc=hpcs_kms_port:8013"
+      ibmcloud-key: ((clconc-Jason-ibmcloud-apikey))
+      ibmcloud-account-id: ((clconc-Jason-ibmcloud-account-id))
+      snowgo-flags: "-uj"
+      launch-darkly-relay-proxy-id: ld-api-key-relay-proxy-prod
+      launch-darkly-upload-environment: prod
+
+  #GENCTL
+  #sdp-workspace
+  - name: sdp-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+
+  #RIAS / GENCTL
+  #security-service-workspace
+  - name: security-service-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #RIAS
+  #service-broker-workspace
+  - name: service-broker-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  - name: service-broker-workspace-pr
+    overrides:
+
+  #staging
+  - name: staging-pr
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-staging-api-key))
+      cd-smotainer-meta-tag-environment: integration
+      ibmcloud-key: ((clconc-Jason-ibmcloud-apikey))
+      ibmcloud-account-id: ((clconc-Jason-ibmcloud-account-id))
+      snowgo-flags: "-uj"
+      launch-darkly-relay-proxy-id: ld-api-key-relay-proxy-prod
+      launch-darkly-upload-environment: prod
+
+  - name: staging-promotion
+    overrides:
+      scan-label: "promotion"
+      cd-vpc-ibmcloud-apikey: ((cd-vpc-dev-ibmcloud-apikey))
+      use-qz2-worker: true
+
+  - name: storage-common-pr
+    overrides:
+      skip-build: true
+
+  - name: storage-common-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  - name: storage-service-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+      upload-to-registry-flag: false
+
+  - name: storage-service-workspace-dev-integration-pr
+    overrides:
+      scan-label: "concourse"
+      upload-to-registry-flag: true
+      default-integration-tool: checkout
+      skip-conventional-commit-enforcement: true
+      skip-secret-label-validation: false
+
+  - name: storage-service-workspace-dev-integration-merge
+    overrides:
+      upload-to-registry-flag: true
+
+  - name: storage-service-workspace-pr
+    overrides:
+      upload-to-registry-flag: false
+      skip-conventional-commit-enforcement: true
+      # This is temporary until SSW team merges some problematic PR
+      skip-validate-razee-cluster: true
+  
+  - name: storage-service-workspace-travis-migration-v11-pr
+    overrides:
+      scan-label: "concourse"
+      upload-to-registry-flag: true
+      default-integration-tool: checkout
+      skip-conventional-commit-enforcement: true
+      skip-secret-label-validation: false
+
+  - name: storage-service-workspace-travis-migration-v11-merge
+    overrides:
+      upload-to-registry-flag: true
+
+  - name: banff-storage-workspace-dev-integration-pr
+    overrides:
+      upload-to-registry-flag: true
+
+  - name: banff-storage-workspace-dev-integration-merge
+    overrides:
+      upload-to-registry-flag: true
+
+  - name: banff-storage-workspace-pr
+    overrides:
+      upload-to-registry-flag: false
+
+  - name: banff-storage-workspace-merge
+    overrides:
+      upload-to-registry-flag: false
+  
+  - name: banff-storage-workspace-travis-migration-v11-pr
+    overrides:
+      upload-to-registry-flag: true
+
+  - name: banff-storage-workspace-travis-migration-v11-merge
+    overrides:
+      upload-to-registry-flag: true
+
+  - name: denali-storage-workspace-dev-integration-pr
+    overrides:
+      upload-to-registry-flag: true
+
+  - name: denali-storage-workspace-dev-integration-merge
+    overrides:
+      upload-to-registry-flag: true
+  
+  - name: denali-storage-workspace-travis-migration-v11-pr
+    overrides:
+      upload-to-registry-flag: true
+
+  - name: denali-storage-workspace-travis-migration-v11-merge
+    overrides:
+      upload-to-registry-flag: true
+
+  - name: denali-storage-workspace-pr
+    overrides:
+      upload-to-registry-flag: false
+
+  - name: denali-storage-workspace-merge
+    overrides:
+      upload-to-registry-flag: false
+
+  #storage-workspace
+  - name: storage-workspace-pr
+    overrides:
+      skip-conventional-commit-enforcement: true
+
+  - name: storage-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+
+  - name: storage-workspace-dev-integration-pr
+    overrides:
+      skip-conventional-commit-enforcement: true
+
+  - name: mzone7x1-pr
+    overrides:
+      cd-vpc-ibmcloud-apikey: ((cd-vpc-dev-ibmcloud-apikey))
+      scan-label: "promotion"
+      use-qz2-worker: true
+
+  - name: mzone7x3-pr
+    overrides:
+      cd-vpc-ibmcloud-apikey: ((cd-vpc-dev-ibmcloud-apikey))
+      scan-label: "promotion"
+      use-qz2-worker: true
+
+  - name: rm-mzone-pr
+    overrides:
+      cd-vpc-ibmcloud-apikey: ((cd-vpc-dev-ibmcloud-apikey))
+      scan-label: "promotion"
+      use-qz2-worker: true
+
+  #syd-prod
+  - name: syd-prod-pr
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-prod-api-key))
+      cd-smotainer-meta-tag-environment: integration
+      ibmcloud-key: ((clconc-Jason-ibmcloud-apikey))
+      ibmcloud-account-id: ((clconc-Jason-ibmcloud-account-id))
+      snowgo-flags: "-uj"
+      launch-darkly-relay-proxy-id: ld-api-key-relay-proxy-prod
+      launch-darkly-upload-environment: prod
+
+  - name: syd-prod-promotion
+    overrides:
+      cd-vpc-ibmcloud-apikey: ((cd-vpc-prod-ibmcloud-apikey))
+      scan-label: "promotion"
+
+  - name: sao-prod-promotion
+    overrides:
+      cd-vpc-ibmcloud-apikey: ((cd-vpc-prod-ibmcloud-apikey))
+      scan-label: "promotion"
+
+  #system-bringup-release
+  - name: system-bringup-release-merge
+    overrides:
+      skip-vetted-version-update: "true"
+      component: bringup
+      hostos-make-target: all
+      genctl-vetted-versions-file: ""
+
+  - name: system-bringup-release-pr
+    overrides:
+      hostos-make-target: all
+      component: bringup
+      skip-deploy-dal: true
+
+  # telemetry-dlc
+  - name: telemetry-dlc-pr
+    overrides:
+      skip-upload-packages-on-pr-pipeline: false
+      skip-go-vetting: true
+
+  #telemetry-workspace
+  - name: telemetry-merge
+    overrides:
+      rias-deploy-component-type: rias
+      component: rias
+      package: rias-etcd-release
+      component-release-bundles: "rias-etcd"
+
+  - name: telemetry-workspace-dev-integration-pr
+    overrides:
+      upload-to-registry-flag: true
+
+  - name: telemetry-workspace-pr
+    overrides:
+      upload-to-registry-flag: false
+
+  - name: telemetry-workspace-dev-integration-merge
+    overrides:
+      upload-to-registry-flag: true
+      skip-validate-global-keys: false
+
+  - name: telemetry-workspace-merge
+    overrides:
+      upload-to-registry-flag: false
+      component-release-bundles: "rias-etcd"
+  
+  - name: telemetry-workspace-travis-migration-v11-merge
+    overrides:
+      upload-to-registry-flag: true
+      skip-validate-global-keys: false
+
+  - name: telemetry-workspace-travis-migration-v11-pr
+    overrides:
+      upload-to-registry-flag: true
+
+  - name: telemetry-docker-base-pr
+    overrides:
+      skip-unit-tests: true
+      skip-go-vetting: true
+      skip-build: false
+      upload-to-registry-flag: true
+
+  - name: telemetry-docker-base-merge
+    overrides:
+      skip-auto-semver: true
+      skip-unit-tests: true
+      upload-to-registry-flag: true
+
+  - name: telemetry-docker-base-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+      skip-go-vetting: true
+      skip-build: false
+      upload-to-registry-flag: true
+
+  - name: telemetry-docker-base-travis-migration-v11-merge
+    overrides:
+      skip-auto-semver: true
+      skip-unit-tests: true
+      upload-to-registry-flag: true
+
+ # event-delegate-pr
+  - name: event-delegate-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false
+
+  # event-delegate-merge
+  - name: event-delegate-merge
+    overrides:
+      upload-to-registry-flag: true
+      upload-to-debian-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: false
+  
+  - name: event-delegate-travis-migration-v11-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false
+
+  # event-delegate-merge
+  - name: event-delegate-travis-migration-v11-merge
+    overrides:
+      upload-to-registry-flag: true
+      upload-to-debian-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: false
+
+  #tok-prod
+  - name: tok-prod-pr
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-prod-api-key))
+      cd-smotainer-meta-tag-environment: integration
+      smotainer-extra-flags: "--abf-enable --tc=hpcs_instance:f7b63f61-18e4-4701-9e24-687ff9573c42 --tc=hpcs_kms_endpoint:api.au-syd.hs-crypto.cloud.ibm.com --tc=hpcs_kms_port:9690"
+      ibmcloud-key: ((clconc-Jason-ibmcloud-apikey))
+      ibmcloud-account-id: ((clconc-Jason-ibmcloud-account-id))
+      snowgo-flags: "-uj"
+      launch-darkly-relay-proxy-id: ld-api-key-relay-proxy-prod
+      launch-darkly-upload-environment: prod
+
+  #tracing
+  - name: tracing-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  - name: tracing-merge
+    overrides:
+      run-brt-stat-exporter: false
+
+  #tor-prod
+  - name: tor-prod-pr
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-prod-api-key))
+      cd-smotainer-meta-tag-environment: integration
+      smotainer-extra-flags: "--abf-enable --tc=hpcs_instance:bbdd701e-e2a8-4e24-aaaa-70214f92a081 --tc=hpcs_kms_endpoint:api.us-east.hs-crypto.cloud.ibm.com --tc=hpcs_kms_port:8013"
+      ibmcloud-key: ((clconc-Jason-ibmcloud-apikey))
+      ibmcloud-account-id: ((clconc-Jason-ibmcloud-account-id))
+      snowgo-flags: "-uj"
+      launch-darkly-relay-proxy-id: ld-api-key-relay-proxy-prod
+      launch-darkly-upload-environment: prod
+
+  #wdc-prod
+  - name: wdc-prod-pr
+    overrides:
+      launch-darkly-api-key: ((vault-launch-darkly-prod-api-key))
+      cd-smotainer-meta-tag-environment: integration
+      ibmcloud-key: ((clconc-Jason-ibmcloud-apikey))
+      ibmcloud-account-id: ((clconc-Jason-ibmcloud-account-id))
+      snowgo-flags: "-uj"
+      launch-darkly-relay-proxy-id: ld-api-key-relay-proxy-prod
+      launch-darkly-upload-environment: prod
+
+  - name: z-storage-workspace-merge
+    overrides:
+      run-brt-stat-exporter: false
+      upload-to-registry-flag: false
+
+  - name: z-storage-workspace-dev-integration-merge
+    overrides:
+      upload-to-registry-flag: true
+
+  - name: z-storage-workspace-pr
+    overrides:
+      upload-to-registry-flag: false
+
+  - name: z-storage-workspace-dev-integration-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false
+  
+  - name: z-storage-workspace-travis-migration-v11-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false
+  
+  - name: z-storage-workspace-travis-migration-v11-merge
+    overrides:
+      upload-to-registry-flag: true
+
+  #RIAS / GENCTL
+  #regional-operations-workspace
+  - name: regional-operations-workspace-dev-integration-pr
+    overrides:
+      skip-validate-global-keys: false
+
+  #cd-dev-pr
+  - name: cd-dev-pr
+    overrides:
+      snow-iam-api-key: ((service-now-iam-apikey-test))
+      snow-cli-flags: "--test"
+      snowgo-flags: "-sa"
+      smotainer-extra-flags: ""
+      servicenow-url: watsontest.service-now.com
+      cd-deploy-start-time: "$(echo +1sec)"
+      cd-smotainer-meta-tag-environment: development
+      go-notify-slack-group: "<!subteam^S027QG13PQE|bot-testing-failures>"
+
+  #Hotfixes
+  #Razee
+  - name: apigateway-workspace-hotfix-razee
+    overrides:
+      upload-to-registry-flag: false
+  - name: compute-workspace-hotfix-razee
+    overrides:
+      upload-to-registry-flag: false
+  - name: network-workspace-hotfix-razee
+    overrides:
+      upload-to-registry-flag: false
+  - name: storage-service-workspace-hotfix-razee
+    overrides:
+      upload-to-registry-flag: false
+  - name: telemetry-workspace-hotfix-razee
+    overrides:
+      upload-to-registry-flag: false
+
+  # Library
+  # Libraries are not a part of the release in razee or release bundle, so no version update needed
+  - name: shared-logger-pr
+    overrides:
+      skip-build: true
+
+  #Added for shared-at to skip build
+  - name: shared-at-pr
+    overrides:
+      skip-build: true
+
+  - name: shared-logger-merge
+    overrides:
+      skip-update-release-version: true
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+      
+  #Added for shared-at to skip unit-test
+  - name: shared-at-merge
+    overrides:
+      skip-update-release-version: true
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  - name: ops-shared-logger-pr
+    overrides:
+      skip-build: true
+
+  - name: ops-shared-logger-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  - name: rias-g-common-pr
+    overrides:
+      upload-to-registry-flag: false
+
+  - name: rias-g-common-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  - name: ops-projection-pr
+    overrides:
+      skip-build: true
+
+  - name: ops-projection-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  - name: ops-middleware-pr
+    overrides:
+      skip-build: true
+
+  - name: ops-middleware-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  - name: ops-common-pr
+    overrides:
+      skip-build: true
+
+  - name: ops-common-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  - name: ops-iam-client-pr
+    overrides:
+      skip-build: true
+
+  - name: ops-iam-client-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  - name: ops-snow-client-pr
+    overrides:
+      skip-build: true
+
+  - name: ops-snow-client-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  - name: ops-k8s-types-pr
+    overrides:
+      skip-build: true
+
+  - name: ops-k8s-types-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  - name: ops-shared-eventing-pr
+    overrides:
+      skip-build: true
+
+  - name: ops-shared-eventing-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  - name: shared-diagnostics-pr
+    overrides:
+      skip-build: true
+
+  - name: shared-diagnostics-merge
+    overrides:
+      skip-update-release-version: true
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  - name: shared-metrics-pr
+    overrides:
+      skip-build: true
+
+  - name: shared-metrics-merge
+    overrides:
+      skip-update-release-version: true
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  # etcd-operator-pr
+  - name: etcd-operator-pr
+    overrides:
+      skip-go-vetting: true
+  
+  # etcd-operator-merge
+  - name: etcd-operator-merge
+    overrides:
+      create-tag-mode: gomod
+
+  # kube-define
+  - name: kube-define-merge
+    overrides:
+      skip-auto-semver: true
+      skip-kube-repos-raise-pr: false
+
+  - name: kube-define-pr
+    overrides:
+      skip-go-vetting: true
+
+  # kube-bootstrap
+  - name: kube-bootstrap-merge
+    overrides:
+      skip-auto-semver: true
+      skip-kube-repos-raise-pr: false
+
+  - name: kube-bootstrap-pr
+    overrides:
+      skip-go-vetting: true
+
+  # rcos-api-models
+  - name: rcos-api-models-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  - name: rcos-api-models-pr
+    overrides:
+      skip-build: true
+
+  # client-go-pr
+  - name: client-go-pr
+    overrides:
+      skip-build: true
+
+  # client-go-merge
+  - name: client-go-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  - name: genctl-release-pr
+    overrides:
+      component: genctl
+      component-release-bundles: genctl
+      submodule: "genctl-release"
+      is-override-genesis-deploy-artifacts-rias-inception: true
+      override-genesis-deploy-artifacts-rias-inception: "genctl-phase4-cluster-remote-resource"
+      label-to-search: "genesis-deploy-artifacts-override"
+      apply-dmm-deploy-process: true
+      skip-ngdc-deploy: true
+      use-qz2-worker: true
+
+  - name: genctl-release-merge
+    overrides:
+      component: genctl
+      component-release-bundles: genctl
+
+  - name: rias-release-pr
+    overrides:
+      component: rias
+      component-release-bundles: rias
+      apply-dmm-deploy-process: true
+      skip-ngdc-deploy: true
+      use-qz2-worker: true
+
+  - name: rias-release-merge
+    overrides:
+      component: rias
+      component-release-bundles: rias
+
+  - name: rias-etcd-release-pr
+    overrides:
+      component: rias
+      component-release-bundles: rias-etcd
+      apply-dmm-deploy-process: true
+      skip-ngdc-deploy: true
+      use-qz2-worker: true
+
+  - name: rias-etcd-release-merge
+    overrides:
+      component: rias
+      component-release-bundles: rias-etcd
+
+  - name: cni-plugins-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false
+
+  - name: cni-plugins-merge
+    overrides:
+      upload-to-registry-flag: true
+      skip-auto-semver: true
+      skip-upload-packages-on-merge-pipeline: false
+  
+  - name: cni-plugins-travis-migration-v11-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false
+
+  - name: cni-plugins-travis-migration-v11-merge
+    overrides:
+      upload-to-registry-flag: true
+      skip-auto-semver: true
+      skip-upload-packages-on-merge-pipeline: false
+
+  # razee-vault-watcher-pr
+  - name: razee-vault-watcher-pr
+    overrides:
+      skip-build: true
+
+  # client-go-merge
+  - name: razee-vault-watcher-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  # compute-metrics-workspace
+  - name: compute-metrics-workspace-merge
+    overrides:
+      skip-auto-semver: true
+
+  # guest-proxy
+  - name: guest-proxy-pr
+    overrides:
+      upload-to-registry-flag: true
+      golang-ci-image-tag: '18.20250206164258-amd64'
+      golang-ci-image-manifest-tag: '18.20250206164258'
+      skip-upload-packages-on-pr-pipeline: false
+
+  - name: guest-proxy-merge
+    overrides:
+      upload-to-registry-flag: true
+      skip-auto-semver: true
+      skip-upload-packages-on-merge-pipeline: false
+      golang-ci-image-tag: '18.20250206164258-amd64'
+      golang-ci-image-manifest-tag: '18.20250206164258'
+  
+  - name: guest-proxy-travis-migration-v11-pr
+    overrides:
+      upload-to-registry-flag: true
+      golang-ci-image-tag: '18.20250206164258-amd64'
+      golang-ci-image-manifest-tag: '18.20250206164258'
+      skip-upload-packages-on-pr-pipeline: false
+
+  - name: guest-proxy-travis-migration-v11-merge
+    overrides:
+      upload-to-registry-flag: true
+      skip-auto-semver: true
+      skip-upload-packages-on-merge-pipeline: false
+      golang-ci-image-tag: '18.20250206164258-amd64'
+      golang-ci-image-manifest-tag: '18.20250206164258'
+
+  - name: shared-eventing-pr
+    overrides:
+      skip-build: true
+
+  - name: shared-eventing-merge
+    overrides:
+      skip-update-release-version: true
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  - name: bss-event-recovery-pr
+    overrides:
+      skip-build: true
+
+  - name: bss-event-recovery-merge
+    overrides:
+      skip-update-release-version: true
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  # regional-k8s-types-pr
+  - name: regional-k8s-types-pr
+    overrides:
+      skip-build: true
+
+  # regional-k8s-types-merge
+  - name: regional-k8s-types-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  # internal-service-protobufs-pr
+  - name: internal-service-protobufs-pr
+    overrides:
+      upload-to-registry-flag: false
+
+  # internal-service-protobufs-merge
+  - name: internal-service-protobufs-merge
+    overrides:
+      skip-auto-semver: true
+      skip-upload-packages-on-merge-pipeline: true
+      skip-unit-tests: true
+
+  # client-go-pr
+  - name: client-go-pr
+    overrides:
+      skip-build: true
+
+  # client-go-merge
+  - name: client-go-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+      skip-unit-tests: true
+
+  # obs-flowlogs-vmed-ngreleasebundle
+  - name: obs-flowlogs-vmed-ngreleasebundle-pr
+    overrides:
+      component: sdn-flowlogs
+      lock-pool: "release-deploy-lock-hostos"
+      skip-ngdc-deploy: true
+      skip-deploy-dal: true
+
+  - name: obs-flowlogs-vmed-ngreleasebundle-merge
+    overrides:
+      component: sdn-flowlogs
+
+  # apis-pr
+  - name: apis-pr
+    overrides:
+      skip-build: true
+
+  # apis-merge
+  - name: apis-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-build: true
+
+  # dedicated-storage-cluster-pr
+  - name: dedicated-storage-cluster-pr
+    overrides:
+      skip-build: true
+
+  # dedicated-storage-cluster-merge
+  - name: dedicated-storage-cluster-merge
+    overrides:
+      skip-auto-semver: true
+      skip-build: true
+      skip-unit-tests: true
+
+  # api-extension-server-pr
+  - name: api-extension-server-pr
+    overrides:
+      upload-to-registry-flag: false
+
+  # regional-extension-server-pr
+  - name: regional-extension-server-pr
+    overrides:
+      upload-to-registry-flag: false
+
+  # vpc-vault-pr
+  - name: vpc-vault-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false
+
+  # vpc-vault-merge
+  - name: vpc-vault-merge
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-merge-pipeline: false
+   
+  - name: vpc-vault-travis-migration-v11-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false
+
+  - name: vpc-vault-travis-migration-v11-merge
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-merge-pipeline: false
+
+  # ssf-sidecar-workspace-pr
+  - name: ssf-sidecar-workspace-pr
+    overrides:
+      upload-to-registry-flag: true
+
+  # ssf-sidecar-workspace-merge
+  - name: ssf-sidecar-workspace-merge
+    overrides:
+      upload-to-registry-flag: true
+  
+  - name: ssf-sidecar-workspace-travis-migration-v11-pr
+    overrides:
+      upload-to-registry-flag: true
+  
+  - name: ssf-sidecar-workspace-travis-migration-v11-merge
+    overrides:
+      upload-to-registry-flag: true
+
+  # basenet-config-release
+  - name: basenet-config-release-pr
+    overrides:
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      skip-ngdc-deploy: false
+      skip-deploy-dal: true
+
+  - name: basenet-config-release-7-pr
+    overrides:
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      skip-ngdc-deploy: false
+      skip-deploy-dal: true
+
+  - name: basenet-config-release-6-pr
+    overrides:
+      component: hostos
+      lock-pool: "release-deploy-lock-hostos"
+      skip-ngdc-deploy: false
+      skip-deploy-dal: true
+
+  - name: basenet-config-release-merge
+    overrides:
+      component: hostos
+
+  - name: basenet-config-release-6-merge
+    overrides:
+      component: hostos
+
+  - name: basenet-config-release-7-merge
+    overrides:
+      component: hostos
+      genctl-vetted-versions-file: hostos-release-7.yaml
+
+  # cel-utils-pr
+  - name: cel-utils-pr
+    overrides:
+      skip-build: true
+
+  # cel-utils-merge
+  - name: cel-utils-merge
+    overrides:
+      skip-build: true
+      create-tag-mode: gomod
+      skip-unit-tests: true
+
+  - name: shared-oob-lib-pr
+    overrides:
+      skip-build: true
+
+  # shared-oob-lib-merge
+  - name: shared-oob-lib-merge
+    overrides:
+      skip-build: true
+      create-tag-mode: gomod
+
+#   - name: compute-billing-lifecycle-mgmt-dev-integration-pr
+#     overrides:
+#       run-static-scan-in-pr: true
+  - name: netoverlay-sretoolkit-pr
+    overrides:
+      skip-deploy-dal: true
+      skip-ngdc-deploy: true
+      component: sretools
+
+  - name: netoverlay-sretoolkit-merge
+    overrides:
+      component: sretools
+      inventory-update-improved-mode: true
+      skip-icr-images-for-inventory-update: true
+
+  - name: netoverlay-sretoolkit-onepipeline-test-pr
+    overrides:
+      skip-deploy-dal: true
+      skip-ngdc-deploy: true
+      component: sretools
+
+  - name: compute-sretoolkit-pr
+    overrides:
+      skip-deploy-dal: true
+      skip-ngdc-deploy: true
+      component: sretools
+
+  - name: compute-sretoolkit-merge
+    overrides:
+      component: sretools
+      inventory-update-improved-mode: true
+      skip-icr-images-for-inventory-update: true
+
+  - name: storage-sretoolkit-pr
+    overrides:
+      skip-deploy-dal: true
+      skip-ngdc-deploy: true
+      component: sretools
+
+  - name: storage-sretoolkit-merge
+    overrides:
+      component: sretools
+      inventory-update-improved-mode: true
+      skip-icr-images-for-inventory-update: true
+
+  - name: sretoolkit-pr
+    overrides:
+      skip-deploy-dal: true
+      skip-ngdc-deploy: true
+      component: sretools
+
+  - name: sretoolkit-merge
+    overrides:
+      component: sretools
+      inventory-update-improved-mode: true
+      skip-icr-images-for-inventory-update: true
+    
+  #adding override to handle a scenario where iks cluster name and config files are different
+  - name: regional-extension-workspace-pr
+    overrides:
+      custom-brt-environment-lock-name: rias-ng-us-south-dal-dev91
+      
+  #adding override to handle a scenario where iks cluster name and config files are different
+  - name: api-extension-workspace-pr
+    overrides:
+      custom-brt-environment-lock-name: rias-ng-us-south-dal-dev91
+      
+  #adding override to handle a scenario where iks cluster name and config files are different
+  - name: projection-controller-workspace-pr
+    overrides:
+      custom-brt-environment-lock-name: rias-ng-us-south-dal-dev91
+
+  #adding override to handle a scenario where iks cluster name and config files are different
+  - name: citrix-ingress-templates-pr
+    overrides:
+      custom-brt-environment-lock-name: rias-ng-us-south-dal-dev0n
+      
+  #adding override to handle a scenario where iks cluster name and config files are different
+  - name: calico-network-policies-workspace-pr
+    overrides:
+      custom-brt-environment-lock-name: rias-ng-us-south-dal-dev0n
+      
+  #adding override to handle a scenario where iks cluster name and config files are different
+  - name: cilium-network-policies-workspace-pr
+    overrides:
+      custom-brt-environment-lock-name: rias-ng-us-south-dal-dev0n
+
+  - name: ng-sysdig-osstip-merge
+    overrides:
+      skip-upload-packages-on-merge-pipeline: true
+      skip-unit-tests: true
+
+  # cilium-pr
+  - name: cilium-pr
+    overrides:
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false
+
+  # cilium-merge
+  - name: cilium-merge
+    overrides:
+      skip-auto-semver: true
+      upload-to-registry-flag: true
+      skip-upload-packages-on-merge-pipeline: false
+  
+  # hostos-upgrade-payloads-pr
+  - name: hostos-upgrade-payloads-pr
+    overrides:
+      # skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+  
+  # hostos-upgrade-payloads-merge
+  - name: hostos-upgrade-payloads-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+    
+    # hostos-upgrade-payloads-release-8-pr
+  - name: hostos-upgrade-payloads-8-pr
+    overrides:
+      # skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  # hostos-upgrade-payloads-release-8-merge
+  - name: hostos-upgrade-payloads-8-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  # hostos-upgrade-payloads-release-7-pr
+  - name: hostos-upgrade-payloads-7-pr
+    overrides:
+      # skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  # hostos-upgrade-payloads-release-7-merge
+  - name: hostos-upgrade-payloads-7-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  # hostos-kernel-patch-payloads-pr
+  - name: hostos-kernel-patch-payloads-pr
+    overrides:
+      # skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  # hostos-kernel-patch-payloads-merge
+  - name: hostos-kernel-patch-payloads-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  # hostos-kernel-patch-payloads-release-8-pr
+  - name: hostos-kernel-patch-payloads-8-pr
+    overrides:
+      # skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  # hostos-kernel-patch-payloads-release-8-merge
+  - name: hostos-kernel-patch-payloads-8-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  # hostos-kernel-patch-payloads-release-7-pr
+  - name: hostos-kernel-patch-payloads-7-pr
+    overrides:
+      # skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  # hostos-kernel-patch-payloads-release-7-merge
+  - name: hostos-kernel-patch-payloads-7-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  # hostos-boot-payloads-pr
+  - name: hostos-boot-payloads-pr
+    overrides:
+      # skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  # hostos-boot-payloads-merge
+  - name: hostos-boot-payloads-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  # hostos-boot-payloads-release-8-pr
+  - name: hostos-boot-payloads-8-pr
+    overrides:
+      # skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  # hostos-boot-payloads-release-8-merge
+  - name: hostos-boot-payloads-8-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  # hostos-boot-payloads-release-7-pr
+  - name: hostos-boot-payloads-7-pr
+    overrides:
+      # skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  # hostos-boot-payloads-release-7-merge
+  - name: hostos-boot-payloads-7-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  # hostos-boot-payloads-release-7-tdx-pr
+  - name: hostos-boot-payloads-7-tdx-pr
+    overrides:
+      # skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  # hostos-boot-payloads-release-7-tdx-merge
+  - name: hostos-boot-payloads-7-tdx-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  # hostos-boot-tools
+  - name: hostos-boot-tools-pr
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  - name: hostos-boot-tools-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  # hostos-config-payloads
+  - name: hostos-config-payloads-pr
+    overrides:
+      # skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  - name: hostos-config-payloads-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  # hostos-validate-payload
+  - name: hostos-validate-payload-pr
+    overrides:
+      # skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  - name: hostos-validate-payload-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  # hostos-kernel-patch-tools
+  - name: hostos-kernel-patch-tools-pr
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  - name: hostos-kernel-patch-tools-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  # hostos-validate-tools
+  - name: hostos-validate-tools-pr
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+  
+  - name: hostos-validate-tools-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  # hostos-common-tools
+  - name: hostos-common-tools-pr
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  - name: hostos-common-tools-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  # hostos-upgrade-tools-pr
+  - name: hostos-upgrade-tools-pr
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  # hostos-upgrade-tools-merge
+  - name: hostos-upgrade-tools-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  - name: hostos-config-tools-pr
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  - name: hostos-config-tools-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+  
+  - name: hostos-utils-pr
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+
+  - name: hostos-utils-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  - name: featureflags-pr 
+    overrides:
+      skip-build: true
+
+  - name: featureflags-merge
+    overrides:
+      skip-build: true
+      create-tag-mode: gomod
+      skip-auto-semver: false
+
+  - name: pit-pr
+    overrides:
+      skip-build: true
+
+  - name: pit-merge
+    overrides:
+      skip-build: true
+      create-tag-mode: gomod
+      skip-auto-semver: false
+
+  - name: security-rest-sdk-pr
+    overrides:
+      skip-build: true
+
+  - name: security-rest-sdk-merge
+    overrides:
+      skip-build: true
+      create-tag-mode: gomod
+      skip-auto-semver: false
+
+
+  - name: srb-pr
+    overrides:
+      skip-build: true
+      skip-deploy: true
+
+  - name: srb-merge
+    overrides:
+      skip-build: true
+      skip-auto-semver: true
+      skip-deploy: true
+      skip-release: true
+
+  - name: node-yamlutils-pr
+    overrides:
+      skip-build: true
+  
+  - name: node-yamlutils-merge
+    overrides:
+      skip-build: true
+
+  - name: vpc-spec-builder-pr
+    overrides:
+      skip-build: true
+  
+  - name: vpc-spec-builder-merge
+    overrides:
+      skip-build: true
+
+  - name: go-api-maturity-pr
+    overrides:
+      skip-build: true
+  
+  - name: go-api-maturity-merge
+    overrides:
+      skip-build: true
+
+  - name: go-vpc-api-spec-pr
+    overrides:
+      skip-build: true
+      simple-auto-merge: true
+      simple-custom-finish: true
+  
+  - name: go-vpc-api-spec-merge
+
+  - name: genesis-platform-metrics-pr
+    overrides:
+      skip-build: true
+
+  - name: genesis-platform-metrics-merge
+    overrides:
+      skip-build: true
+
+  - name: regional-file-docs-pr
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+
+  - name: regional-file-docs-merge
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+
+  - name: regional-file-docs-pr
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+
+  - name: regional-file-docs-merge
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+
+  - name: genctl-zscpshare-docs-pr
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+
+  - name: genctl-zscpshare-docs-merge
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+
+  - name: genctl-zscpshare-docs-pr
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+
+  - name: genctl-zscpshare-docs-merge
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+
+  - name: platform-inventory-pr
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+      skip-release: true
+
+  - name: platform-inventory-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+      skip-release: true
+
+  - name: service-framework-data-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: service-framework-data-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+  
+  - name: vpc-qa-data-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: vpc-qa-data-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+  
+  - name: workspace-data-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: workspace-data-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+
+  - name: srb-data-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: srb-data-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+
+  - name: cloud-docs-data-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: cloud-docs-data-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+
+  - name: api-spec-data-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: api-spec-data-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+
+  - name: aha-data-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: aha-data-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+
+  - name: pd-data-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: pd-data-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+  
+  - name: iam-data-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: iam-data-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+
+  - name: secrets-data-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: secrets-data-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+
+  - name: jira-data-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: jira-data-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+  
+  - name: vpc-features-config-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: vpc-features-config-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+
+  - name: api-standards-data-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: api-standards-data-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+
+  - name: ng-deploy-data-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: ng-deploy-data-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+
+  - name: feature-flag-data-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+
+  - name: feature-flag-data-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+
+  - name: regional-storage-docs-travis-migration-v11-pr
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+
+  - name: regional-storage-docs-travis-migration-v11-merge
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+
+  - name: regional-storage-docs-pr
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+
+  - name: regional-storage-docs-merge
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+  
+  - name: autofs-config-pkg-pr
+    overrides:
+      skip-unit-tests: true
+      skip-upload-packages-on-pr-pipeline: true
+
+  - name: autofs-config-pkg-merge
+    overrides:
+      skip-unit-tests: true
+      skip-upload-packages-on-merge-pipeline: true
+
+  - name: acadia-protobuf-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-auto-semver: false
+
+  - name: rias-storage-common-pr
+    overrides:
+      skip-manifest: true
+  
+  - name: rias-storage-common-merge
+    overrides:
+      skip-manifest: true
+
+  - name: rias-storage-common-travis-migration-v11-pr
+    overrides:
+      skip-manifest: true
+
+  - name: rias-storage-common-travis-migration-v11-merge
+    overrides:
+      skip-manifest: true
+  
+  - name: net-block-agent-pr
+    overrides:
+      skip-manifest: true
+      upload-to-registry-flag: false
+
+  - name: net-block-agent-merge
+    overrides:
+      upload-to-registry-flag: false
+      create-tag-mode: gomod
+      skip-manifest: true
+      skip-one-pipeline-inventory-add: true
+  
+  - name: basenet-config-tools-pr
+    overrides:      
+      upload-to-registry-flag: false
+      skip-upload-packages-on-pr-pipeline: true
+      skip-manifest: true
+  
+  - name: basenet-config-tools-merge
+    overrides:
+      upload-to-registry-flag: false
+      skip-upload-packages-on-merge-pipeline: true
+      skip-manifest: true
+      skip-auto-semver: true
+
+  - name: basenet-config-payload-pr
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-pr-pipeline: true
+
+  - name: basenet-config-payload-merge
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-merge-pipeline: true
+      skip-auto-semver: true
+
+  - name: rclone-agent-pr
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-pr-pipeline: true
+
+  - name: rclone-agent-merge
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-merge-pipeline: true
+      skip-auto-semver: true
+
+  - name: rclone-agent-travis-migration-v11-pr
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-pr-pipeline: true
+
+  - name: rclone-agent-travis-migration-v11-merge
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-merge-pipeline: true
+      skip-auto-semver: true
+
+  - name: block-agent-travis-migration-v11-pr
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-pr-pipeline: true
+
+  - name: block-agent-travis-migration-v11-merge
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-merge-pipeline: true
+      skip-auto-semver: true
+
+  - name: block-agent-pr
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-pr-pipeline: true
+
+  - name: block-agent-merge
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-merge-pipeline: true
+      skip-auto-semver: true
+
+  - name: obs-common-python-pr
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-pr-pipeline: true
+    
+  - name: obs-common-python-merge
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-merge-pipeline: true
+      skip-auto-semver: true
+
+  - name: ibmcloud-cos-rs-pr
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-pr-pipeline: true
+    
+  - name: ibmcloud-cos-rs-merge
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-merge-pipeline: true
+      skip-auto-semver: true
+
+  - name: drs-appliances-pr
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-pr-pipeline: true
+  
+  - name: drs-appliances-merge
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-merge-pipeline: true
+      skip-auto-semver: true
+
+  - name: regional-drs-common-pr
+    overrides:
+      skip-manifest: true
+      skip-upload-packages-on-pr-pipeline: true
+
+  - name: regional-drs-common-merge
+    overrides:
+      create-tag-mode: gomod
+      skip-manifest: true
+      skip-upload-packages-on-merge-pipeline: true
+
+  - name: kopilot-ndgc-versions-merge
+    overrides:
+      skip-cos-upload: true
+      deployment-files-extension-to-zip: "*"
+
+  - name: hostos-release-tracker-pr
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+      component: hostos
+
+  - name: hostos-release-tracker-merge
+    overrides:
+      skip-unit-tests: true
+      skip-deploy: true
+      skip-release: true
+      component: hostos
+
+  - name: ops-volume-workspace-pr
+    overrides:
+      use-qz2-worker: true
+  - name: fabcon-pr
+    overrides:
+      cancel-old-pr-pipeline-runs: true
+  
+  - name: synthetic-provison-check-merge
+    overrides:
+      skip-build: true
+      skip-deploy: true
+      skip-release: true
+
+  - name: synthetic-provison-check-pr
+    overrides:
+      skip-build: true
+      skip-deploy: true
+      skip-release: true
+
+  - name: core-pr
+    overrides:
+      skip-go-vetting: true
+      disable-artifactory-push: true
+
+  - name: core-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: inventory_service-pr
+    overrides:
+      disable-artifactory-push: true
+
+  - name: inventory_service-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: ui-pr
+    overrides:
+      disable-artifactory-push: true
+
+  - name: ui-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: catalog_service-pr
+    overrides:
+      disable-artifactory-push: true
+
+  - name: catalog_service-merge
+    overrides:
+      disable-artifactory-push: true
+    
+  - name: auth-service-pr
+    overrides:
+      disable-artifactory-push: true
+
+  - name: auth-service-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: realm-api-pr
+    overrides:
+      disable-artifactory-push: true
+
+  - name: realm-api-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: workflow-api-pr
+    overrides:
+      disable-artifactory-push: true
+
+  - name: workflow-api-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: goal-api-pr
+    overrides:
+      disable-artifactory-push: true
+
+  - name: goal-api-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: notification-service-pr
+    overrides:
+      disable-artifactory-push: true
+
+  - name: notification-service-merge
+    overrides:
+      disable-artifactory-push: true
+  
+  - name: procurement_service-pr
+    overrides:
+      disable-artifactory-push: true
+
+  - name: procurement_service-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: project-planning-service-pr
+    overrides:
+      disable-artifactory-push: true
+
+  - name: project-planning-service-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: shipment_service-pr
+    overrides:
+      disable-artifactory-push: true
+
+  - name: shipment_service-merge
+    overrides:
+      disable-artifactory-push: true
+
+    
+
+  - name: rhos-installation-pr
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+      skip-validate-third-party-images: true
+
+  - name: rhos-installation-merge
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+
+  - name: metallb-operator-pr
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+
+  - name: metallb-operator-merge
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+
+  - name: virtualization-operator-pr
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+
+  - name: virtualization-operator-merge
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+
+  - name: trident-operator-pr
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+
+  - name: trident-operator-merge
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+
+  - name: nmstate-operator-pr
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+
+  - name: nmstate-operator-merge
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+
+  - name: cert-manager-operator-pr
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+
+  - name: cert-manager-operator-merge
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+
+  - name: kyverno-operator-pr
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+
+  - name: kyverno-operator-merge
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+
+  - name: ISV-pr
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+      disable-artifactory-push: true
+
+  - name: ISV-merge
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+      disable-artifactory-push: true
+
+  # nmstatectl-for-ocp-pr
+  - name: nmstatectl-for-ocp-pr
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: true
+      skip-upload-packages-on-pr-pipeline: false
+
+  # nmstatectl-for-ocp-merge
+  - name: nmstatectl-for-ocp-merge
+    overrides:
+      skip-unit-tests: true
+      upload-to-registry-flag: true
+      skip-upload-packages-on-merge-pipeline: false
+      
+  - name: IaaS-NextGen-Access-Management-pr
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+      disable-artifactory-push: true
+
+  - name: IaaS-NextGen-Access-Management-merge
+    overrides:
+      skip-unit-tests: true
+      skip-manifest: true
+      disable-artifactory-push: true
+
+  - name: ns3_bind9-pr
+    overrides:
+      disable-artifactory-push: true
+
+  - name: ns3_bind9-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: ns3_ntpsec-pr
+    overrides:
+      disable-artifactory-push: true  
+
+  - name: ns3_ntpsec-merge
+    overrides:
+      disable-artifactory-push: true
+  
+  - name: cache-registry-pr
+    overrides:
+      disable-artifactory-push: true  
+
+  - name: cache-registry-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: ns3_unbound-pr
+    overrides:
+      disable-artifactory-push: true  
+
+  - name: ns3_unbound-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: uuc_haproxy_base_images-pr
+    overrides:
+      disable-artifactory-push: true  
+
+  - name: uuc_haproxy_base_images-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: fast-ansible-uuc-pr
+    overrides:
+      disable-artifactory-push: true  
+
+  - name: fast-ansible-uuc-merge
+    overrides:
+      disable-artifactory-push: true
+      
+
+  - name: tekton-workers-pr
+    overrides:
+      disable-artifactory-push: true  
+
+  - name: tekton-workers-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: ns3_hostos_config_release-pr
+    overrides:
+      disable-artifactory-push: true  
+
+  - name: ns3_hostos_config_release-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: ns3_shared_python_package-pr
+    overrides:
+      disable-artifactory-push: true  
+
+  - name: ns3_shared_python_package-merge
+    overrides:
+      disable-artifactory-push: true
+
+  - name: ns3-functional-service-checks-pr
+    overrides:
+      disable-artifactory-push: true  
+
+  - name: ns3-functional-service-checks-merge
+    overrides:
+      disable-artifactory-push: true 
+
+  - name: secret-shared-framework-pr
+    overrides:
+      skip-build: true
+
+  - name: secret-shared-framework-merge
+    overrides:
+      skip-build: true
+
+  - name: synthetic-datapath-pr
+    overrides:
+      skip-build: true
+
+  - name: synthetic-datapath-merge
+    overrides:
+      skip-build: true
+  
+  - name: logger-sdk-merge
+    overrides:      
+      skip-upload-packages-on-merge-pipeline: true
+
+  - name: dcms-auth-plugins-pr
+    overrides:
+      disable-artifactory-push: true
+
+  - name: dcms-auth-plugins-merge  
+    overrides:
+      disable-artifactory-push: true
+      skip-upload-packages-on-merge-pipeline: true
+
+  - name: uuc-ntpsec-pr
+    overrides:
+      disable-artifactory-push: true
+
+  - name: uuc-ntpsec-merge
+    overrides:
+      disable-artifactory-push: true

@@ -1,0 +1,94 @@
+---
+# This file is an example of the hack/ci/pipeline.yaml file which should be included in any repository for which
+# a pipeline is desired.
+# Using this file, developers can configure the following pipeline actions:
+#  - The functional tests which are executed
+#  - The channels/direct messages where Slack notifications get sent
+#  - The environment in which the build task gets executed
+
+functional_tests:                                       #configures which functional tests run in the pipeline
+  cpap:                                                 #configures which cpap functional tests run in the pipeline
+    local_repo:                                         #configures tests pulled from the current repository
+      test_dir: path/to/test/dir                        #runs cpap functional tests found in this dir after deployment
+      test_configs:                                     #runs tests in specified ini config file
+        - path: RIAS_sampletest.ini                     #path to the ini file within the current repository
+          meta_purposes: [smoke, integration]           #meta_purpose filter value(s) (optional)
+        - path: RIAS_sampletest.ini
+
+    integration_testing_repo:                           #configures pulled from the integration-testing repo
+      test_configs:
+        - path: tests/qa/cpap/suites/rias_no_cos.ini
+          meta_purposes: [smoke, acceptance]
+          meta_environment: [development]               # runs tests with --meta-tag=environment=development
+          cmdline: [skip_large_profiles:True,vcpu_larger_than:32]  # runs tests with --tc=skip_large_profiles:True,--tc=vcpu_larger_than:32
+          meta_features: [ubuntu1804, wind2016]         # run tests with --meta-tag=feature=ubuntu1804,feature=wind2016
+          iks_cluster_name_override: [rias-ng-us-south-dal-dev26-etcd]  # override the iks_cluster_name global environment name
+          test_plan: []                                 # test suite to run
+          cmdlineraw:                                   # optional, command line arguments to use, passed in as-is to the test docker container
+          jira_project: RIAS                            #override top level jira_project key
+          processes: 5                                  # sets the number of test threads
+          endpoint_type: private                        # public is default can be private
+
+jira_project: CIGC                                      #configures which jira project tickets will be auto-created under when blast-radius tests fail.
+
+environment:                                            #configuration for build, test, etc environment
+  tag: 20200702165506                                   #environment tag
+
+deployment:                                             #configuration for release_to_LaunchDarkly deployment rule tag
+  rule_tag: mzone123,mzone234                           #optional parameter, if its multiple, it can added using comma
+  feature_flag: rgw-image-version
+  mzone_name: mzoneXXX                                  #configures development mzone (need to be configured in order to run functional test on specific mzone otherwise optional)
+  iks_cluster_name: rias-ng-us-south-dal-XXX            #configures development IKS cluster name (need to be configured in order to run functional test on specific IKS cluster otherwise optional)
+  api_key_alias: XXX                                    #configures api key alias to be used in running functional tests
+
+pr:                                                     #configuration for PR pipeline
+  notification:                                         #configuration for notifications
+    success:                                            #configuration for pipeline completion with success
+      author: true                                      #sends slack notification to PR author (defaults to false)
+      w3ids:                                            #sends slack notification(s) to static list of people addressed by w3id
+        - helen.sample@ibm.com
+    failure:                                            #configuration for pipeline that fails
+      author: true
+      channels:                                         #sends slack notification(s) to each slack channel listed
+        - genctl-build                                  #the channel must have the bot added to it (mention @DevOps Bot and click the button to add it to the channel)
+  check_commits: true                                   #Checks the format of all commits in the PR, if this field is not present or empty it defaults to false
+
+mzone_attributes:                                       # Optional attribute for requesting specific CI mzone by name or attributes, see -
+  name: mzoneXXX                                        # https://confluence.swg.usma.ibm.com:8445/display/DevOps/Get+specific+CI+mzone+in+deployment+pipelines for more info
+  hostname: XXXXXXX
+  arch: XXXXXX
+
+
+merge:                                                  #configuration for merge pipeline
+  notification:
+    start:                                              #configuration for pipeline start
+      w3ids:
+        - helen.sample@ibm.com
+    failure:
+      author: true                                      #sends notification to author of last commit (defaults to false)
+      w3ids:
+        - joe.sample@ibm.com
+        - mike.sample@gb.ibm.com
+
+go_ast_scan: true                                       # Runs Golang Security Checker (gosec) by scanning the Go AST (defaults to false)
+
+vuln_scan:                                              # Scans for vulnerability in the docker images (using anchore). Pipeline will fail for Critical/High/Medium severity CVEs (defaults to false)
+  addon_severities: [Low, Negligible]                   # List of additional severities. Default severities are [Critical, High, Medium]
+
+run_static_scan_in_pr: true                             # Indicates to run static scan in PR pipelines, if false or not present then it won't run
+
+dynamic_scan:                                           # To enable dynamic scans, we must provide a dictionary with the key "dynamic_scan" that contains two sub-keys: "api_file_name" and "profiles".
+ api_file_name: vpc.json                                # The file located at https://github.ibm.com/cloud-api-docs/vpc/tree/production will be used as the reference for both public and metadata exposure, with the names "vpc.json" and "metadata.json" respectively.
+ profiles: ['volume']                                   # Extract the first word from endpoint URL, convert it to lowercase and replace any spaces with underscores. These resulting words should be a comma-separated list of profile names in case of multiple profiles. example: for volume/profile we nee volume.
+
+inventory_artifact_name_overrides:                      # It updates the artifact_name in the inventory for the specified list of artifacts.
+  - image_name: dpu/dpu-firmware-release                # The image_name must match the name defined in hack/ci/build-meta.yaml.
+    artifact_name: dpu-firmware-release                 # The artifact_name will be overridden for the corresponding image_name artifact.
+  - image_name: genctl/smartnic-store
+    artifact_name: smartnic-store-image-version
+
+mend_sast_info:                                         # To enable Mend SAST scan, we need to provide below information
+  mend-product-name: PSIRT_PRD000XXXX                   # <WS_PRODUCTNAME field in Snow request>
+  mend-user-email: psirt_prd000XXXXservice_user@ibm.com # <Set to "<WS_PRODUCTNAME>service_user@ibm.com" in lower case>
+  mend-secret-group: sg-mend-PSIRT_PRD000XXXX           # sg-mend-<WS_PRODUCTNAME field in Snow request>
+

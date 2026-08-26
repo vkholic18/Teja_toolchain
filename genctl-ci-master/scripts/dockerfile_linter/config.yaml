@@ -1,0 +1,80 @@
+# =============================================================================================
+# IBM Confidential
+# (C) Copyright IBM Corp. 2021
+# The source code for this program is not published or otherwise divested of its trade secrets,
+# irrespective of what has been deposited with the U.S. Copyright Office.
+# =============================================================================================
+
+
+---
+scan_root_user: true
+scan_non_trusted_imports: true
+scan_non_trusted_images: true
+create_jira_ticket: false
+jira_issue_params:
+  summary: 'Dockerfiles not compliant with Service Framework ARCH004 guidelines'
+  issue_type: 'Story'
+  epic_link: 'CIGC-3214'
+  due_date: '2021-06-07'
+trusted_sources:
+  # Sources from https://github.ibm.com/CloudEngineering/system_architecture/blob/master/docs/devops/trusted_repos.md
+  - registry.npmjs.org
+  - repo.maven.apache.org
+  - repo1.maven.org
+  - jcenter.bintray.com
+  - plugins.gradle.org
+  - proxy.golang.org
+  - storage.googleapis.com/golang
+  - gopkg.in
+  - pypi.org
+  - www.python.org/ftp/python
+  - rubygems.org
+  - hub.docker.com
+  - registry.hub.docker.com
+  - registry.redhat.io
+  - registry.access.redhat.com
+  - registry.connect.redhat.com
+  - catalog.redhat.com/software/containers/explore
+  - cdn-ubi.redhat.com/content/public/ubi
+  - quay.io
+  - gcr.io
+  - icr.io
+  - operatorhub.io
+  - artifacthub.io
+  - mirror.openshift.com
+  - galaxy.ansible.com
+  - registry.terraform.io
+  - packages.ubuntu.com
+  - archive.ubuntu.com
+  - mirrors.adn.networklayer.com
+  - mirrors.service.networklayer.com
+  - mirrors.softlayer.local
+  - cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64
+  - dl.fedoraproject.org/pub/epel
+  - repo.logdna.com
+  - clis.cloud.ibm.com
+  - na.artifactory.swg-devops.com:443/artifactory/api/npm/iam-npm-local
+  - na.artifactory.swg-devops.com:443/artifactory/api/npm/wcp-tmp-ace-fr-team-npm-virtual
+  - na.artifactory.swg-devops.com:443/artifactory/api/npm/bluemix-ace-npm-local
+  - na.artifactory.swg-devops.com:443/artifactory/api/docker/bluemix-ace-docker-local
+  - na.artifactory.swg-devops.com/artifactory/api/npm/res-ibma-npm-local
+  - github.ibm.com/IAM
+  - github.ibm.com/riaas
+  - github.ibm.com/Bluemix/cf-admin-cli
+  - github.ibm.com/Bluemix/resource-catalog-cli
+  - na.artifactory.swg-devops.com:443/artifactory/iam-maven-local
+  - na.artifactory.swg-devops.com/artifactory/api/npm/bmd-npm
+  - dev-console-npm.stage1.ng.bluemix.net
+  - na.artifactory.swg-devops.com/artifactory/api/npm/wcp-bms-npm-local
+  - na.artifactory.swg-devops.com/artifactory/api/npm/hyc-ba-npmjs-remote
+  - nexus-mirror.fr.eurolabs.ibm.com:8081/repository/mobile-all
+  - mirrors.adn.networklayer.com
+  - mirrors.service.networklayer.com
+  - mirrors.softlayer.local
+  - deb.debian.org/debian
+  - security.debian.org/debian-security
+  - download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04
+  # Genctl trusted sources
+  - docker-na-public.artifactory.swg-devops.com/wcp-genctl-docker-local/genctl
+  - scratch
+  - github.ibm.com/genctl

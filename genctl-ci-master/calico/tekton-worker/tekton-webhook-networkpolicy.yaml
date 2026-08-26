@@ -1,0 +1,25 @@
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: tekton-webhook
+  namespace: tekton-pipelines
+spec:
+  egress:
+  - action: Allow
+    destination:
+      nets:      
+      - 172.20.0.1/32 #Kubernetes service endpoint
+  ingress:
+  - action: Allow
+    source:
+      selector: app == 'vpn' && projectcalico.org/namespace == 'kube-system'
+      namespaceSelector: all()
+  - action: Allow
+    source:
+      selector: k8s-app == 'konnectivity-agent' && projectcalico.org/namespace == 'kube-system'
+      namespaceSelector: all()
+  order: 1150
+  selector: app == 'tekton-pipelines-webhook'
+  types:
+  - Egress
+  - Ingress

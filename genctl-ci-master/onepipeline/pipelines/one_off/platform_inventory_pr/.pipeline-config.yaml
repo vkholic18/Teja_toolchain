@@ -1,0 +1,53 @@
+version: '2'
+
+tasks:
+  pr-code-checks:
+    include:
+      - dind
+    displayName: 01-detect-secrets    
+    steps:
+      - name: checks-setup
+        when: 'false'
+      - name: detect-secrets
+        onError: stopAndFail
+        include:
+          - docker-socket
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        when: 'false'
+ 
+  pr-code-checks-2:   
+    displayName: 02-build
+    from: pr-code-checks
+    steps:
+      - name: checks-setup
+        when: 'false'
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash          
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/platform_inventory_pr          
+          ${PATH_TO_PIPELINE}/steps/build.sh
+      - name: compliance-checks
+        when: 'false'
+  
+finally:  
+  code-pr-finish:
+    steps:
+      - name: run-stage
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        script: |
+          #!/usr/bin/env bash
+
+          if [[ "$PIPELINE_DEBUG" == 1 ]]; then
+            trap env EXIT
+            env
+            set -x
+          fi
+          echo "Running code-pr-finish"
+          exit 0

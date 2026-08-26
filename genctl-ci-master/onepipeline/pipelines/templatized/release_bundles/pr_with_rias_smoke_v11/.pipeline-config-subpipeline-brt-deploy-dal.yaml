@@ -1,0 +1,38 @@
+version: '2'
+
+tasks:  
+  async-stage:
+    include:      
+      - dind
+    steps:
+      - name: run-stage
+        onError: stopAndFail
+        include:
+          - docker-socket        
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+      - name: rias-smoke-as-subpipeline
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/release_bundles/pr_with_rias_smoke_v11
+          ${PATH_TO_PIPELINE}/steps/smoke_as_subpipeline.sh
+      - name: deploy-ng-as-subpipeline
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/release_bundles/pr_with_rias_smoke_v11
+          ${PATH_TO_PIPELINE}/steps/deploy_ng_as_subpipeline.sh
+      - name: deploy-ngdc-as-subpipeline
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/release_bundles/pr_with_rias_smoke_v11
+          ${PATH_TO_PIPELINE}/steps/deploy_ngdc_as_subpipeline.sh
+      - name: qz2-cluster-validations
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/release_bundles/pr_with_rias_smoke_v11
+          ${PATH_TO_PIPELINE}/steps/cluster-validations-brt-prerequisites.sh
+      - name: finish
+        when: false

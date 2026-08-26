@@ -1,0 +1,15 @@
+# Log denied packets on each worker node
+
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: log-allow-packets
+spec:
+  egress:
+  - action: Log
+    destination: {}
+    source: {}
+  order: 99890
+  selector: ibm.role in { 'worker_public', 'master_public' , 'worker_private'}
+  types:
+  - Egress

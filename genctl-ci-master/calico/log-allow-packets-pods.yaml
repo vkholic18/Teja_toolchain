@@ -1,0 +1,15 @@
+# Log denied packets on each kubernetes workload
+
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: log-allow-packets-pods
+spec:
+  egress:
+  - action: Log
+    destination: {}
+    source: {}
+  order: 99889
+  selector: projectcalico.org/orchestrator == 'k8s'
+  types:
+  - Egress

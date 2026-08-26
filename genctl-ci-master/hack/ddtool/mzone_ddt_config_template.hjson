@@ -1,0 +1,92 @@
+{
+  # The desired mzone
+  mzone: mzoneXXXX
+
+  artifrepo: docker-na-public.artifactory.swg-devops.com/wcp-genctl-docker-local
+
+  components: {
+    # Host-OS packages
+    hostos: {
+      packages: {
+        hostos-boot-release: {
+          tag: XXXX
+          registry: local
+          forcereboot: yes
+        }
+        hostos-config-release: {
+          tag: XXXX
+          registry: local
+        }
+        hostos-base-os-sw-release: {
+          tag: XXXX
+          registry: local
+        }
+        hostos-base-net-sw-release: {
+          tag: XXXX
+          registry: local
+        }
+        hostos-nextgen-os-sw-release: {
+          tag: XXXX
+          registry: local
+        }
+        hostos-post-config-release: {
+          tag: XXXX
+          registry: local
+        }
+        hostos-kernel-patch-release: {
+          tag: XXXX
+          registry: local
+          deploy: no
+        }
+        hostos-validate-release: {
+          tag: XXXX
+          registry: local
+        }
+      }
+    }
+
+    # Kube packages
+    kube: {
+      packages: {
+        etcd-base-release: {
+          tag: XXXX
+          registry: local
+        }
+        kube-base-release: {
+          tag: XXXX
+          registry: local
+        }
+        kube-define-release: {
+          tag: XXXX
+          registry: local
+        }
+        kube-addon-release: {
+          tag: XXXX
+          registry: local
+        }
+      }
+    }
+
+    # Genctl packages
+    genctl: {
+      packages: {
+        genctl-release: {
+          tag: XXXX
+          registry: local
+          globalsdir: $repodir/genctl-globals
+        }
+      }
+    }
+  }
+
+  repodir: XXXX
+
+  # Location of the mzone yaml files
+  invdir: $repodir/platform-inventory/region
+
+  # Location of the undercloud yaml files
+  uclouddir: $invdir/undercloud
+
+  # Location of the .ngsec directory for Vault integration
+  ngsecdir: XXXX
+}

@@ -1,0 +1,13 @@
+[{
+  "type": "branch-protection",
+  "name": "code-review",
+  "params": {
+    "checks": [
+      "tekton/pr-code-checks/code-detect-secrets",
+      "tekton/pr-code-checks-4/code-branch-protection",
+      "tekton/pr-code-checks-4/code-cis-check",
+      "tekton/pr-code-build/code-unit-tests",
+      "tekton-vpc-ci/workspace_tests"
+    ]
+  }
+}]

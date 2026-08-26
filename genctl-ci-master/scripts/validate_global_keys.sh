@@ -1,0 +1,62 @@
+##
+## =============================================================================================
+## IBM Confidential
+## (C) Copyright IBM Corp. 2022
+## The source code for this program is not published or otherwise divested of its trade secrets,
+## irrespective of what has been deposited with the U.S. Copyright Office.
+## =============================================================================================
+##
+
+# This script validates global keys
+
+# The following environment variables need to be set before executing the script:
+# PATH_TO_GENCTL_CI, PATH_TO_WORKSPACE_REPO, PATH_TO_PLATFORM_INVENTORY_REPO,
+# ART_URL, IMG_TO_RUN_PATH, IMG_TO_RUN_TAG
+# WCP_ARTIFACTORY_USERNAME,CC_ARTIF_ACCESS_TOKEN
+# IBMCLOUD_KEY, BASTION_PRIVATE_KEY, BASTION_PRIVATE_KEY_ECDSA, BASTION_PRIVATE_KEY_RSA, BASTION_USERNAME
+# DAL_VAULT_KEY
+
+# In addition, the following are optional
+
+# CLUSTERS_TO_VALIDATE can be defined before executing the script and if it has value, it will be used
+
+# Set flags
+set -ex
+
+# Source the ibmcloud_utils.sh
+. ${PATH_TO_GENCTL_CI}/scripts/ibmcloud_utils.sh
+
+# Source the validate_global_keys.sh
+. ${PATH_TO_GENCTL_CI}/scripts/validate_global_keys_utils.sh
+
+# Source colors
+source ${PATH_TO_GENCTL_CI}/onepipeline/utils/colors.sh
+
+START=$(date +%s)
+# Check if we received an explicit list of cluster to validate
+if [ ! -z "${CLUSTERS_TO_VALIDATE}" ]
+then
+  RULE_TAG=${CLUSTERS_TO_VALIDATE}
+else
+  # Source a script that help us to validate existence and retrieve values from pipeline.yaml
+  . ${PATH_TO_GENCTL_CI}/scripts/pipeline_builder/verify_workspace_pipeline_yaml.sh ${PATH_TO_WORKSPACE_REPO} false
+
+  # Get the rule tag
+  RULE_TAG=$(check_pipeline_key ".deployment" "rule_tag" "${PIPELINE_YAML_FILE_LOCATION}" true)
+fi
+
+# At this point we either:
+# 1. Have exited 1 due to missing pipeline.yaml
+# 2. We have in RULE_TAG the list of clusters, coming from either the pipeline.yaml file or explicitly set in CLUSTERS_TO_VALIDATE
+
+set +x
+validate_global_keys_for_cluster_list ${RULE_TAG} "${PATH_TO_GENCTL_CI}" "${PATH_TO_WORKSPACE_REPO}" \
+"${IBMCLOUD_KEY}" ${BASTION_USERNAME} "${BASTION_PRIVATE_KEY}" "${BASTION_PRIVATE_KEY_ECDSA}" "${BASTION_PRIVATE_KEY_RSA}" \
+"${DAL_VAULT_KEY}" "${PATH_TO_PLATFORM_INVENTORY_REPO}" \
+${ART_URL} ${WCP_ARTIFACTORY_USERNAME} ${CC_ARTIF_ACCESS_TOKEN} \
+${IMG_TO_RUN_PATH} ${IMG_TO_RUN_TAG}
+set -x
+
+END=$(date +%s)
+DIFF=$(( $END - $START ))
+echo -e "${BYellow}Validate global keys took `date -d@$DIFF -u +%Hh:%Mm:%Ss` to complete.............${NC}"

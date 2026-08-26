@@ -1,0 +1,65 @@
+version: '1'
+
+setup:
+  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.16
+  script: |
+    #!/usr/bin/env bash
+    echo "no op"
+    exit 0
+detect-secrets:
+  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.16
+  abort_on_failure: stopAndFail
+  image_pull_policy: IfNotPresent
+  skip: true
+  script: |
+    #!/usr/bin/env bash
+    echo "no op"
+    exit 0
+test:
+  abort_on_failure: true
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  script: |
+    #!/usr/bin/env bash
+
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/terraform_toolchain_infra_pr
+
+    # run the test
+    ${PATH_TO_PIPELINE}/steps/test.sh
+compliance-checks:
+  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.16
+  dind: true
+  abort_on_failure: false
+  image_pull_policy: IfNotPresent
+  script: |
+    #!/bin/sh
+    echo "no op"
+    exit 0
+sign-artifact:
+  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.16
+  abort_on_failure: false
+  script: |
+    #!/bin/bash
+    echo "no op"
+    exit 0
+deploy:
+  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.16
+  abort_on_failure: true
+  script: |
+    #!/bin/bash
+    echo "no op"
+    echo 0
+acceptance-test:
+  abort_on_failure: false
+  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.16
+  script: |
+    #!/bin/bash
+    echo "no op"
+    exit 0
+release:
+  abort_on_failure: true
+  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.16
+  script: |
+    #!/usr/bin/env bash
+    echo "no op"
+    exit 0

@@ -1,0 +1,106 @@
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: allow-ibm-ports-public    
+spec:
+  egress:
+  - action: Allow
+    destination:
+      ports:
+      - 53 #DNS
+      - 5353 #for OpenShift 4.3 and later
+      - 443 #ICR and more
+      - 4443 #ICR and more
+      # - 2049
+      # - 3260
+      - 5473 #communication to the calico-typha ClusterIP
+      - 20000:32767 #Node Ports
+      - 6443 #Sysdig
+      - 1194 #SOS VPN
+    protocol: UDP
+    source: {}
+  - action: Allow
+    destination:
+      ports:
+      - 53 #DNS
+      - 5353 #for OpenShift 4.3 and later
+      - 443 #ICR and more
+      - 4443 #ICR and more
+      # - 2049
+      # - 3260
+      - 5473 #communication to the calico-typha ClusterIP
+      - 20000:32767 #Node Ports
+      - 6443 #Sysdig
+      - 1194 #SOS VPN
+      - 5517 #QRadar
+      - 8834 #Tenable Nessus Mgr
+      - 10514 #syslogForwarderPort
+    protocol: TCP
+    source: {}
+  - action: Allow
+    destination:
+      nets:
+      - 172.21.0.1/32 # For clusters created <3 years ago
+      # - 10.10.10.1/32 # For clusters created >3 years ago
+      ports:
+      - 443
+    protocol: UDP
+    source: {}
+  - action: Allow
+    destination:
+      nets:
+      - 172.21.0.1/32 # For clusters created <3 years ago
+      # - 10.10.10.1/32 # For clusters created >3 years ago
+      ports:
+      - 443
+    protocol: TCP
+    source: {}
+  - action: Allow
+    destination:
+      nets:
+      - 172.21.0.0/16
+    protocol: ICMP
+    source: {}
+  - action: Allow
+    destination:
+      nets:
+      - 172.20.0.0/24
+      ports:
+      - 2040:2041
+    protocol: UDP
+    source: {}
+  - action: Allow
+    destination:
+      nets:
+      - 172.20.0.0/24
+      ports:
+      - 2040:2041
+    protocol: TCP
+    source: {}
+  - action: Allow
+    destination:
+      nets:
+      - 172.30.0.0/16
+    source: {}
+  ingress:
+  - action: Allow
+    destination:
+      ports:
+      - 53
+      - 5353
+      - 52311      
+    protocol: UDP
+    source: {}
+  - action: Allow
+    destination:
+      ports:
+      - 53
+      - 5353
+      - 52311
+      - 8834 #Communicating with Tenable Nessus Manager (https://github.ibm.com/ibmcloud/ArmadaCSUtil)
+    protocol: TCP
+    source: {}
+  order: 1500
+  selector: ibm.role == 'worker_public'
+  types:
+  - Egress

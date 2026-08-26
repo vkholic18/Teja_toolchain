@@ -1,0 +1,17 @@
+name: mzone7x1
+ops:
+  slack_channel: region-dal-g5-integ-mzr7x1
+apps:
+  release_bundles:
+  - name: hostos-boot-release
+    version: 3.0.4-20210311T160002Z_54c54e8
+  - name: hostos-base-os-sw-release
+    version: 3.4.47-20211008T082926Z_122ffb0
+  - name: kube-addon-release
+    version: 4.1.1_20211001T125450Z_80eee92
+  - name: genctl-release
+    runs:
+    - version: 20211012T001658Z_854e1535d147fe63ccf101fe98e70105e2b08a9d #(stable_0ee04f96 v8.65.1)
+  - name: rias-release
+    version: 20211013T151905Z_fc12d9584ccaaa8c3d764c8a4bb51ea1959f971c #(stable-fc12d958 v8.74.0)
+    

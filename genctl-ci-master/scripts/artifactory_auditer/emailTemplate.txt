@@ -1,0 +1,10 @@
+This is Release Engineering CI squad artifactory audit automated email
+Artifactory group: $ARTIFACTORY_GROUP_NAME
+Please specify which users needs access to $ARTIFACTORY_GROUP_NAME artifactory group
+list of users:
+$USER_LIST
+
+If not responded to within $NUMBER_OF_DAYS days,
+The users will be revoked access to $ARTIFACTORY_GROUP_NAME artifactory group
+
+For further questions / inquiries please refer to our #genctl-cicd slack channel.

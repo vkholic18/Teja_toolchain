@@ -1,0 +1,27 @@
+version: "1.0"
+external_services:
+  - name: "global-search-tagging"
+    apis:
+    - "/v2/resources/search"
+  - name: "globalcatalog"
+    apis:
+      - "/:region"
+      - "/:plan_id?account=account_id"
+      - "/is.volume"
+      - "/is.volume?depth=*&catalog=true"
+  - name: "resource-controller"
+    apis:
+      - "/v2/quota_definitions/accounts/:account_id/resource_types/is.volume"
+      - "/v2/resource_groups"
+  - name: "compliance"
+    apis:
+      - "/config/v1/evals"
+workspaces:
+  - name: "keyreact"
+    version: "1.26.0"
+    feature_flag: keyreact-image-version
+    grpc:
+      - "GenerateWdekKey"
+      - "RegisterResource"
+      - "RewrapWdek"
+      - "UnregisterResource"

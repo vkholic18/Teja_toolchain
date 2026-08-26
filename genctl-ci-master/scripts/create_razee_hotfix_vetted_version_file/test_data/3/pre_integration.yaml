@@ -1,0 +1,5 @@
+version:
+  etcd-base-release: 4.1.0_20211018T141337Z_35ff187
+  genctl-release: 20211121T174259Z_4beeffbd68a868744f045774aec0573c07690a80
+  smotainer-release: 20211120T072548Z_edda817945bac0e01e31b2b50ee00bdb5545cda1
+  

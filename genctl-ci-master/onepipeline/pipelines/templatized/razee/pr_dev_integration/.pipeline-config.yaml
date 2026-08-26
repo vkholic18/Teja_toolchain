@@ -1,0 +1,35 @@
+version: '1'
+
+setup:
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  abort_on_failure: true
+  dind: true
+  script: |
+    #!/usr/bin/env bash
+
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_dev_integration
+    ${PATH_TO_PIPELINE}/steps/setup.sh
+test:
+  # The main reason we do abort_on_failure: false here is because we are on a PR pipeline and we want to reach code-pr-finish
+  # code-pr-finish is the stage where One-Pipeline will set the GHE status check for this stage (code-unit-tests)
+  # In addition, running the compliance-checks is a shift left not waiting until the build/unit tests pass early checking stuff like vulnerabilities
+  abort_on_failure: false
+  dind: true
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  script: |
+    #!/usr/bin/env bash
+
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_dev_integration
+    ${PATH_TO_PIPELINE}/steps/test.sh
+compliance-checks:
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  dind: true
+  abort_on_failure: false
+  image_pull_policy: IfNotPresent
+  script: |
+    #!/bin/sh
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_dev_integration
+    ${PATH_TO_PIPELINE}/steps/compliance-checks.sh

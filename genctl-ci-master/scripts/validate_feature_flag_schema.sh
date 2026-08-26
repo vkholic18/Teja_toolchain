@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# =============================================================================================
+# IBM Confidential
+# (C) Copyright IBM Corp. 2023
+# The source code for this program is not published or otherwise divested of its trade secrets,
+# irrespective of what has been deposited with the U.S. Copyright Office.
+# =============================================================================================
+
+set -eu
+python3 -m pip install -q -r ${PATH_TO_GENCTL_CI}/scripts/configure_featureflags/requirements.txt
+python3 ${PATH_TO_GENCTL_CI}/scripts/configure_featureflags/validate_schema.py --env-yaml-path ${PATH_TO_WORKSPACE_PR}/environment.yaml --path-to-genctl-ci ${PATH_TO_GENCTL_CI} --service-flags-path ${PATH_TO_WORKSPACE_PR}/service-flags/

@@ -1,0 +1,1103 @@
+# <pipelineName>:
+#   repo: <gitRepository> (if different from <pipelineName>)
+#   server: <primary/secondary> (which server to connect to: primary, secondary, etc.)
+#   <pipelineType1>: <templatePath1>
+#   <pipelineType2>: <templatePath2>
+
+#GENCTL
+acadia-storage-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+acadia-baremetal-storage-workspace:
+  server: primary
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+
+api-extension-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+apigateway-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+baremetal-workspace:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS / GENCTL
+bss-integration-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+calico-network-policies-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+cloudinit-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+# controller-common:
+#   server: primary
+#   pr: pipelines/templates/pr-template-simple-library.yaml
+#   merge: pipelines/templates/merge-template-simple-library.yaml
+
+cni-plugins:
+  server: primary
+  # pr: pipelines/templates/pr-template-custom.yaml
+
+#GENCTL
+compute-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+compute-billing-lifecycle-mgmt:
+  server: primary
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#GENCTL
+console-proxy-workspace:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+# dal-prod:
+#   server: primary
+#   pr: pipelines/templates/pr-template-environment.yaml
+
+ddtool:
+  server: primary
+  # merge: pipelines/templates/merge-template-auto-semver.yaml
+
+ddt-deploy:
+  server: primary
+  # pr: pipelines/templates/pr-template-title-scan.yaml
+  # merge: pipelines/templates/merge-template-auto-semver.yaml
+
+#GENCTL
+denali-storage-workspace:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#GENCTL
+diagnostics-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+etcd-base-release:
+  server: primary
+#   pr: pipelines/templates/pr-template-kube-release.yaml
+
+etcd-base-release_upgrade:
+  server: primary
+#   repo: etcd-base-release
+#   pr: pipelines/templates/pr-template-kube-release.yaml
+
+#RIAS / GENCTLS
+featureflags-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-rias-workspace-master-extended.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-rias-workspace-dev-integration-extended.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+filewatcher:
+  server: primary
+  #pr: pipelines/templates/pr-template-simple-library.yaml
+  #merge: pipelines/templates/merge-template-simple-library.yaml
+
+#GENCTL
+fleetman-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+# fra-prod:
+#   server: primary
+#   pr: pipelines/templates/pr-template-environment.yaml
+
+genctl-globals:
+  server: primary
+  # pr: pipelines/templates/pr-template-globals.yaml
+  # merge: pipelines/templates/merge-template-globals.yaml
+
+#RIAS / GENCTL
+genesis-deploy-artifacts:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+
+genesis-deploy-workspace:
+  server: primary
+  #dev-integration-pr: pipelines/templates/pr-template-rias-workspace-dev-integration-hyperkube.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #pr: pipelines/templates/pr-template-rias-workspace-master-hyperkube.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+
+guest-proxy:
+  server: primary
+  #dev-integration-merge: pipelines/templates/merge-template-debian-dev-integration.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-debian-dev-integration.yaml
+
+observability-workspace:
+  server: primary
+  #merge: pipelines/templates/merge-template-debian-generic.yaml
+  #pr: pipelines/templates/pr-template-debian-go.yaml
+
+#GENCTL
+kali:
+  server: primary
+  # merge: pipelines/templates/merge-template-genctl-generic.yaml
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-cloudnet.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+
+#GENCTL
+nscon:
+  server: primary
+  # merge: pipelines/templates/merge-template-genctl-generic.yaml
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-cloudnet.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+
+# global-prod:
+  # server: primary
+  # pr: pipelines/templates/pr-template-environment.yaml
+  # merge: pipelines/templates/merge-template-featureflags.yaml
+
+# global-staging:
+  # server: primary
+  # pr: pipelines/templates/pr-template-environment.yaml
+  # merge: pipelines/templates/merge-template-featureflags.yaml
+
+# global-integ:
+  # server: primary
+  # pr: pipelines/templates/pr-template-environment-no-deploy.yaml
+  # merge: pipelines/templates/merge-template-featureflags-integ.yaml
+
+# global-dev:
+  # server: primary
+  # pr: pipelines/templates/pr-template-environment-dev.yaml
+  # merge: pipelines/templates/merge-template-featureflags-dev.yaml
+
+hardened-scratch-baseimage:
+  server: primary
+  # pr: pipelines/templates/pr-template-hardened-scratch.yaml
+  # merge: pipelines/templates/merge-template-hardened-scratch.yaml
+
+hostos-base-net-sw-release-5:
+  server: primary
+  repo: hostos-base-net-sw-release
+  # pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  # merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-base-net-sw-release-6:
+  server: primary
+  repo: hostos-base-net-sw-release
+#   pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+#   merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-base-net-sw-release-10:
+  server: primary
+  repo: hostos-base-net-sw-release
+  # pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  # merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-base-net-sw-release:
+  server: primary
+  #pr: pipelines/templates/pr-template-full-stack-bvt.yaml
+  #merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-base-os-sw-release-5:
+  server: primary
+  repo: hostos-base-os-sw-release
+  # pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  # merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-base-os-sw-release-6:
+  server: primary
+  repo: hostos-base-os-sw-release
+#   pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+#   merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-base-os-sw-release-10:
+  server: primary
+  repo: hostos-base-os-sw-release
+  # pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  # merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-base-os-sw-release:
+  server: primary
+  # pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  # merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-boot-release-5:
+  server: primary
+  repo: hostos-boot-release
+  # pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  # merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-boot-release-6:
+  server: primary
+  repo: hostos-boot-release
+#   pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+#   merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-boot-release-10:
+  server: primary
+  repo: hostos-boot-release
+  # pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  # merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-boot-release:
+  server: primary
+  #pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  #merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-config-release-5:
+  server: primary
+  repo: hostos-config-release
+  # pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  # merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-config-release-6:
+  server: primary
+  repo: hostos-config-release
+#   pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+#   merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-config-release-10:
+  server: primary
+  repo: hostos-config-release
+  # pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  # merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-config-release:
+  server: primary
+  #pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  #merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-kernel-patch-release-5:
+  server: primary
+  repo: hostos-kernel-patch-release
+  # pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  # merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-kernel-patch-release-6:
+  server: primary
+  repo: hostos-kernel-patch-release
+#   pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+#   merge: pipelines/templates/merge-template-hostos-release.yaml
+
+#hostos-kernel-patch-release-10:
+#  server: primary
+#  repo: hostos-kernel-patch-release
+#  pr: pipelines/templates/pr-template-full-stack-bvt.yaml
+#  merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-kernel-patch-release:
+  server: primary
+  #pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  #merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-nextgen-os-sw-release-5:
+  server: primary
+  repo: hostos-nextgen-os-sw-release
+  # pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  # merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-nextgen-os-sw-release-6:
+  server: primary
+  repo: hostos-nextgen-os-sw-release
+#   pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+#   merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-nextgen-os-sw-release-10:
+  server: primary
+  repo: hostos-nextgen-os-sw-release
+  # pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  # merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-nextgen-os-sw-release:
+  server: primary
+  #pr: pipelines/templates/pr-template-full-stack-bvt.yaml
+  #merge: pipelines/templates/merge-template-hostos-release.yaml
+
+hostos-validate-release:
+  server: primary
+  # pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  # merge: pipelines/templates/merge-template-hostos-release.yaml
+
+#RIAS / GENCTL
+hypersync-integration-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#GENCTL
+image-service-workspace:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+image-utils:
+  server: primary
+  #merge: pipelines/templates/merge-template-debian-generic.yaml
+
+#RIAS / GENCTL
+infrastructure-service-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-genctl-generic.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#GENCTL
+keylore:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+keylore-common:
+  server: primary
+  #pr: pipelines/templates/pr-template-simple-library.yaml
+  #merge: pipelines/templates/merge-template-simple-library.yaml
+
+#RIAS
+keyreact:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#GENCTL
+kerberos-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+kube-addon-release:
+  server: primary
+  #pr: pipelines/templates/pr-template-kube-release.yaml
+
+kube-addon-release_upgrade:
+  server: primary
+  # repo: kube-addon-release
+  # pr: pipelines/templates/pr-template-kube-release.yaml
+
+kube-base-deployer:
+  server: primary
+  # merge: pipelines/templates/merge-template-kube-repos.yaml
+  # pr: pipelines/templates/pr-template-kube-repos.yaml
+
+kube-base-deployer_upgrade:
+  server: primary
+  # repo: kube-base-deployer
+  # merge: pipelines/templates/merge-template-kube-repos.yaml
+  # pr: pipelines/templates/pr-template-kube-repos.yaml
+
+kube-base-release:
+  server: primary
+#   pr: pipelines/templates/pr-template-kube-release.yaml
+
+kube-base-release_upgrade:
+  server: primary
+  # repo: kube-base-release
+  # pr: pipelines/templates/pr-template-kube-release.yaml
+
+kube-bootstrap:
+  server: primary
+  #merge: pipelines/templates/merge-template-kube-repos.yaml
+  #pr: pipelines/templates/pr-template-kube-repos.yaml
+
+kube-bootstrap-release_upgrade:
+  server: primary
+  #repo: kube-bootstrap
+  #merge: pipelines/templates/merge-template-kube-repos.yaml
+  #pr: pipelines/templates/pr-template-kube-repos.yaml
+
+kube-define:
+  server: primary
+  #merge: pipelines/templates/merge-template-kube-repos.yaml
+  #pr: pipelines/templates/pr-template-kube-repos.yaml
+
+kube-define-release:
+  server: primary
+  #pr: pipelines/templates/pr-template-kube-release.yaml
+
+kube-define-release_upgrade:
+  server: primary
+  # repo: kube-define-release
+  # pr: pipelines/templates/pr-template-kube-release.yaml
+
+kube-kopilot-release:
+  #server: primary
+  #pr: pipelines/templates/pr-template-kube-release.yaml
+
+# kube-stage:
+#   server: primary
+#   merge: pipelines/templates/merge-template-kube-repos.yaml
+#   pr: pipelines/templates/pr-template-kube-repos.yaml
+
+#kubectl-plugins:
+#  server: primary
+#  merge: pipelines/templates/merge-template-kube-repos.yaml
+#  pr: pipelines/templates/pr-template-kube-repos.yaml
+
+localdisk-tools:
+  server: primary
+  #pr: pipelines/templates/pr-template-debian-generic.yaml
+  #merge: pipelines/templates/merge-template-debian-generic.yaml
+
+logger:
+  server: primary
+  #pr: pipelines/templates/pr-template-simple-library.yaml
+  #merge: pipelines/templates/merge-template-simple-library.yaml
+
+# lon-prod:
+#   server: primary
+#   pr: pipelines/templates/pr-template-environment.yaml
+
+# mad-prod:
+#   server: primary
+#   pr: pipelines/templates/pr-template-environment.yaml
+
+metrics:
+  server: primary
+  #pr: pipelines/templates/pr-template-simple-library.yaml
+  #merge: pipelines/templates/merge-template-simple-library.yaml
+
+#micro-deploy-server:
+#  server: primary
+#  merge: pipelines/templates/merge-template-auto-semver.yaml
+
+#RIAS / GENCTL
+monitoring-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-genctl-razee-and-etcd-generic.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#integration-environment mzone7x1
+mzone7x1:
+  server: primary
+  # pr: pipelines/templates/pr-template-promotion-master.yaml
+
+#integration-environment rm-mzone
+rm-mzone:
+  server: primary
+  # pr: pipelines/templates/pr-template-promotion-master.yaml
+
+#integration-environment mzone7x3
+mzone7x3:
+  server: primary
+  # pr: pipelines/templates/pr-template-promotion-master.yaml
+
+#GENCTL
+network-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+netapp-client:
+  server: primary
+  #pr: pipelines/templates/pr-template-simple-library.yaml
+  #merge: pipelines/templates/merge-template-simple-library.yaml
+
+netapp-types:
+  server: primary
+  #pr: pipelines/templates/pr-template-simple-library.yaml
+  #merge: pipelines/templates/merge-template-simple-library.yaml
+
+netapp-discover-job-nvme:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+
+netapp-volume-provisioner-nvme:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+
+netapp-volume-scheduler-nvme:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+
+operatorvault-wiki:
+  server: primary
+#  pr: pipelines/templates/pr-template-title-scan.yaml
+#  merge: pipelines/templates/merge-template-debian-common.yaml
+
+#GENCTL
+operator-services-workspace:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#GENCTL
+ops-common:
+  server: primary
+  # pr: pipelines/templates/pr-template-simple-library.yaml
+  # merge: pipelines/templates/merge-template-simple-library.yaml
+
+ops-data-zonal:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+# Obsolete - does NOT need conversion to OnePipeline
+ops-etcd:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+
+# Obsolete - does NOT need conversion to OnePipeline
+ops-etcd-globals:
+  server: primary
+  # pr: pipelines/templates/pr-template-rias-globals.yaml
+  # merge: pipelines/templates/merge-template-globals.yaml
+
+ops-extension-server:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+
+ops-globals:
+  server: primary
+  # pr: pipelines/templates/pr-template-rias-globals.yaml
+  # merge: pipelines/templates/merge-template-globals.yaml
+
+ops-iam-client:
+  server: primary
+  #pr: pipelines/templates/pr-template-simple-library.yaml
+  #merge: pipelines/templates/merge-template-simple-library.yaml
+
+ops-middleware:
+  server: primary
+  #pr: pipelines/templates/pr-template-simple-library.yaml
+  #merge: pipelines/templates/merge-template-simple-library.yaml
+
+#pr pipline is created in cicd
+ops-k8s-types:
+  server: primary
+  # merge: pipelines/templates/merge-template-simple-library.yaml
+
+ops-node-services:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+
+ops-node-projection:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+
+ops-operator-actions:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+
+ops-projection:
+  server: primary
+  # pr: pipelines/templates/pr-template-simple-library.yaml
+  # merge: pipelines/templates/merge-template-simple-library.yaml
+
+# ops-shared-logger:
+#   server: primary
+#   pr: pipelines/templates/pr-template-simple-library.yaml
+#   merge: pipelines/templates/merge-template-simple-library.yaml
+
+ops-snow-client:
+  server: primary
+#   pr: pipelines/templates/pr-template-simple-library.yaml
+#   merge: pipelines/templates/merge-template-simple-library.yaml
+
+ops-vm-projection:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+
+ops-zonal-operator-agent:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+
+# osa-prod:
+#   server: primary
+#   pr: pipelines/templates/pr-template-environment.yaml
+
+# par-prod:
+#   server: primary
+#   pr: pipelines/templates/pr-template-environment.yaml
+
+pds-config-release:
+  server: primary
+  #pr: pipelines/templates/pr-template-full-stack-bvt.yaml
+  #merge: pipelines/templates/merge-template-hostos-release.yaml
+
+pds-firmware-release:
+  server: primary
+  #pr: pipelines/templates/pr-template-full-stack-bvt.yaml
+  #merge: pipelines/templates/merge-template-hostos-release.yaml
+
+#GENCTL
+PensandoLibrary:
+  server: primary
+  #pr: pipelines/templates/pr-template-simple-library.yaml
+  #merge: pipelines/templates/merge-template-simple-library.yaml
+
+platform-inventory:
+  server: primary
+  #merge: pipelines/templates/merge-template-auto-semver.yaml
+
+#GENCTL
+projection-controller-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-genctl-workspace-master-extended.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-genctl-workspace-dev-integration-extended.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-baremetal-workspace:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-compute-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-dedicated-compute:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-drs-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS / GENCTL
+regional-extension-workspace:
+  server: primary
+  # pr: pipelines/templates/pr-template-rias-workspace-master-hyperkube.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-rias-workspace-dev-integration-hyperkube.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-file-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-flowlogs-workspace:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-dnlb-workspace:
+  server: primary
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-vpe-workspace:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-group-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-health-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-image:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-ims-account:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-migration-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-network-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS-ETCD
+regional-redis-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+
+#RIAS-ETCD
+autoscale-processor:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+
+#RIAS
+regional-slm-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-snapshot-workspace:
+  server: primary
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-storage:
+  server: primary
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+resource-metadata-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+regional-instance-diagnostics-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+resize-controller-workspace:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-genctl-multiarch.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+
+rias-etcd-globals:
+  server: primary
+  # pr: pipelines/templates/pr-template-rias-globals.yaml
+  # merge: pipelines/templates/merge-template-globals.yaml
+
+rias-globals:
+  server: primary
+  # pr: pipelines/templates/pr-template-rias-globals.yaml
+  # merge: pipelines/templates/merge-template-globals.yaml
+
+rias-g-common:
+  server: primary
+  # pr: pipelines/templates/pr-template-simple-library.yaml
+  # merge: pipelines/templates/merge-template-simple-library.yaml
+
+#RIAS
+rias-ingress-templates:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+# rias-zonal-common:
+#   server: primary
+#   pr: pipelines/templates/pr-template-simple-library.yaml
+#   merge: pipelines/templates/merge-template-simple-library.yaml
+
+# sao-prod:
+#   server: primary
+#   pr: pipelines/templates/pr-template-environment.yaml
+#   promotion: pipelines/templates/pr-template-promotion-master.yaml
+
+#GENCTL
+sdp-workspace:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS / GENCTL
+security-service-workspace:
+  server: primary
+  # pr: pipelines/templates/pr-template-rias-workspace-master-extended.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-rias-workspace-dev-integration-extended.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#RIAS
+service-broker-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+smartnic-store-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+
+# staging:
+#   server: primary
+#   pr: pipelines/templates/pr-template-environment.yaml
+#   promotion: pipelines/templates/pr-template-promotion-master.yaml
+
+# Russell indicates he never knew these existed and does not need them
+# storage-common:
+#   server: primary
+#   pr: pipelines/templates/pr-template-simple-library.yaml
+#   merge: pipelines/templates/merge-template-simple-library.yaml
+
+#GENCTL
+storage-service-workspace:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-razee.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+#GENCTL
+storage-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+# syd-prod:
+#   server: primary
+#   pr: pipelines/templates/pr-template-environment.yaml
+#   promotion: pipelines/templates/pr-template-promotion-master.yaml
+
+system-bringup-release:
+  server: primary
+  # pr: pipelines/templates/pr-template-hostos-deploy-only.yaml
+  # merge: pipelines/templates/merge-template-hostos-release.yaml
+
+#RIAS-ETCD / RIAS / GENCTL
+telemetry-workspace:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-genctl-razee-and-etcd-generic.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+# tok-prod:
+#   server: primary
+#   pr: pipelines/templates/pr-template-environment.yaml
+
+#RIAS / GENCTL
+tracing:
+  server: primary
+  # pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  # merge: pipelines/templates/merge-template-genctl-generic.yaml
+  # dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  # dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+
+# tor-prod:
+#   server: primary
+#   pr: pipelines/templates/pr-template-environment.yaml
+
+# wdc-prod:
+#   server: primary
+#   pr: pipelines/templates/pr-template-environment.yaml
+
+zonal-utils:
+  server: primary
+  #pr: pipelines/templates/pr-template-simple-library.yaml
+  #merge: pipelines/templates/merge-template-simple-library.yaml
+
+#GENCTL
+z-storage-workspace:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml
+
+z-infra-mgmt:
+  server: primary
+  #pr: pipelines/templates/pr-template-workspace-master-generic.yaml
+  #merge: pipelines/templates/merge-template-razee.yaml
+  #dev-integration-merge: pipelines/templates/merge-template-workspace-dev-integration-generic.yaml
+  #dev-integration-pr: pipelines/templates/pr-template-workspace-dev-integration-generic.yaml
+  hotfix-razee: pipelines/templates/hotfix-razee-template.yaml

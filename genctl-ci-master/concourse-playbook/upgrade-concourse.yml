@@ -1,0 +1,34 @@
+# Land all workers
+#Gracefully shut down the concourse webapp and postgresql server
+#run using : ansible-playbook upgrade-concourse.yml -e "url=url"
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  var:
+   concourse_url: "{{url}}"
+  tasks:
+  - name: Landing  workers
+    shell: |
+      for worker in `fly workers -t genctl | cut -f 1 -d ' ' `
+      do
+        concourse land-worker --name $worker --tsa-host 127.0.0.1 --tsa-public-key /etc/concourse/keys/worker/tsa_host_key.pub --tsa-worker-private-key /etc/concourse/keys/worker/worker_key > /var/log/concourse-worker.log &
+      done
+    args:
+    chdir: /usr/local/bin/
+    executable: /bin/bash
+    changed_when: false
+    register: results
+  - debug: var=results.stdout_lines
+  - name: Gracefully shutting down webapp and postgresql server
+    shell: |
+      echo "=== Concourse is stopping"
+      export CONCOURSE_EXTERNAL_URL="{{url}}"
+      docker-compose stop
+      echo "=== Concourse stop has completed: $?"
+    args:
+      chdir: /home/genadm/con
+      executable: /bin/bash
+    changed_when: false
+    register: results
+  - debug: var=results.stdout_lines

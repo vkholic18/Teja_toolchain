@@ -1,0 +1,201 @@
+# CI/CD Onboarding Configuration — Profile: ci_cd
+# For detailed documentation, refer to: https://github.ibm.com/genctl-cicd/uuc-service-cicd-onboarding/blob/main/README.md
+#
+# Profile: ci_cd
+#   Deployable production artifacts requiring inventory population, evidence collection,
+#   and CD workflows (e.g. microservices, operators, applications).
+#   Full end-to-end PR + CI (SAST, image scanning, signing) + compliance inventory + CD pipeline.
+#
+# IMPORTANT: Team-level common data (FIDs, psirt_id, IBM Cloud accounts, secrets) must be
+#   defined in commons.yaml — NOT in this file.  The validator will error if commons-only
+#   fields are found here.  Copy commons.yaml from the reference template if your branch
+#   does not yet have one.
+#
+# Fields validated in this file:  service_name, cicd_profile,
+#   compliance_bucket, app_repo, inventory_repo, incident_repo,
+#   servicenow_crn, slack_member_ids, slack_channel,
+#   mandatory_files.CI + CD, optional_files.mend,
+#   deployment_targets.CI + CD
+# Fields validated in commons.yaml: team_name, service_fid_dev/prod,
+#   service_fid_dev/prod_github_username, psirt_id,
+#   ibm_cloud_account_dev/prod, secrets (CI / CD / common)
+
+version: 1.0
+
+# Service name (must match filename: <service_name>-onboarding.yaml)
+service_name: myservicename
+
+# CI/CD Profile
+cicd_profile: ci_cd  # Required — allowed values: minimal | ci_only | ci_cd | cd_only
+
+# Compliance inventory repository
+# IMPORTANT: Inventory repo name must follow format: uuc-<team_slug>-<app_repo_name>-compliance-inventory
+#
+# Access requirements:
+#   create: false (existing repo)
+#     - onepipelineci@ibm.com must have at least write access
+#     - service_fid_dev and service_fid_prod must have admin access
+#   create: true (new repo — created by service_fid_dev)
+#     - service_fid_dev must have org-level permission to create repositories
+#     - Both FIDs must request 'admin' access via Access Hub BEFORE the merge is triggered
+inventory_repo:
+  repo: https://github.ibm.com/myorg/uuc-myteamname-myrepo-compliance-inventory
+  branch: main
+  create: false
+
+# Incidents repository
+#
+# Access requirements:
+#   create: false (existing repo)
+#     - onepipelineci@ibm.com must have admin access
+#     - service_fid_dev and service_fid_prod must have admin access
+#   create: true (new repo — created by service_fid_dev)
+#     - service_fid_dev must have org-level permission to create repositories
+incident_repo:
+  repo: https://github.ibm.com/myorg/myincidentrepo
+  branch: main
+  create: false
+
+# Compliance evidence COS bucket
+# Set use_existing: true to use your existing bucket (requires custom endpoint and bucket name)
+#   - IMPORTANT: Ensure 'onepipelineci@ibm.com' FID has write access to your custom compliance bucket
+# Set use_existing: false to use the bucket created by CICD for your team
+compliance_bucket:
+  endpoint: https://s3.eu-gb.cloud-object-storage.appdomain.cloud
+  name: my_bucket
+  use_existing: false
+
+# Application repositories
+app_repo:
+  - repo: https://github.ibm.com/myorg/myrepo
+    branch: main
+
+# ServiceNow CRN (service-specific)
+servicenow_crn: <your_servicenow_crn>
+
+# Slack Notifications for Secrets Management (service-specific)
+slack_member_ids:
+  - U01234ABCDE  # Example - replace with your Slack member ID
+  - U56789FGHIJ  # Example - replace with your Slack member ID
+
+# Slack Channel for Notifications (service-specific, optional)
+slack_channel: "#my-team-alerts"
+
+# Mandatory Files Configuration
+# Full template enforced: all 4 CI files + all 3 CD files
+mandatory_files:
+  - name: CI
+    repo: https://github.ibm.com/myorg/myrepo
+    branch: main
+    files:
+      # DO NOT MODIFY - PLATFORM MANAGED: Build script for CI pipeline
+      - path: hack/ci/build.sh
+        can_be_empty: false
+        executable: true
+      # DO NOT MODIFY - PLATFORM MANAGED: Unit test execution script
+      - path: hack/ci/run-unit-tests.sh
+        can_be_empty: false
+        executable: true
+      # DO NOT MODIFY - PLATFORM MANAGED: Build metadata
+      - path: hack/ci/build-meta.yaml
+        can_be_empty: false
+        executable: false
+      # DO NOT MODIFY - PLATFORM MANAGED: Pipeline configuration (mend_sast_info is mandatory)
+      - path: hack/ci/pipeline.yaml
+        can_be_empty: false
+        executable: false
+
+  - name: CD
+    repo: https://github.ibm.com/myorg/myrepo
+    branch: main
+    files:
+      # DO NOT MODIFY - PLATFORM MANAGED: Pre-requisites setup script
+      - path: hack/cd/pre-reqs.sh
+        can_be_empty: false
+        executable: true
+      # DO NOT MODIFY - PLATFORM MANAGED: Deployment script
+      - path: hack/cd/deploy.sh
+        can_be_empty: false
+        executable: true
+      # DO NOT MODIFY - PLATFORM MANAGED: Acceptance test script
+      - path: hack/cd/acceptance-tests.sh
+        can_be_empty: false
+        executable: true
+
+# Optional Files Configuration
+optional_files:
+  - name: mend
+    repo: https://github.ibm.com/myorg/myrepo
+    branch: main
+    files:
+      # Mend SAST suppressions file
+      - path: mend-suppressions.json
+        can_be_empty: true
+        executable: false
+
+# Deployment Targets Configuration
+# Source of truth for env_code, zone names, and region names:
+#   https://github.ibm.com/ibmcloud/iaas-architecture/blob/main/architecture/undercloud/naming_conventions.md
+deployment_targets:
+  CI:
+    vpc_ng:
+      - name: env_code
+        default_size: small
+    ngdc:
+      - name: env_code
+        default_size: small
+
+  CD:
+    # targets:       all | [list of zone or region names from naming conventions doc]
+    # type:          zonal (one trigger per zone) | regional (one trigger per region)
+    # default_size:  Size applied to all targets unless overridden — small | medium | large
+    # exclude:       [list of env_code values to exclude]
+    # override_size: Per-target size override
+    #
+    # trigger_strategy:
+    #   # Allowed values:
+    #   # - per_vm
+    #   # - per_tenant
+    #   # - per_tenant_vm
+    #   # Defaults to environment-level triggering when omitted.
+    #
+    # vm_names:
+    #   # Required for per_vm and per_tenant_vm.
+    #   # Each name identifies a VM for trigger/inventory generation.
+    #
+    # tenant_names:
+    #   # Required for per_tenant and per_tenant_vm.
+    #   # Each name identifies a tenant for trigger/inventory generation.
+    integration:
+      targets: all
+      type: zonal
+      default_size: small
+      override_size:
+        - target: env_code
+          size: large
+
+    # For trigger_strategy examples (per_vm, per_tenant, per_tenant_vm), see:
+    # https://github.ibm.com/genctl-cicd/uuc-service-cicd-onboarding/blob/main/README.md#trigger-strategy
+    staging:
+      targets: all
+      type: regional
+      default_size: medium
+      override_size:
+        - target: myspecialregion
+          size: small
+      trigger_strategy: per_vm
+      vm_names:
+        - util1
+        - util2
+        - jh1
+        - jh2
+
+    production:
+      targets: all
+      type: zonal
+      exclude:
+        - env_code
+      default_size: small
+      override_size:
+        - target: env_code
+          size: large

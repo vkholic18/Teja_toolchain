@@ -1,0 +1,58 @@
+# This policy allows egress originating from OnePipeLine pods to specific external ports #
+####################################################################################
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: allow-vpc-onepipelineci-pods-private
+spec:
+  egress:
+  - action: Allow
+    destination:
+      ports:
+      - 80
+      - 8080
+      - 8000
+      - 1194 #sos-tools
+      - 8834 #sos-tools
+      - 8283
+      - 8200 #vault
+      - 10514 #syslogForwarderPort
+      - 8282
+    protocol: UDP
+    source: {}
+  - action: Allow
+    destination:
+      ports:
+      - 80
+      - 8080
+      - 8000
+      - 1194 #sos-tools
+      - 8834 #sos-tools
+      - 8200 #Vault
+      - 8283
+      - 10514 #syslogForwarderPort
+      - 8282
+    protocol: TCP
+    source: {}
+  - action: Allow
+    destination:
+      nets:
+      # IBM CIO SQ instance
+      - 9.208.41.50/32
+      ports:
+      - 443
+    protocol: TCP
+    source: {}
+  - action: Allow
+    destination:
+      nets:
+      # IBM CIO SQ instance
+      - 9.208.41.50/32
+      ports:
+      - 443
+    protocol: UDP
+    source: {}
+  order: 1500
+  selector: projectcalico.org/orchestrator == 'k8s'
+  types:
+  - Egress

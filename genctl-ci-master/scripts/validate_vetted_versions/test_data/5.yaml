@@ -1,0 +1,15 @@
+version:
+  etcd-base-release: null
+  genctl-release: null
+  hostos-base-net-sw-release: 10.0.0-20210926T175801Z_b9f1dc1
+  hostos-base-os-sw-release: 10.0.0-20210926T181844Z_4828185
+  hostos-boot-release: 10.0.0-20210928T001947Z_492d044
+  hostos-config-release: 10.0.0-20211004T134344Z_b5d5930
+  hostos-kernel-patch-release: null
+  hostos-nextgen-os-sw-release: 10.0.0-20211004T214906Z_2332bd3
+  kube-addon-release: null
+  kube-base-release: null
+  kube-define-release: null
+  rias-etcd-release: null
+  rias-release: null
+  smotainer-release: null

@@ -1,0 +1,124 @@
+version: '2'
+
+tasks:
+  pr-code-checks:
+    include:
+      - dind
+    displayName: 01-detect-secrets
+    steps:
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260320065041
+        onError: stopAndFail        
+        script: |
+          #!/usr/bin/env bash
+
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/globals/pr_v11          
+          # Run common PR checks first (cancellation and branch protection)
+          ${PATH_TO_GENCTL_CI}/onepipeline/jobs/onepipeline_common_pr_checks.sh          
+      - name: detect-secrets
+        onError: stopAndFail
+        include:
+          - docker-socket        
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        when: 'false'
+ 
+  pr-code-checks-2:
+    include:
+      - dind
+    runAfter:
+      - pr-code-checks
+    displayName: 02-misc-scans
+    from: pr-code-checks
+    steps:
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail        
+        script: |
+          #!/usr/bin/env bash
+
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/globals/pr_v11
+          ${PATH_TO_PIPELINE}/steps/misc-scans.sh
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/globals/pr_v11
+          ${PATH_TO_PIPELINE}/steps/compliance-checks.sh
+
+  pr-code-checks-3:
+    include:
+      - dind
+    displayName: 03-unit-tests
+    from: pr-code-checks
+    runAfter:
+      - pr-code-checks 
+    steps:
+      - name: checks-setup
+        when: 'false'
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/globals/pr_v11
+          ${PATH_TO_PIPELINE}/steps/test.sh
+      - name: compliance-checks
+        when: 'false'
+
+  pr-code-checks-4:
+    include:
+      - dind
+    displayName: 04-static-scan
+    from: pr-code-checks
+    runAfter:
+      - pr-code-checks
+    steps:
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: continue
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/globals/pr_v11
+          ${PATH_TO_PIPELINE}/steps/static-scan.sh
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        when: 'false'
+
+finally:  
+  code-pr-finish:
+    steps:
+      - name: run-stage
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        script: |
+          #!/usr/bin/env bash
+
+          if [[ "$PIPELINE_DEBUG" == 1 ]]; then
+            trap env EXIT
+            env
+            set -x
+          fi
+          echo "Running code-pr-finish"
+          exit 0

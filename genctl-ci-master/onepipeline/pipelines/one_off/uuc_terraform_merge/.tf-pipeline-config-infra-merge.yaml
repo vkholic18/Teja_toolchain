@@ -1,0 +1,59 @@
+version: '2'
+
+# UUC Terraform Merge Pipeline
+tasks:
+  devmode-code-build:
+    displayName: Cloud Infra Provision
+    steps:
+      - name: setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/uuc_terraform_merge
+
+          # run the setup
+          ${PATH_TO_PIPELINE}/steps/setup.sh
+      
+      - name: unit-test
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/uuc_terraform_merge
+
+          # run the test
+          ${PATH_TO_PIPELINE}/steps/test-infra.sh
+      
+      - name: build-artifact
+        when: 'false'  
+
+  devmode-deploy-checks:    
+    when: 'false'    
+
+  devmode-deploy-release:
+    when: 'false'    
+
+finally:
+  code-ci-finish:
+    steps:
+      - name: run-stage
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        script: |
+          #!/usr/bin/env bash
+          
+          if [[ "$PIPELINE_DEBUG" == 1 ]]; then
+            trap env EXIT
+            env
+            set -x
+          fi
+          
+          echo "╔════════════════════════════════════════════════════════════════════════════╗"
+          echo "║                                                                            ║"
+          echo "║  UUC Ops Merge Pipeline Finished                                          ║"
+          echo "║                                                                            ║"
+          echo "╚════════════════════════════════════════════════════════════════════════════╝"
+          
+          exit 0

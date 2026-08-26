@@ -1,0 +1,10 @@
+version: "1.0"
+external_services: 
+  - name: Ceph/RHCS
+    apis:
+    - "/v2/resources/search"
+workspaces:
+  - name: "rias-etcd-workspace"
+    version: "1.1.0-dev1"
+    feature_flag: etcd-image-version
+external_workspaces: my-external-workspace

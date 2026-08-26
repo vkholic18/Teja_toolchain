@@ -1,0 +1,137 @@
+version: '2'
+
+tasks:  
+  pr-code-checks:
+    include:
+      - dind
+      - step-extension
+    displayName: 01 - Validate Onboarding YAML    
+    steps:
+      - name: checks-setup
+        when: false
+      - name: step-extension
+        displayName: validate-onboarding-yaml-schema
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/uuc/ops/pr
+          ${PATH_TO_PIPELINE}/steps/validate_yaml_step.sh
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        when: 'false'
+
+  pr-code-checks-2:
+    include:
+      - dind
+      - step-extension
+    displayName: 02 - Verify GitHub Repository Access
+    from: pr-code-checks    
+    steps:
+      - name: checks-setup
+        when: false
+      - name: step-extension
+        displayName: verify-github-repos-access
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/uuc/ops/pr
+          ${PATH_TO_PIPELINE}/steps/verify_github_access_step.sh
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        when: 'false'
+
+  pr-code-checks-3:
+    include:
+      - dind
+      - step-extension    
+    displayName: 03 - Verify COS Bucket Access
+    from: pr-code-checks
+    steps:
+      - name: checks-setup
+        when: false
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        when: false
+      - name: step-extension
+        displayName: verify-compliance-bucket-access
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/uuc/ops/pr
+          ${PATH_TO_PIPELINE}/steps/verify_compliance_bucket_access_step.sh
+
+  pr-code-checks-4:
+    include:
+      - dind
+      - step-extension
+    displayName: 04 - Validate Mandatory Files
+    from: pr-code-checks
+    steps:
+      - name: checks-setup
+        when: false
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        when: false
+      - name: step-extension
+        displayName: validate-mandatory-files
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/uuc/ops/pr
+          ${PATH_TO_PIPELINE}/steps/validate_mandatory_files_step.sh
+
+  pr-code-checks-5:
+    include:
+      - dind
+      - step-extension
+    displayName: 05 - Validate Optional Files
+    from: pr-code-checks    
+    steps:
+      - name: checks-setup
+        when: false
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        when: 'false'
+      - name: step-extension
+        displayName: validate-optional-files
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/uuc/ops/pr
+          ${PATH_TO_PIPELINE}/steps/validate_optional_files_step.sh
+    
+finally:  
+  code-pr-finish:
+    steps:
+      - name: run-stage
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/uuc/ops/pr
+          ${PATH_TO_PIPELINE}/steps/auto-merge.sh

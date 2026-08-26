@@ -1,0 +1,35 @@
+version: '2'
+
+tasks:
+  async-stage:
+    include:      
+      - podman
+    runtimeClassName: s390x-medium
+    steps:
+      - name: run-stage
+        onError: stopAndFail
+        include:
+          - rootful-podman
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:24.20260817071520
+      - name: build-s390x-packages-ubuntu24-as-subpipeline
+        script: |
+          #!/usr/bin/env bash
+
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/hotfix-pr-v11
+          export BUILD_ARTIFACT_TYPE="packages"
+          export BASE_IMAGE_VERSION="ubuntu24"
+          ${PATH_TO_PIPELINE}/steps/build_s390x_packages_as_subpipeline.sh "BUILD_S390X_PACKAGES_UBUNTU24"
+      
+      - name: build-s390x-images-ubuntu24-as-subpipeline
+        script: |
+          #!/usr/bin/env bash
+
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/hotfix-pr-v11
+          export BUILD_ARTIFACT_TYPE="images"
+          export BASE_IMAGE_VERSION="ubuntu24"
+          ${PATH_TO_PIPELINE}/steps/build_s390x_images_as_subpipeline.sh "BUILD_S390X_IMAGES_UBUNTU24"
+
+      - name: finish
+        when: false

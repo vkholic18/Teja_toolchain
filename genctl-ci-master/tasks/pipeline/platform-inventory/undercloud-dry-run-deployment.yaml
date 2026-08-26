@@ -1,0 +1,31 @@
+##
+## =============================================================================================
+## IBM Confidential
+## (C) Copyright IBM Corp. 2021
+## The source code for this program is not published or otherwise divested of its trade secrets,
+## irrespective of what has been deposited with the U.S. Copyright Office.
+## =============================================================================================
+##
+
+---
+platform: linux
+
+params:
+  K8_CI_CLUSTER1_CONFIG: ((k8_ci_cluster1_config))
+  K8_CI_CLUSTER2_CONFIG: ((k8_ci_cluster2_config))
+  CC_ARTIF_ACCESS_TOKEN: ((wcp-genctl-docker-local-artifactory-token))
+  WCP_ARTIFACTORY_USERNAME: ((wcp-genctl-docker-local-artifactory-username))
+  DOCKER_TOKEN:  ((dockerhub-access-token))
+  DOCKER_USERNAME: ((dockerhub-username))
+  DRY_RUN_DEPLOYMENT_ENABLED: true
+
+inputs:
+- name: genctl-ci-repo
+- name: workspace
+outputs:
+- name: razee-undercloud-cm
+
+run:
+  path: /bin/entrypoint.sh
+  args:
+    - genctl-ci-repo/scripts/undercloud_dry_run_deployment.sh

@@ -1,0 +1,57 @@
+version: '1'
+
+setup:
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-cocoa:20250204015122-amd64
+  script: |
+    #!/usr/bin/env bash
+    echo "no op"
+    exit 0
+test:
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-cocoa:20250204015122-amd64
+  dind: false
+  abort_on_failure: false
+  image_pull_policy: IfNotPresent
+  script: |
+    #!/bin/sh
+    echo "no op"
+    exit 0
+compliance-checks:
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-cocoa:20250204015122-amd64
+  dind: false
+  abort_on_failure: false
+  image_pull_policy: IfNotPresent
+  script: |
+    #!/bin/sh
+    echo "no op"
+    exit 0
+sign-artifact:
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-cocoa:20250204015122-amd64
+  abort_on_failure: false
+  script: |
+    #!/bin/bash
+    echo "no op"
+    exit 0
+deploy:
+  abort_on_failure: false
+  dind: false
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-cocoa:20250204015122-amd64
+  script: |
+    #!/usr/bin/env bash
+
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/cd/one_off/goldi_locks
+    ${PATH_TO_PIPELINE}/steps/deploy.sh
+acceptance-test:
+  abort_on_failure: false
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-cocoa:20250204015122-amd64
+  script: |
+    #!/bin/bash
+    echo "no op"
+    exit 0
+release:
+  abort_on_failure: true
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-cocoa:20250204015122-amd64
+  script: |
+    #!/usr/bin/env bash
+    echo "no op"
+    exit 0

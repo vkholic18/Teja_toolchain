@@ -1,0 +1,87 @@
+version: '1'
+
+setup:
+  abort_on_failure: true
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  dind: true
+  script: |
+    #!/usr/bin/env bash
+    
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/sdn/components/merge
+    ${PATH_TO_PIPELINE}/steps/setup.sh
+# This is temporary for testing purposes
+detect-secrets:
+  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.25
+  dind: true
+  abort_on_failure: stopAndFail
+  image_pull_policy: IfNotPresent
+  skip: false
+  runAfter: null
+  script: |
+    #!/bin/sh
+    "/opt/commons/detect-secrets/run_scan.sh"
+test:
+  # Here we use abort_on_failure: true since if we don't manage to properly build, we don't want to reach later stages
+  # Since is a merge pipeline, we don't need to worry about GHE statuses
+  # We can make a hard stop and avoid reaching later stages and doing logic to understand what happened in previous stages
+  abort_on_failure: true
+  dind: true
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  script: |
+    #!/usr/bin/env bash
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/sdn/components/merge
+    ${PATH_TO_PIPELINE}/steps/test.sh
+static-scan:
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  dind: true
+  abort_on_failure: false
+  image_pull_policy: IfNotPresent
+  skip: false
+  script: |
+    #!/bin/sh
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/sdn/components/merge
+    ${PATH_TO_PIPELINE}/steps/code-static-scan.sh
+compliance-checks:
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  dind: true
+  abort_on_failure: true
+  image_pull_policy: IfNotPresent
+  script: |
+    #!/bin/sh
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/sdn/components/merge
+    ${PATH_TO_PIPELINE}/steps/compliance-checks.sh
+sign-artifact:
+  abort_on_failure: true
+  dind: true
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  script: |
+    #!/usr/bin/env bash
+    echo "No signing for SDN components"
+containerize:
+  abort_on_failure: true
+  dind: true
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  script: |
+    #!/usr/bin/env bash
+    echo "skip containerize"
+    exit 0
+scan-artifact:
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  dind: true
+  abort_on_failure: true
+  image_pull_policy: IfNotPresent
+  script: |
+    #!/bin/sh
+    echo "No scan artifact for SDN components"
+release:
+  abort_on_failure: true
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  script: |
+    #!/usr/bin/env bash
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/sdn/components/merge
+    ${PATH_TO_PIPELINE}/steps/release.sh

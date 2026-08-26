@@ -1,0 +1,50 @@
+# This policy allows connections for specific IBM Cloud infrastructure
+# (SoftLayer) systems dal10, dal12, dal13 that are used to manage the worker nodes.
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:    
+  name: allow-vpc-onepipelineci-private
+spec:
+  egress:
+  - action: Allow
+    destination:
+      nets:
+      # Qz2 deployers nets for dal10
+      - 10.200.95.38/32
+      - 10.200.95.39/32
+      # Qz2 deployers nets for dal12
+      - 10.200.127.38/32
+      - 10.200.127.39/32
+      # Qz2 deployers nets for dal13
+      - 10.200.143.38/32
+      - 10.200.143.39/32
+      # Qz2 deployers nets for dal14
+      - 10.203.159.73/32
+      - 10.203.159.72/32
+      ports:
+      - 22
+    protocol: TCP
+    source: {}
+  - action: Allow
+    destination:
+      nets:
+      # Qz2 deployers nets for dal10
+      - 10.200.95.38/32
+      - 10.200.95.39/32
+      # Qz2 deployers nets for dal12
+      - 10.200.127.38/32
+      - 10.200.127.39/32
+      # Qz2 deployers nets for dal13
+      - 10.200.143.38/32
+      - 10.200.143.39/32
+      # Qz2 deployers nets for dal14
+      - 10.203.159.73/32
+      - 10.203.159.72/32
+      ports:
+      - 22
+    protocol: UDP
+    source: {}
+  order: 1500
+  selector: ibm.role == 'worker_private'
+  types:
+  - Egress

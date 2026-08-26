@@ -1,0 +1,21 @@
+version: '2'
+
+tasks:  
+  async-stage:
+    include:      
+      - dind
+    steps:
+      - name: run-stage
+        onError: stopAndFail
+        include:
+          - docker-socket        
+        image: icr.io/continuous-delivery/toolchains/devsecops/csso-image-sign@sha256:2ffeac42170986cb4c14af776a365cb4a695c4d26e8dafdc1374148b74d982dd
+      - name: sign-artifact-as-subpipeline
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/hotfix-merge-v11
+          ${PATH_TO_PIPELINE}/steps/sign_artifact_as_subpipeline.sh
+
+      - name: finish
+        when: false

@@ -1,0 +1,1834 @@
+##
+## =============================================================================================
+## IBM Confidential
+## (C) Copyright IBM Corp. 2019-2021
+## The source code for this program is not published or otherwise divested of its trade secrets,
+## irrespective of what has been deposited with the U.S. Copyright Office.
+## =============================================================================================
+##
+
+---
+### NOTE: TEST-OVERRIDE EXAMPLES ARE AT THE BOTTOM OF THE FILE ###
+
+# NOTE: DO NOT REMOVE THIS ENTRY; It is being utilized in the kube release bundles
+artifactory-sandbox-docker-url: docker-na-public.artifactory.swg-devops.com/wcp-genctl-sandbox-docker-local
+# -- Prod artifactory --     NOTE: *prod-url is needed for some get steps, when *-url is set to test value
+artifactory-docker-prod-url: docker-na-public.artifactory.swg-devops.com/wcp-genctl-docker-local
+artifactory-docker-proxy-url: docker-na.artifactory.swg-devops.com/wcp-genctl-proxy-docker-remote
+artifactory-docker-url: docker-na-public.artifactory.swg-devops.com/wcp-genctl-docker-local
+artifactory-docker-path: wcp-genctl-docker-local
+artifactory-generic-sandbox-repo-path: wcp-genctl-sandbox-generic-local
+artifactory-generic-repo-path: wcp-genctl-generic-local
+artifactory-debian-repo-path: wcp-genctl-platform-nextgen-debian-local
+artifactory-debian-sandbox-repo-path: wcp-genctl-sandbox-generic-local
+artifactory-rpm-repo-path: wcp-genctl-platform-nextgen-rpm-local
+artifactory-rpm-sandbox-repo-path: wcp-genctl-sandbox-generic-local
+artifactory-golang-binaries-repo-path: wcp-genctl-generic-local
+artifactory-golang-binaries-sandbox-repo-path: wcp-genctl-sandbox-generic-local
+artifactory-tar-repo-path: wcp-genctl-generic-local
+artifactory-tar-sandbox-repo-path: wcp-genctl-sandbox-generic-local
+artifactory-docker-collab-repo-path: sys-wcp-genctl-team-gc-collab-docker-local
+artifactory-docker-collab-url: docker-na-public.artifactory.swg-devops.com/sys-wcp-genctl-team-gc-collab-docker-local.artifactory.swg-devops.com
+artifactory-undercloud-debian-repo-path: wcp-genctl-undercloud-debian-local
+
+artifactory-shipyard-url: docker-na-public.artifactory.swg-devops.com/wcp-genctl-platform-shipyard-docker-local
+artifactory-base-url: https://na.artifactory.swg-devops.com/artifactory
+artifactory-docker-staging-url: docker-na-public.artifactory.swg-devops.com/wcp-genctl-stage-docker-local
+artifactory-docker-staging-path: wcp-genctl-stage-docker-local
+artifactory-generic-staging-path: wcp-genctl-stage-generic-local
+
+artifactory-docker-staging-url-private: docker-na-private.artifactory.swg-devops.com/wcp-genctl-stage-docker-local
+artifactory-sandbox-docker-url-private: docker-na-private.artifactory.swg-devops.com/wcp-genctl-sandbox-docker-local
+artifactory-docker-prod-url-private: docker-na-private.artifactory.swg-devops.com/wcp-genctl-docker-local
+
+artifactory-cleanup-dry-run: false
+artifactory-cleanup-days-passed-for-zero-downloads: 730
+artifactory-cleanup-days-passed-since-last-download: 730
+
+anchore-engine-url: http://anchore.genctlci.com:8228/v1
+
+allow-dynamic-debian-versioning: true
+
+ibmcloud-cr-url: us.icr.io/genctl-cicd
+ibmcloud-cr-url-onepipeline: us.icr.io/genctl-cicd-onepipeline
+ibmcloud-cr-url-onepipeline-backup: uk.icr.io/genctl-cicd-onepipeline-backup
+iccr-push-skip-flag: false
+iccr-check-skip-flag: true
+iccr-check-timeout: 12h
+
+jira-url: https://ibm-iaas.atlassian.net
+
+hotfix-branch: ""
+hotfix-major-component: ""
+hotfix-version: ""
+
+build-logs-to-retain: 60
+run-brt-stat-exporter: true
+check-pr-title-timeout: 10m
+common-build-task: common_build.yaml
+common-workspace-input-name: workspace-repo
+concourse-server-url: https://concourse-tor.genctlci.com
+concourse-server-url-secondary: https://concourse-tor-2.genctlci.com
+dashboard-team-elastic-url: http://9.114.87.41:8001/brts-history/new/
+deb-common-build-path: hack/ci/build.yaml
+skip-deploy-dal: "false"
+generic-workspace-build-task-path: pipeline/generic-workspace-build.yaml
+generic-workspace-build-task: generic-workspace-build.yaml
+gosec-file-prefix: gosec
+gostaticcheck-file-prefix: gostaticcheck
+hostos-deploy-job-name: "HOSTOS_BRT"
+hostos-deploy-task-name: "hostos-brt"
+ibm-github-uri-base: git@github.ibm.com
+ibm-github-url: github.ibm.com
+ibm-github-api-uri-base: https://github.ibm.com/api/v3
+ibm-github-api-raw-uri-base: https://raw.github.ibm.com
+ibm-github-api-uri-graph: https://github.ibm.com/api/graphql
+
+copy-images-enabled: true
+artifactory-shipyard-generic-path: 0 # For testing
+slack-silent-flag: false
+travis-cli-version: 1.11.1
+travis-api-endpoint: https://v3.travis.ibm.com/api
+
+upload-to-registry-flag: true
+upload-to-debian-registry-flag: true
+upload-to-registry-golang-binaries: true
+
+third-party-images-yaml-file-path: hack/ci/third-party-images.yaml
+
+### Consider overriding when testing templatized pipelines
+template-branch: master
+templatized-pipeline-prefix: ""
+templatized-pipeline-team: genctl
+
+cicd-team: cicd
+
+### Concourse resource type parameters ###
+artifactory-resource-type-path: concourse/pivotalservices/artifactory-resource
+artifactory-resource-type-tag: '0.1'
+
+concourse-resource-type-path: concourse/concourse/concourse-pipeline-resource
+concourse-resource-type-tag: 2.1.1
+
+launch-darkly-environment: development
+launch-darkly-api-key: ((vault-launch-darkly-api-key))
+launch-darkly-default-url: https://app.launchdarkly.com/api/v2/flags/vpc-ci/
+launch-darkly-relay-proxy-id: ld-api-key-relay-proxy-test
+launch-darkly-upload-environment: nonprod
+
+locks-queue-resource-type-path: concourse/locks-queue-resource
+locks-queue-resource-type-tag: 0.1-1644504228
+
+mascd-brt-pool: mascd-brt-lock
+
+mascd-integration-branch-name: dev-integration
+mascd-release-branch-name: master
+master-check-secrets-mzone-name: "7183"
+
+meta-resource-type-path: swce/metadata-resource
+
+metadata-image-path: concourse/olhtbr/metadata-resource
+metadata-image-tag: '2.0.1'
+
+notification-resource-type-path: concourse/notification-resource
+notification-resource-type-tag: 0.1-1631203335
+notification-resource-dry-run: false
+
+pr-resource-type-path: concourse/jtarchie/pr
+pr-resource-type-tag: v31
+new-pr-resource-type-path: concourse/pr-resource
+new-pr-resource-type-tag: '1.13.0'
+
+razee-ff-setld-replicas-min: 0
+razee-ff-setld-replicas-max: 1
+
+skip-release-flag: false
+slack-resource-type-path: concourse/cfcommunity/slack-notification-resource
+slack-resource-type-tag: v1.3.1
+
+git-resource-type-path: concourse/git-resource
+git-resource-type-tag: 1.14.4
+
+cbuild-image-path: cloudnet/cbuild
+
+cbuild-image-tag: '20220727091245-amd64'
+cbuild-image-multiarch-tag: '20220727091245'
+
+### dev resource parameters ###
+
+genctl-devtools-image-path: genctl-devtools
+genctl-devtools-image-tag: '0.2'
+genctl-devtools-image-special-tag: '0.3'
+
+gentool-repo-name: gentool
+gentool-org-name: cloud-infrastructure
+gentool-tag-filter: "*"
+
+golang-ci-image-path: genctl/golang-ci
+golang-ci-image-tag: '22.20260817071533-amd64'
+golang-ci-image-manifest-tag: '22.20260817071533'
+
+brt-ci-image-path: genctl/golang-ci
+brt-ci-image-tag: '22.20260817071533-amd64'
+
+golang-hyperkube-ci-repo-name: golang-hyperkube-ci
+golang-hyperkube-ci-org-name: genctl-cicd
+golang-hyperkube-ci-branch: master
+golang-hyperkube-ci-image-path: genctl/golang-hyperkube-ci
+golang-hyperkube-ci-image-tag: 'v1.24.15.20240111'
+
+golang-image-path: genctl/qa
+
+maven-repo-name: maven
+maven-org-name: genctl-cicd
+maven-branch: master
+maven-image-path: genctl/maven
+maven-image-tag: "bec46564a1ac067c10f0ffd715a4b2ed7e7ad516-amd64"
+
+autoscale-processor-repo-name: autoscale-processor
+autoscale-processor-org-name: cloudlab
+autoscale-processor-branch: master
+
+brts-history-collector-org-name: cloudlab
+brts-history-collector-repo-name: brts-history-collector
+brts-history-collector-branch: master
+
+minikube-ci-image-path: genctl/minikube
+minikube-ci-image-tag: '2019.08.08.17.02'
+
+minikube-org-name: genctl-cicd
+minikube-repo-name: minikube
+
+platform-devshell-image-path: genctl/platform/devshell-image
+platform-devshell-image-tag: '20180802.1'
+
+docker-in-docker-image-path: genctl-ci/genctldind
+docker-in-docker-image-tag: '20231120200100-amd64'
+
+smoketest-image-path: genctl/qa/csitestenv
+
+content-stager-image-path: contentstager
+content-stager-image-tag: '1.1'
+
+dry-run-deployment-enabled: false
+
+### common file paths
+version-json-path: version.json
+deployment-config-path: hack/deploy
+
+### cicd repo-specific parameters ###
+brt-stats-repo-name: brt-stats
+brt-stats-repo-org: genctl-cicd
+
+csi-logapp-repo-name: csi-logapp
+csi-logapp-org-name: genctl
+csi-logapp-branch: master
+csi-logapp-image-path: genctl/csi-logapp
+
+devops-vault-repo-name: devops-vault
+devops-vault-org-name: genctl-cicd
+devops-vault-branch: master
+
+genctl-cd-repo-name: genctl-cd
+genctl-cd-org-name: genctl-cicd
+genctl-cd-branch: master
+genctl-cd-ngdc-support-branch: ngdc
+
+genctl-ci-repo-name: genctl-ci
+genctl-ci-org-name: genctl-cicd
+genctl-ci-branch: master
+genctl-ci-release-lock-directory: unclaimed
+genctl-ci-claim-lock-directory: claimed
+genctl-ci-mzone-fail-lock-directory: failed
+genctl-ci-mzone-failure-threshold: 7
+
+genctl-common-repo-name: common
+genctl-common-org-name: genctl-cicd
+genctl-common-branch: master
+genctl-vetted-versions-org-name: genctl-cicd
+genctl-vetted-versions-repo-name: vetted-versions
+genctl-vetted-versions-branch-name: master
+genctl-vetted-versions-file: pre-integration.yaml
+genctl-vetted-versions-env: pre-integration
+
+cicd-unpaused-toggle: true
+
+resourcelock-repo-name: resourcelock
+resourcelock-org-name: genctl-cicd
+resourcelock-branch: master
+resourcelock-ngdc-branch-name: ngdc-locks
+
+semver-repo-name: semver
+semver-org-name: genctl-cicd
+semver-branch: master
+semver-driver: git
+
+golang-ci-repo-name: golang-ci
+golang-ci-org-name: genctl-cicd
+golang-ci-branch: master
+
+cloudnet-cbuild-org-name: cloudnet
+cloudnet-cbuild-repo-name: cbuild
+cloudnet-cbuild-branch: master
+
+cos-bucket-list: "eu/deployment-artifacts-eu-geo us/deployment-artifacts-us-geo us-south/development-workspace-artifacts"
+cos-endpoint-template: https://s3.REGION.cloud-object-storage.appdomain.cloud/
+
+nextgen-service-deployer: nextgen-service-deployer
+nextgen-service-deployer-ver: 1.11.10
+nextgen-service-deployer-release-image-name: registry.ng.bluemix.net/genctl/genctl-release-amd64-templated
+nextgen-service-deployer-rias-release-image-name: registry.ng.bluemix.net/genctl/rias-release-amd64-templated
+nextgen-service-deployer-rias-etcd-release-image-name: registry.ng.bluemix.net/genctl/rias-etcd-release-amd64-templated
+
+smotainer-component-name: smotainer-release
+
+artifactory-resource-repo-name: artifactory-resource
+artifactory-resource-org-name: pivotalservices
+artifactory-resource-branch: master
+
+ads-agent-repo-name: ads-agent
+ads-agent-org-name: genctl-cicd
+ads-agent-branch: master
+ads-agent-image-path: genctl-cd/ads-agent
+
+ads-jenkins-username: cloudcdibmcloud@ibm.com
+
+ads-upload-ff-job-name: production/featureFlagsUpload
+ads-razee-job-name: production/razee
+ads-razee-run-parallel-deploy: false
+
+acadia-storage-workspace-org-name: genctl
+acadia-storage-workspace-repo-name: acadia-storage-workspace
+acadia-storage-workspace-branch: master
+
+acadia-baremetal-storage-workspace-org-name: genctl
+acadia-baremetal-storage-workspace-repo-name: acadia-baremetal-storage-workspace
+acadia-baremetal-storage-workspace-branch: main
+
+anti-patterns-org-name: IaaSPerformance
+anti-patterns-repo-name: anti-patterns
+anti-patterns-branch: main
+anti-patterns-context: anti-patterns-performance-check
+anti-patterns-check-timeout: 30m
+
+api-extension-codegen-repo-name: api-extension-codegen
+api-extension-codegen-org-name: genctl-cicd
+api-extension-codegen-branch: master
+api-codegen-artifactory-path: genctl/api-extension-codegen
+api-codegen-artifactory-tag-for-genctl: '1.24.15.20240111'
+api-codegen-artifactory-tag-for-rias: '1.24.15.20240111'
+
+### Dev repo-specific parameters ###
+api-extension-server-repo-name: api-extension-server
+api-extension-server-org-name: genctl
+api-extension-server-branch: master
+api-extension-semver-file: versions/api-extension-workspace-version.txt
+api-extension-server-image-path: genctl/api-extension-server
+
+api-extension-workspace-repo-name: api-extension-workspace
+api-extension-workspace-org-name: genctl
+api-extension-workspace-branch: master
+api-extension-workspace-semver-file: versions/api-extension-workspace-version.txt
+limiting-api-server-image-path: genctl/limiting-api-server
+network-api-server-image-path: genctl/network-api-server
+storage-api-server-image-path: genctl/storage-api-server
+storageservice-api-server-image-path: genctl/storageservice-api-server
+compute-api-server-image-path: genctl/compute-api-server
+
+apigateway-workspace-repo-name: apigateway-workspace
+apigateway-workspace-org-name: genctl
+apigateway-workspace-branch: master
+
+protobuf-codegen-image-path: genctl/protobuf-codegen-cli
+
+apis-repo-name: apis
+apis-org-name: genctl
+apis-branch: master
+
+attestation-packaging-org-name: k8s4g
+attestation-packaging-repo-name: attestation-packaging
+attestation-packaging-branch: master
+
+compute-billing-lifecycle-mgmt-repo-name: compute-billing-lifecycle-mgmt
+compute-billing-lifecycle-mgmt-branch: master
+compute-billing-lifecycle-mgmt-org-name: genctl
+
+cvoaas-service-controller-repo-name: cvoaas-service-controller
+cvoaas-service-controller-branch: master
+cvoaas-service-controller-org-name: genctl
+
+cvoaas-sds-interface-controller-repo-name: cvoaas-sds-interface-controller
+cvoaas-sds-interface-controller-branch: master
+cvoaas-sds-interface-controller-org-name: genctl
+
+dal-prod-org-name: nextgen-environments
+dal-prod-branch: master
+mad-prod-org-name: nextgen-environments
+mad-prod-branch: main
+osa-prod-org-name: nextgen-environments
+osa-prod-branch: master
+sao-prod-org-name: nextgen-environments
+sao-prod-branch: master
+
+ddtool-org-name: genctl
+ddtool-repo-name: ddtool
+ddtool-branch: master
+ddt-config-template-file: mzone_ddt_config_template.hjson
+
+ddt-deploy-org-name: genctl-cicd
+ddt-deploy-repo-name: ddt-deploy
+ddt-deploy-branch: master
+
+denali-storage-workspace-org-name: genctl
+denali-storage-workspace-repo-name: denali-storage-workspace
+denali-storage-workspace-branch: master
+
+dedicated-storage-cluster-org-name: Managed-Dedicated-Storage-Cluster
+dedicated-storage-cluster-repo-name: dedicated-storage-cluster
+dedicated-storage-cluster-branch: master
+
+featureflags-workspace-org-name: genctl
+featureflags-workspace-repo-name: featureflags-workspace
+featureflags-workspace-branch: master
+
+genctl-globals-org-name: genctl
+genctl-globals-repo-name: genctl-globals
+genctl-globals-branch: master
+
+goku-org-name: genctl-cicd
+goku-repo-name: goku
+goku-branch: master
+
+hardened-scratch-baseimage-org-name: cloudlab
+hardened-scratch-baseimage-repo-name: hardened-scratch-baseimage
+hardened-scratch-baseimage-branch: master
+
+hostos-component: hostos
+hostos-make-target: build
+
+hostos-boot-release-org-name: cloudlab
+hostos-boot-release-repo-name: hostos-boot-release
+hostos-boot-release-branch: master
+
+hostos-config-release-org-name: cloudlab
+hostos-config-release-repo-name: hostos-config-release
+hostos-config-release-branch: master
+
+hostos-base-os-sw-release-org-name: cloudlab
+hostos-base-os-sw-release-repo-name: hostos-base-os-sw-release
+hostos-base-os-sw-release-branch: master
+
+hostos-base-net-sw-release-org-name: cloudlab
+hostos-base-net-sw-release-repo-name: hostos-base-net-sw-release
+hostos-base-net-sw-release-branch: master
+
+hostos-nextgen-os-sw-release-org-name: cloudlab
+hostos-nextgen-os-sw-release-repo-name: hostos-nextgen-os-sw-release
+hostos-nextgen-os-sw-release-branch: master
+
+hostos-kernel-patch-release-org-name: cloudlab
+hostos-kernel-patch-release-repo-name: hostos-kernel-patch-release
+hostos-kernel-patch-release-branch: master
+
+hostos-validate-release-org-name: cloudlab
+hostos-validate-release-repo-name: hostos-validate-release
+hostos-validate-release-branch: master
+
+kube-component: kube
+kube-make-target: build
+
+kube-base-deployer-org-name: cloudlab
+kube-base-deployer-repo-name: kube-base-deployer
+kube-base-deployer-branch: master
+
+kube-base-release-org-name: cloudlab
+kube-base-release-repo-name: kube-base-release
+kube-base-release-branch: master
+
+etcd-base-release-org-name: cloudlab
+etcd-base-release-repo-name: etcd-base-release
+etcd-base-release-branch: master
+
+kube-addon-release-org-name: cloudlab
+kube-addon-release-repo-name: kube-addon-release
+kube-addon-release-branch: master
+
+kube-bootstrap-org-name: cloudlab
+kube-bootstrap-repo-name: kube-bootstrap
+kube-bootstrap-branch: master
+
+kube-define-org-name: cloudlab
+kube-define-repo-name: kube-define
+kube-define-branch: master
+
+kube-define-release-org-name: cloudlab
+kube-define-release-repo-name: kube-define-release
+kube-define-release-branch: master
+
+kube-kopilot-release-org-name: genctl
+kube-kopilot-release-repo-name: kube-kopilot-release
+kube-kopilot-release-branch: master
+
+kubectl-plugins-org-name: cloudlab
+kubectl-plugins-repo-name: kubectl-plugins
+kubectl-plugins-branch: master
+
+kube-stage-org-name: cloudlab
+kube-stage-repo-name: kube-stage
+kube-stage-branch: master
+
+pds-config-release-org-name: cloudnet
+pds-config-release-repo-name: pds-config-release
+pds-config-release-branch: master
+
+pds-firmware-payload-org-name: cloudnet
+pds-firmware-payload-repo-name: pds-firmware-payload
+pds-firmware-payload-branch: master
+
+pds-firmware-release-org-name: cloudnet
+pds-firmware-release-repo-name: pds-firmware-release
+pds-firmware-release-branch: master
+
+block-agent-cli-file-prefix: cld-blockagent-cli
+block-agent-cli-package-artifactory-generic-root: storage/block-agent
+block-agent-server-file-prefix: cld-blockagent-server
+block-agent-server-package-artifactory-generic-root: storage/block-agent
+
+bss-integration-workspace-repo-name: bss-integration-workspace
+bss-integration-workspace-org-name: genctl
+bss-integration-workspace-branch: master
+bss-integration-workspace-semver-file: versions/bss-integration-workspace-version.txt
+bss-integration-server-image-path: genctl/bss-integration-server
+
+cd-deploy-start-time: '$(jq -r .planned_start cr-data.json)'
+cd-smotainer-meta-tag-environment: development
+cd-failure-input-timeout: 30
+cd-promotion-from-org: nextgen-environments
+smotainer-extra-flags: "--abf-enable"
+
+changelog-repo-name: changelog
+changelog-org-name: genctl-cicd
+changelog-branch: master
+changeloggen-version: v1.13.0
+
+default-semver-create-tag-mode: semver
+semver-create-tag-mode-gomod: gomod
+
+ibmcloud-key: ((clconc-Balaji-ibmcloud-apikey))
+ibmcloud-account-id: ((ibmcloud-balaji-account-id))
+
+cd-vpc-ibmcloud-apikey: ""
+
+client-go-repo-name: client-go
+client-go-org-name: genctl
+client-go-branch: master
+
+calico-network-policies-workspace-repo-name: calico-network-policies-workspace
+calico-network-policies-workspace-org-name: genctl
+calico-network-policies-workspace-branch: master
+
+cloudinit-workspace-repo-name: cloudinit-workspace
+cloudinit-workspace-org-name: genctl
+cloudinit-workspace-branch: master
+cloudinit-workspace-semver-file: versions/cloudinit-workspace-version.txt
+cloudinit-server-image-path: genctl/cloudinit-server
+
+cloudnet-mlx-workspace-repo-name: cloudnet-mlx-workspace
+cloudnet-mlx-workspace-org-name: cloudnet
+cloudnet-mlx-workspace-branch: master
+cloudnet-mlx-pool: cloudnet-mlx-lock
+cloudnet-mlx-one-pipeline-pool: cloudnet-mlx-lock-one-pipeline
+cloudnet-mlx-sw-pool: cloudnet-mlx-sw-lock
+cloudnet-mlx-s390x-pool: cloudnet-mlx-s390x-lock
+cloudnet-mlx-pds-pool: cloudnet-mlx-pds-lock
+
+cni-plugins-repo-name: cni-plugins
+cni-plugins-org-name: genctl
+cni-plugins-branch: master
+cni-plugins-semver-file: versions/cni-plugins-version.txt
+cni-plugins-package-artifactory-generic-root: network/cni-plugins
+cni-plugins-file-prefix: cni-plugins
+
+compute-workspace-repo-name: compute-workspace
+compute-workspace-org-name: genctl
+compute-workspace-branch: master
+compute-pr-artifactory-generic-root: concourse/genctl/compute-pr
+compute-workspace-semver-file: versions/compute-workspace-version.txt
+cld-computeproxy-package-artifactory-generic-root: compute/proxy
+cld-computeproxy-file-prefix: cld-computeproxy
+cld-computetools-package-artifactory-generic-root: compute/target-tools
+cld-computetools-file-prefix: cld-computetools
+compute-action-controller-image-path: genctl/compute-action-controller
+compute-agent-image-path: genctl/compute-agent
+compute-node-controller-image-path: genctl/compute-node-controller
+virtual-disk-controller-image-path: genctl/virtual-disk-controller
+virtual-nic-controller-image-path: genctl/virtual-nic-controller
+vm-instance-controller-image-path: genctl/vm-instance-controller
+vm-migration-controller-image-path: genctl/vm-migration-controller
+vm-scheduler-image-path: genctl/vm-scheduler
+
+controller-common-repo-name: controller-common
+controller-common-org-name: genctl
+controller-common-branch: master
+
+console-proxy-workspace-org-name: genctl
+console-proxy-workspace-repo-name: console-proxy-workspace
+console-proxy-workspace-branch: master
+
+devlink-package-artifactory-generic-root: cloudnet/devlink
+
+dev-integration-pr-cos-upload-ready-label-name: 'Ready for COS upload'
+
+dev-mzone-automation-repo-name: dev-mzone-automation
+dev-mzone-automation-org-name: cloudnet
+dev-mzone-automation-branch: master
+
+default-depth: 0
+default-integration-tool: merge
+default-submodules: false
+get-submodules: true
+default-skip-download: true
+
+diagnostics-workspace-repo-name: diagnostics-workspace
+diagnostics-workspace-org-name: genctl
+diagnostics-workspace-branch: master
+diagnostics-workspace-semver-file: versions/diagnostics-workspace-version.txt
+diagnostics-rest-server-image-path: genctl/diagnostics-rest-server
+thirdparty-diagnostics-image-path: genctl/thirdparty-diagnostics
+
+drydock-repo-name: drydock
+drydock-org-name: genctl
+drydock-branch: master
+
+etcd-operator-repo-name: etcd-operator
+etcd-operator-org-name: cloudlab
+etcd-operator-branch: master
+etcd-operator-image-path: cloudlab/etcd-operator
+
+
+fabcon-repo-name: fabcon
+fabcon-org-name: cloudnet
+fabcon-branch: master
+fabcon-coverage-report-root: cloudnet/coverage-report/fabcon
+fabcon-coverage-report-prefix: fabcon-coverage-report
+fabcon-cli-file-prefix: fabcon-cli
+fabcon-cli-package-artifactory-generic-root: cloudnet/fabcon-cli
+fabcon-mlx-file-prefix: fabcon-mlx
+fabcon-mlx-package-artifactory-generic-root: cloudnet/fabcon-mlx
+fabcon-mlx-edge-file-prefix: fabcon-mlx-edge
+fabcon-mlx-edge-package-artifactory-generic-root: cloudnet/fabcon-mlx-edge
+fabcon-sw-file-prefix: fabcon-sw
+fabcon-sw-package-artifactory-generic-root: cloudnet/fabcon-sw
+
+fabcon-integration-repo-name: fabcon-integration
+fabcon-integration-org-name: genctl
+fabcon-integration-branch: master
+
+ffedex-repo-name: ffedex
+ffedex-org-name: genctl-cicd
+ffedex-branch: master
+
+filewatcher-repo-name: filewatcher
+filewatcher-org-name: genctl
+filewatcher-branch: master
+
+fleetman-workspace-repo-name: fleetman-workspace
+fleetman-workspace-org-name: genctl
+fleetman-workspace-branch: master
+fleetman-workspace-semver-file: versions/fleetman-workspace-version.txt
+fleetman-rest-server-image-path: genctl/fleetman-rest-server
+fleetman-rest-server-init-image-path: genctl/fleetman-rest-server-init
+fleetman-guardian-image-path: genctl/fleetman-guardian
+fleetman-metrics-image-path: genctl/fleetman-metrics
+fleetman-etcdwatch-image-path: genctl/fleetman-etcdwatch
+fleetman-vsimon-image-path: genctl/fleetman-vsimon
+fleetman-bmmon-image-path: genctl/fleetman-bmmon
+
+fra-prod-org-name: nextgen-environments
+fra-prod-branch: master
+
+bess-dkms-file-prefix: bess-dkms
+bess-dkms-package-artifactory-generic-root: cloudnet/bess-dkms
+
+genctl-release-repo-name: genctl-release
+genctl-release-org-name: genctl
+genctl-release-branch: master
+genctl-release-bundle-image-name: genctl/genctl-release
+genctl-release-bundle-build-file: prepare-genctl-release-bundle.yaml
+genctl-release-method: no-orda
+
+genesis-deploy-artifacts-org-name: genctl
+genesis-deploy-artifacts-repo-name: genesis-deploy-artifacts
+genesis-deploy-artifacts-branch: master
+#rias-inception-version to set in CI mzones for base deployment
+genesis-deploy-artifacts-rias-inception: "genctl-phase4-cluster-remote-resource"
+genesis-deploy-artifacts-override-label: "genesis-deploy-artifacts-override"
+genesis-deploy-artifacts-rias-inception-override: "genctl-phase4-cluster-remote-resource"
+
+
+genesis-deploy-artifacts-genctl-cluster-remote-resource: genctl-cluster-remote-resource.yaml
+genesis-deploy-artifacts-rias-cluster-remote-resource: rias-cluster-remote-resource.yaml
+genesis-deploy-artifacts-etcd-cluster-remote-resource: rias-etcd-cluster-remote-resource.yaml
+
+genesis-deploy-workspace-org-name: genctl
+genesis-deploy-workspace-repo-name: genesis-deploy-workspace
+genesis-deploy-workspace-branch: master
+
+github-release-resource-image-path: concourse/github-release-resource/github-release-resource
+github-release-resource-image-tag: v1.6.3-alpine
+github-release-resource-sort-method: time
+
+go-notify-slack-group: "<!subteam^S027SCS61GR|cdp-alert>"
+go-notify-version: v0.7.0
+
+guest-proxy-repo-name: guest-proxy
+guest-proxy-org-name: genctl
+guest-proxy-branch: master
+
+observability-workspace-org-name: genctl
+observability-workspace-repo-name: observability-workspace
+observability-workspace-branch: main
+
+genctl-storage-tools-org-name: genctl
+genctl-storage-tools-repo-name: genctl-storage-tools
+genctl-storage-tools-branch: master
+
+goldi-locks-org-name: cloudlab
+goldi-locks-repo-name: goldi-locks
+goldi-locks-branch: master
+
+goldi-locks-configs-org-name: cloudlab
+goldi-locks-configs-repo-name: goldi-locks-configs
+goldi-locks-configs-branch: main
+
+validate-ff-config: false
+
+global-prod-org-name: nextgen-environments
+global-prod-branch: master
+
+global-staging-org-name: nextgen-environments
+global-staging-branch: main
+
+global-integ-org-name: nextgen-environments
+global-integ-branch: master
+
+global-dev-org-name: nextgen-environments
+global-dev-branch: master
+
+gt-api-client-repo-name: gt-api-client
+gt-api-client-org-name: genctl
+gt-api-client-branch: master
+
+hmon-repo-name: hmon
+hmon-org-name: cloudnet
+hmon-branch: master
+hmonagent-file-prefix: hmonagent
+hmonagent-package-artifactory-generic-root: cloudnet/hmonagent
+hmonagent-mlx-file-prefix: hmonagent-mlx
+hmonagent-mlx-package-artifactory-generic-root: cloudnet/hmonagent-mlx
+hmonlib-file-prefix: hmonlib
+hmonlib-package-artifactory-generic-root: cloudnet/hmonlib
+
+hotfix-builder-repo-name: hotfix
+hotfix-builder-org-name: genctl-cicd
+hotfix-builder-branch: master
+
+hotfix-builder-razee-repo-name: hotfix-razee
+hotfix-builder-razee-org-name: genctl-cicd
+hotfix-builder-razee-branch: master
+hotfix-razee-base-name: razee-hotfix
+
+hypersync-integration-workspace-repo-name: hypersync-integration-workspace
+hypersync-integration-workspace-org-name: genctl
+hypersync-integration-workspace-branch: master
+hypersync-integration-workspace-semver-file: versions/hypersync-integration-workspace-version.txt
+hypersync-integration-server-image-path: genctl/hypersync-integration-server
+
+image-service-workspace-repo-name: image-service-workspace
+image-service-workspace-org-name: genctl
+image-service-workspace-branch: master
+
+image-utils-org-name: cloudlab
+image-utils-repo-name: image-utils
+image-utils-branch: master
+
+infrastructure-service-workspace-repo-name: infrastructure-service-workspace
+infrastructure-service-workspace-org-name: genctl
+infrastructure-service-workspace-branch: master
+redis-image-path: genctl/redis
+
+integration-testing-repo-name: integration-testing
+integration-testing-org-name: genctl
+integration-testing-branch: master
+integration-testing-tag-filter: '*'
+integration-testing-timeout-mins: 45
+
+internal-service-golang-bindings-repo-name: internal-service-golang-bindings
+internal-service-golang-bindings-org-name: genctl
+internal-service-golang-bindings-branch: master
+
+internal-service-protobufs-repo-name: internal-service-protobufs
+internal-service-protobufs-org-name: genctl
+internal-service-protobufs-branch: master
+
+internal-service-python-bindings-repo-name: internal-service-python-bindings
+internal-service-python-bindings-org-name: genctl
+internal-service-python-bindings-branch: master
+
+iobricks-repo-name: iobricks
+iobricks-org-name: cloudnet
+iobricks-branch: master
+iobricks-file-prefix: iobricks
+iobricks-package-artifactory-generic-root: cloudnet/iobricks
+iobricks-edge-file-prefix: iobricks-edge
+iobricks-edge-package-artifactory-generic-root: cloudnet/iobricks-edge
+iobricks-mlx-file-prefix: iobricks-mlx
+iobricks-mlx-package-artifactory-generic-root: cloudnet/iobricks-mlx
+iobricks-sw-file-prefix: iobricks-sw
+iobricks-sw-package-artifactory-generic-root: cloudnet/iobricks-sw
+
+kernel-mft-dkms-artifactory-generic-root: third-party/kernel-mft-dkms
+
+kali-org-name: cloudnet
+kali-repo-name: kali
+kali-branch: master
+
+kali-branch-vnext: vnext
+
+kerberos-workspace-repo-name: kerberos-workspace
+kerberos-workspace-org-name: genctl
+kerberos-workspace-branch: master
+
+keylore-org-name: genctl
+keylore-repo-name: keylore
+keylore-old-branch: old-master
+keylore-branch: master
+
+keylore-common-repo-name: keylore-common
+keylore-common-org-name: genctl
+keylore-common-branch: master
+
+keylore-latest-image-tag: latest
+
+keylore-collab-path: keylore
+keylore-genctl-ci-path: genctl/keylore
+keylore-lock: keylore-lock
+
+keyreact-org-name: genctl
+keyreact-repo-name: keyreact
+keyreact-branch: master
+keyreact-image-path: rias/keyreact
+
+kopilot-csr-repo-name: kopilot-csr
+kopilot-csr-org-name: cloudlab
+kopilot-csr-branch: main
+
+locks-queue-resource-org-name: genctl-cicd
+locks-queue-resource-repo-name: locks-queue-resource
+locks-queue-resource-branch: master
+
+lon-prod-org-name: nextgen-environments
+lon-prod-branch: master
+
+ads-image-org-name: genctl-cicd
+ads-image-repo-name: ads-image
+ads-image-branch: master
+ads-image-image-path: genctl-cd/ads-image
+
+pr-template-environment-brt-label: brt
+
+mds-image-org-name: genctl-cicd
+mds-image-repo-name: mds-image
+mds-image-branch: master
+mds-image-image-path: genctl-cd/mds-image
+mds-image-tag: '3.49.0'
+
+ads-goku-tag: 'v0.3.0'
+
+mds-environments-org-name: nextgen-environments
+mds-environments-branch: master
+mds-config-template-file: mzone_mds_config_template.yaml
+mds-config-hostos-brt-template-file: mzone_mds_config_hostos_brt_template.yaml
+
+micro-deploy-server-org-name: genctl-cicd
+micro-deploy-server-repo-name: micro-deploy-server
+micro-deploy-server-branch: master
+
+mlx-config-repo-name: mlx-config
+mlx-config-org-name: cloudnet
+mlx-config-branch: master
+mlx-config-file-prefix: mlx-config
+mlx-config-package-artifactory-generic-root: cloudnet/mlx-config
+
+frr-repo-name: frr
+frr-org-name: cloudnet
+frr-branch: master
+
+gobgp-repo-name: gobgp
+gobgp-org-name: cloudnet
+gobgp-branch: master
+
+sdn-devops-repo-name: sdn-devops
+sdn-devops-org-name: cloudnet
+sdn-devops-branch: master
+
+cbuild-repo-name: cbuild
+cbuild-org-name: cloudnet
+cbuild-branch: master
+
+fabinst-repo-name: fabinst
+fabinst-org-name: cloudnet
+fabinst-branch: master
+
+pds-grpc-api-repo-name: pds-grpc-api
+pds-grpc-api-org-name: cloudnet
+pds-grpc-api-branch: master
+
+mlx-firmware-repo-name: mlx-firmware
+mlx-firmware-org-name: cloudnet
+mlx-firmware-branch: master
+mlx-firmware-file-prefix: mlx-firmware
+mlx-firmware-package-artifactory-generic-root: cloudnet/mlx-firmware
+mlx-executor-logs-artifactory-generic-root: cloudnet/mlx-executor-logs
+
+monitoring-workspace-repo-name: monitoring-workspace
+monitoring-workspace-org-name: genctl
+monitoring-workspace-branch: master
+monitoring-workspace-semver-file: versions/monitoring-workspace-version.txt
+customer-event-converter-image-path: genctl/customer-event-converter
+event-controller-image-path: genctl/event-controller
+ims-event-router-image-path: genctl/ims-event-router
+monitoring-rest-server-image-path: genctl/monitoring-rest-server
+newrelic-event-router-image-path: genctl/newrelic-event-router
+zabbix-event-router-image-path: genctl/zabbix-event-router
+
+mzone7x1-repo-name: mzone7x1
+mzone7x1-org-name: nextgen-environments
+mzone7x1-branch: master
+
+mzone7x3-repo-name: mzone7x3
+mzone7x3-org-name: nextgen-environments
+mzone7x3-branch: master
+
+rm-mzone-repo-name: rm-mzone
+rm-mzone-org-name: nextgen-environments
+rm-mzone-branch: master
+
+mzone-nextgen-environment-org-name: nextgen-environments
+mzone-nextgen-environment-branch: master
+
+netapp-discover-job-nvme-repo-name: netapp-discover-job-nvme
+netapp-discover-job-nvme-org-name: genctl
+netapp-discover-job-nvme-branch: master
+
+netapp-volume-provisioner-nvme-repo-name: netapp-volume-provisioner-nvme
+netapp-volume-provisioner-nvme-org-name: genctl
+netapp-volume-provisioner-nvme-branch: master
+
+netapp-volume-scheduler-nvme-repo-name: netapp-volume-scheduler-nvme
+netapp-volume-scheduler-nvme-org-name: genctl
+netapp-volume-scheduler-nvme-branch: master
+
+network-workspace-repo-name: network-workspace
+network-workspace-org-name: genctl
+network-workspace-branch: master
+network-workspace-semver-file: versions/network-workspace-version.txt
+network-pr-artifactory-generic-root: concourse/genctl/network-pr
+fabcon-manager-image-path: genctl/fabcon-manager
+network-manager-image-path: genctl/network-manager
+
+netapp-client-repo-name: netapp-client
+netapp-client-org-name: genctl
+netapp-client-branch: master
+
+netapp-types-repo-name: netapp-types
+netapp-types-org-name: genctl
+netapp-types-branch: master
+
+nextgen-environments-org-name: cloudlab
+nextgen-environments-repo-name: nextgen-environments
+nextgen-environments-branch: master
+
+nfs-imageservice-cli-file-prefix: cld-nfsimageservice-cli
+nfs-imageservice-cli-package-artifactory-generic-root: storage/nfs-imageservice
+nfs-imageservice-server-file-prefix: cld-nfsimageservice-server
+nfs-imageservice-server-package-artifactory-generic-root: storage/nfs-imageservice
+
+notification-resource-org-name: genctl-cicd
+notification-resource-repo-name: notification-resource
+notification-resource-branch: master
+
+nscon-repo-name: nscon
+nscon-org-name: cloudnet
+nscon-branch: master
+
+nscon-branch-vnext: vnext
+nscon-server-image-path: genctl/nscon-server
+
+operatorvault-wiki-repo-name: OperatorVault-Wiki
+operatorvault-wiki-org-name: gensec
+operatorvault-wiki-branch: master
+
+operator-services-workspace-repo-name: operator-services-workspace
+operator-services-workspace-org-name: genctl
+operator-services-workspace-branch: master
+operator-workspace-semver-file: versions/operator-services-workspace-version.txt
+operator-api-server-image-path: genctl/operator-api-server
+
+ops-common-repo-name: ops-common
+ops-common-org-name: cloudlab
+ops-common-branch: main
+
+ops-data-zonal-repo-name: ops-data-zonal
+ops-data-zonal-org-name: cloudlab
+ops-data-zonal-branch: master
+ops-data-zonal-semver-file: versions/ops-data-zonal-version.txt
+
+collector-image-path: cloudlab/ops-data-zonal-collector
+
+ops-etcd-repo-name: ops-etcd
+ops-etcd-org-name: cloudlab
+ops-etcd-branch: main
+
+ops-etcd-globals-repo-name: ops-etcd-globals
+ops-etcd-globals-org-name: cloudlab
+ops-etcd-globals-branch: main
+
+ops-extension-server-repo-name: ops-extension-server
+ops-extension-server-org-name: cloudlab
+ops-extension-server-branch: main
+
+ops-globals-repo-name: ops-globals
+ops-globals-org-name: cloudlab
+ops-globals-branch: main
+
+ops-internal-service-golang-bindings-repo-name: ops-internal-service-golang-bindings
+ops-internal-service-golang-bindings-org-name: cloudlab
+ops-internal-service-golang-bindings-branch: master
+
+ops-iam-client-repo-name: ops-iam-client
+ops-iam-client-org-name: cloudlab
+ops-iam-client-branch: main
+
+ops-k8s-types-repo-name: ops-k8s-types
+ops-k8s-types-org-name: cloudlab
+ops-k8s-types-branch: main
+
+ops-middleware-repo-name: ops-middleware
+ops-middleware-org-name: cloudlab
+ops-middleware-branch: main
+
+ops-node-services-repo-name: ops-node-services
+ops-node-services-org-name: cloudlab
+ops-node-services-branch: main
+
+ops-node-projection-repo-name: ops-node-projection
+ops-node-projection-org-name: cloudlab
+ops-node-projection-branch: main
+
+ops-operator-actions-repo-name: ops-operator-actions
+ops-operator-actions-org-name: cloudlab
+ops-operator-actions-branch: main
+
+ops-projection-repo-name: ops-projection
+ops-projection-org-name: cloudlab
+ops-projection-branch: main
+
+ops-shared-logger-repo-name: ops-shared-logger
+ops-shared-logger-org-name: cloudlab
+ops-shared-logger-branch: main
+
+ops-snow-client-repo-name: ops-snow-client
+ops-snow-client-org-name: cloudlab
+ops-snow-client-branch: main
+
+ops-vm-projection-repo-name: ops-vm-projection
+ops-vm-projection-org-name: cloudlab
+ops-vm-projection-branch: main
+
+ops-zonal-operator-agent-repo-name: ops-zonal-operator-agent
+ops-zonal-operator-agent-org-name: cloudlab
+ops-zonal-operator-agent-branch: main
+
+banff-storage-workspace-repo-name: banff-storage-workspace
+banff-storage-workspace-org-name: genctl
+banff-storage-workspace-branch: master
+
+orda-repo-name: orda
+orda-org-name: genctl
+orda-branch: master
+orda-semver-file: versions/orda-version.txt
+orda-fab3-pool: ordadeploy3-lock
+
+other-repo-input: other-repo
+
+release-deploy-pool-dal: release-deploy-lock
+release-deploy-pool-td: release-deploy-lock-td
+release-deploy-pool-ve: release-deploy-lock-ve
+
+refstates-repo-name: refstates
+refstates-org-name: cloudlab
+refstates-branch: master
+
+expected-protected-branches-config-libraries: genctl-ci-repo/scripts/verify_protected_branches_configuration/default_expected_config_library.json
+
+PensandoLibrary-repo-name: PensandoLibrary
+PensandoLibrary-org-name: genctl
+PensandoLibrary-branch: master
+
+performance-repo-name: performance
+performance-org-name: genctl
+performance-branch: master
+performance-image-path: openjdk
+
+platform-inventory-repo-name: platform-inventory
+platform-inventory-org-name: cloudlab
+platform-inventory-branch: master
+
+platform-inventory-gensec-repo-name: platform-inventory
+platform-inventory-gensec-org-name: gensec
+platform-inventory-gensec-branch: main
+
+platform-workspace-repo-name: genctl-platform
+platform-workspace-org-name: genctl
+platform-workspace-branch: master
+platform-workspace-fab3-branch: master
+platform-workspace-fab3-build-pool: fab3-build-lock
+platform-workspace-fab3-pool: fab3-lock
+
+platform-org-branch: master
+
+pr-resource-org-name: genctl-cicd
+pr-resource-repo-name: github-pr-resource
+pr-resource-branch: ibm-master
+pr-resource-semver-file: versions/github-pr-workspace-version.txt
+
+projection-controller-workspace-repo-name: projection-controller-workspace
+projection-controller-workspace-org-name: genctl
+projection-controller-workspace-branch: master
+securitygroup-projection-controller-image-path: genctl/securitygroup-projection-controller
+vpc-projection-controller-image-path: genctl/vpc-projection-controller
+instance-spec-projection-controller-image-path: genctl/instance-spec-projection-controller
+instance-status-projection-controller-image-path: genctl/instance-status-projection-controller
+vnic-projection-controller-image-path: genctl/vnic-projection-controller
+vdisk-projection-controller-image-path: genctl/vdisk-projection-controller
+networkacl-projection-controller-image-path: genctl/networkacl-projection-controller
+subnet-projection-controller-image-path: genctl/subnet-projection-controller
+cloudinit-projection-controller-image-path: genctl/cloudinit-projection-controller
+artifactattachment-projection-controller-image-path: genctl/artifactattachment-projection-controller
+projection-controller-workspace-semver-file: versions/projection-controller-workspace-version.txt
+
+pool-agent-cli-file-prefix: cld-poolagent-cli
+pool-agent-cli-package-artifactory-generic-root: storage/pool-agent
+pool-agent-server-file-prefix: cld-poolagent-server
+pool-agent-server-package-artifactory-generic-root: storage/pool-agent
+pool-agent-lvm-server-file-prefix: cld-poolagent-lvm-server
+pool-agent-lvm-server-package-artifactory-generic-root: storage/pool-agent
+pool-agent-zfs-server-file-prefix: cld-poolagent-zfs-server
+pool-agent-zfs-server-package-artifactory-generic-root: storage/pool-agent
+zfs-config-file-prefix: cld-zfs-config
+zfs-config-package-artifactory-generic-root: storage/pool-agent
+
+razee-vault-watcher-repo-name: razee-vault-watcher
+razee-vault-watcher-org-name: genctl
+razee-vault-watcher-branch: master
+
+razee-default-deployment-files-dir: hack/deploy/razee
+
+razee-hotfix: false
+
+required-coverage-percent: 90
+
+resize-controller-workspace-repo-name: resize-controller-workspace
+resize-controller-workspace-org-name: genctl
+resize-controller-workspace-branch: master
+
+rias-release-repo-name: rias-release
+rias-release-org-name: genctl
+rias-release-branch: master
+rias-release-bundle-image-name: rias/rias-release
+rias-release-deployment-ready-label-name: 'Ready for deployment'
+
+rias-etcd-release-repo-name: rias-etcd-release
+rias-etcd-release-org-name: genctl
+rias-etcd-release-branch: master
+rias-etcd-release-bundle-image-name: rias/rias-etcd-release
+
+rias-etcd-globals-repo-name: rias-etcd-globals
+rias-etcd-globals-org-name: genctl
+rias-etcd-globals-branch: master
+
+rias-etcd-workspace-repo-name: rias-etcd-workspace
+rias-etcd-workspace-org-name: genctl
+rias-etcd-workspace-branch: master
+
+rias-globals-repo-name: rias-globals
+rias-globals-org-name: genctl
+rias-globals-branch: master
+
+rias-zonal-common-repo-name: rias-zonal-common
+rias-zonal-common-org-name: genctl
+rias-zonal-common-branch: master
+
+rcos-api-models-repo-name: rcos-api-models
+rcos-api-models-org-name: genctl
+rcos-api-models-branch: master
+rcos-api-models-semver-file: versions/rcos-api-models-version.txt
+
+baremetal-workspace-repo-name: baremetal-workspace
+baremetal-workspace-org-name: genctl
+baremetal-workspace-branch: master
+
+regional-baremetal-workspace-repo-name: regional-baremetal-workspace
+regional-baremetal-workspace-org-name: genctl
+regional-baremetal-workspace-branch: master
+
+regional-extension-server-branch: master
+regional-extension-server-org-name: genctl
+regional-extension-server-repo-name: regional-extension-server
+
+regional-extension-workspace-branch: master
+regional-extension-workspace-org-name: genctl
+regional-extension-workspace-repo-name: regional-extension-workspace
+regional-extension-workspace-semver-file: versions/regional-extension-workspace-version.txt
+regional-extension-server-bootstrap-image-path: genctl/regional-extension-server-bootstrap
+
+regional-file-workspace-org-name: genctl
+regional-file-workspace-repo-name: regional-file-workspace
+regional-file-workspace-branch: master
+
+regional-compute-workspace-repo-name: regional-compute-workspace
+regional-compute-workspace-org-name: genctl
+regional-compute-workspace-branch: master
+regional-compute-workspace-semver-file: versions/regional-compute-workspace-version.txt
+regional-geography-image-path: rias/regional-geography
+regional-network-mock-image-path: rias/regional-network-mock
+
+regional-flowlogs-workspace-repo-name: regional-flowlogs-workspace
+regional-flowlogs-workspace-org-name: genctl
+regional-flowlogs-workspace-branch: master
+
+
+regional-instance-diagnostics-workspace-repo-name: regional-instance-diagnostics-workspace
+regional-instance-diagnostics-workspace-org-name: genctl
+regional-instance-diagnostics-workspace-branch: master
+
+regional-dnlb-workspace-repo-name: regional-dnlb-workspace
+regional-dnlb-workspace-org-name: genctl
+regional-dnlb-workspace-branch: master
+
+regional-vpe-workspace-repo-name: regional-vpe-workspace
+regional-vpe-workspace-org-name: genctl
+regional-vpe-workspace-branch: master
+
+regional-dedicated-compute-branch: master
+regional-dedicated-compute-org-name: genctl
+regional-dedicated-compute-repo-name: regional-dedicated-compute
+regional-dedicated-compute-image-path: rias/regional-dedicated-compute
+
+regional-drs-workspace-branch: main
+regional-drs-workspace-org-name: genctl
+regional-drs-workspace-repo-name: regional-drs-workspace
+
+regional-group-workspace-branch: master
+regional-group-workspace-ld-branch: dev-integration
+regional-group-workspace-ld-cos-upload-ready-label-name: 'Ready for COS upload'
+regional-group-workspace-org-name: genctl
+regional-group-workspace-repo-name: regional-group-workspace
+
+regional-health-workspace-repo-name: regional-health-workspace
+regional-health-workspace-org-name: genctl
+regional-health-workspace-branch: master
+regional-health-workspace-semver-file: versions/regional-health-workspace-version.txt
+regional-health-image-path: rias/regional-health
+regional-healthmonitor-image-path: rias/regional-healthmonitor
+
+regional-migration-workspace-repo-name: regional-migration-workspace
+regional-migration-workspace-org-name: genctl
+regional-migration-workspace-branch: master
+regional-migration-workspace-semver-file: versions/regional-migration-workspace-version.txt
+
+regional-network-workspace-repo-name: regional-network-workspace
+regional-network-workspace-org-name: genctl
+regional-network-workspace-branch: master
+
+regional-ims-account-repo-name: regional-ims-account
+regional-ims-account-org-name: riaas
+regional-ims-account-branch: master
+regional-ims-account-image-path: rias/riaas-ims-account
+
+regional-image-repo-name: regional-image
+regional-image-org-name: genctl
+regional-image-branch: master
+
+rias-ingress-templates-org-name: genctl
+rias-ingress-templates-repo-name: rias-ingress-templates
+rias-ingress-templates-branch: master
+
+regional-k8s-types-repo-name: regional-k8s-types
+regional-k8s-types-org-name: genctl
+regional-k8s-types-branch: master
+
+regional-redis-workspace-org-name: cloudlab
+regional-redis-workspace-repo-name: regional-redis-workspace
+regional-redis-workspace-branch: master
+
+regional-slm-workspace-org-name: genctl
+regional-slm-workspace-repo-name: regional-slm-workspace
+regional-slm-workspace-branch: master
+
+regional-snapshot-workspace-org-name: genctl
+regional-snapshot-workspace-repo-name: regional-snapshot-workspace
+regional-snapshot-workspace-branch: master
+
+regional-storage-repo-name: regional-storage
+regional-storage-org-name: riaas
+regional-storage-branch: master
+regional-storage-image-path: rias/regional-storage
+
+resource-metadata-workspace-org-name: genctl
+resource-metadata-workspace-repo-name: resource-metadata-workspace
+resource-metadata-workspace-branch: master
+
+rias-g-common-repo-name: rias-g-common
+rias-g-common-org-name: genctl
+rias-g-common-branch: master
+rias-g-common-semver-file: versions/rias-g-common-version.txt
+
+rias-g-common-workspace-repo-name: rias-g-common-workspace
+rias-g-common-workspace-org-name: genctl
+rias-g-common-workspace-branch: master
+rias-g-common-workspace-semver-file: versions/rias-g-common-workspace-version.txt
+
+sdn-tools-org-name: cloudnet
+sdn-tools-repo-name: sdn-tools
+sdn-tools-branch: master
+
+compute-metrics-workspace-repo-name: compute-metrics-workspace
+compute-metrics-workspace-org-name: genctl
+compute-metrics-workspace-branch: main
+
+ssf-sidecar-workspace-repo-name: ssf-sidecar-workspace
+ssf-sidecar-workspace-org-name: genctl
+ssf-sidecar-workspace-branch: main
+
+device-tools-repo-name: device-tools
+device-tools-org-name: cloudlab
+device-tools-branch: master
+
+core-automation-workspace-repo-name: core-automation-workspace
+core-automation-workspace-branch: main
+core-automation-workspace-org-name: IPOPS-Automation
+
+ops-volume-workspace-repo-name: ops-volume-workspace
+ops-volume-workspace-org-name: cloudlab
+ops-volume-workspace-branch: main
+
+# Adding repo detials for riaas/pipeline-terraform for K3s functional tests.
+pipeline-terraform-org-name: riaas
+pipeline-terraform-repo-name: pipeline-terraform
+pipeline-terraform-branch: master
+
+# The default behaviouRIAS_GLOBALS is running the conventional commit enforcement
+# Pipelines that want to skip it should override to true
+skip-conventional-commit-enforcement: false
+
+#The default behavior is having auto-merge (For relevant templates)
+# Pipelines that run with these templates and do not want to enforce it should override to true
+skip-auto-merge: false
+
+# Default behaviour is skipping check pr title (Only for templates that have the SKIP_CHECK_PR_TITLE )
+# Pipelines that run with template that has SKIP_CHECK_PR_TITLE but do not want to skip, should override with false
+skip-check-pr-title: true
+
+# Default behaviour for artifacts is to run check PR title
+# If some repo uses artifacts template and does not want to run the check, should override with true
+skip-check-pr-title-artifacts: false
+
+# Default behaviour should be checking that pr to master comes from dev-integration
+# Pipelines that do not want this check need to override with true
+skip-check-pr-to-master-is-from-dev-int: false
+
+# Default behaviour should be not to use partial match for the verify-pr-head logic
+# Pipelines that want the partial match should override with true
+verify-pr-head-partial-match: false
+
+# By default the validate-global-keys is skiped
+# Pipelines that want to enforce it should override to false
+skip-validate-global-keys: true
+
+skip-validate-remote-resource: false
+
+# By default the update release version runs
+# Pipelines that want to skip it should override to true
+skip-update-release-version: false
+skip-label-validation: false
+
+# By default we do want to run validate razee cluster
+# If a workspace does NOT need to run validate razee cluster, then should be override to true
+skip-validate-razee-cluster: false
+
+# By default the update hostos runs
+# Pipelines that want to enforce it being skipped, then should override to true
+skip-update-hostos: false
+
+# By default the secret label validation is skipped
+# Pipelines that want to enforce it being run, then should override to false
+skip-secret-label-validation: true
+
+# By default, we should verify the workspace-dependencies file
+# Pipelines that do not want this check need to override with true
+skip-verify-workspace-dependencies-file: false
+
+# By default VA scans run as part of the scan-artifact step
+# Pipelines that want to skip VA scans should override to true
+skip-va-scan: true
+
+# This param used by the new PR resource to decide if trigger the pipeline only in case a label is set
+# By default PRs triggered without label (empty parameter). In order to override it, set the value of the label within the override param file
+# For example: scan-label: "concourse"
+scan-label:
+
+sdp-workspace-repo-name: sdp-workspace
+sdp-workspace-org-name: genctl
+sdp-workspace-branch: master
+sdp-workspace-semver-file: versions/sdp-workspace-version.txt
+sdp-manager-image-path: genctl/sdp-manager
+sdp-manager-init-image-path: genctl/sdp-manager-init
+sdp-monitor-rest-server-image-path: genctl/sdp-monitor-rest-server
+sdp-monitor-init-image-path: genctl/sdp-monitor-init
+sdp-worker-image-path: genctl/sdp-worker
+sdp-worker-init-image-path: genctl/sdp-worker-init
+
+shared-diagnostics-repo-name: shared-diagnostics
+shared-diagnostics-org-name: genctl
+shared-diagnostics-branch: master
+
+shared-eventing-repo-name: shared-eventing
+shared-eventing-org-name: genctl
+shared-eventing-branch: master
+
+shared-logger-repo-name: shared-logger
+shared-logger-org-name: genctl
+shared-logger-branch: master
+
+shared-workspace-repo-name: shared-workspace
+shared-workspace-org-name: genctl
+shared-workspace-branch: master
+
+par-prod-org-name: nextgen-environments
+par-prod-branch: master
+
+ffedex-tag: v0.5.1
+
+snow-cli-flags: ""
+snow-iam-api-key: ((cd-team-servicenow-iam-api-key))
+
+snowgo-tag: v3.47.0
+snowgo-flags: ""
+servicenow-url: watson.service-now.com
+servicenow-api-test-url: pnp-api-oss.test.cloud.ibm.com
+
+env-override: ""
+ff-ibm-cloud-username: featureflags@ibm.com
+ff-ibm-cloud-api-key: ((ff-ibm-cloud-api-key))
+ff-ibm-test-cloud-api-key: ((ff-ibm-test-cloud-api-key))
+ibm-cloud-endpoint: "https://cloud.ibm.com"
+ibm-test-cloud-endpoint: "https://test.cloud.ibm.com"
+
+rias-g-shared-workspace-repo-name: rias-g-shared-workspace
+rias-g-shared-workspace-org-name: genctl
+rias-g-shared-workspace-branch: master
+
+service-broker-workspace-repo-name: service-broker-workspace
+service-broker-workspace-org-name: genctl
+service-broker-workspace-branch: master
+
+shipyard-repo-name: shipyard
+shipyard-org-name: genctl
+shipyard-branch: master-sy
+shipyard-pool: shipyard-lock
+
+security-service-workspace-repo-name: security-service-workspace
+security-service-workspace-org-name: genctl
+security-service-workspace-branch: master
+security-service-workspace-semver-file: versions/security-service-workspace-version.txt
+
+skydive-org-name: cloudnet
+skydive-repo-name: skydive
+skydive-branch: ibm_master_release
+
+smartnic-store-workspace-repo-name: smartnic-store-workspace
+smartnic-store-workspace-org-name: genctl
+smartnic-store-workspace-branch: main
+
+staging-org-name: nextgen-environments
+staging-branch: master
+
+storage-common-repo-name: storage-common
+storage-common-org-name: genctl
+storage-common-branch: master
+
+storage-service-workspace-repo-name: storage-service-workspace
+storage-service-workspace-org-name: genctl
+storage-service-workspace-branch: master
+storage-service-pr-artifactory-generic-root: concourse/genctl/storage-service-pr
+storage-service-workspace-semver-file: versions/storage-service-workspace-version.txt
+mock-regional-storage-server-image-path: genctl/mock-regional-storage-server
+nfsfile-provisioner-image-path: genctl/nfsfile-provisioner
+nfsserver-discovery-controller-image-path: genctl/nfsserver-discovery-controller
+rias-image-server-image-path: genctl/rias-image-server
+rias-storage-agent-image-path: genctl/rias-storage-agent
+rias-volume-controller-image-path: genctl/rias-volume-controller
+storage-agent-image-path: genctl/storage-agent
+storage-device-controller-image-path: genctl/storage-device-controller
+
+storage-workspace-repo-name: storage-workspace
+storage-workspace-org-name: genctl
+storage-workspace-branch: master
+storage-pr-artifactory-generic-root: concourse/genctl/storage-pr
+storage-workspace-semver-file: versions/storage-workspace-version.txt
+storage-image-controller-image-path: genctl/storage-image-controller
+storage-volume-controller-image-path: genctl/storage-volume-controller
+
+syd-prod-org-name: nextgen-environments
+syd-prod-branch: master
+
+system-bringup-release-org-name: cloudlab
+system-bringup-release-repo-name: system-bringup-release
+system-bringup-release-branch: main
+
+event-delegate-org-name: 'genctl'
+event-delegate-repo-name: event-delegate
+event-delegate-base-branch: master
+
+telemetry-docker-base-org-name: 'genctl'
+telemetry-docker-base-repo-name: 'telemetry-docker-base'
+telemetry-docker-base-branch: 'master'
+
+telemetry-workspace-repo-name: telemetry-workspace
+telemetry-workspace-org-name: genctl
+telemetry-workspace-branch: master
+telemetry-workspace-semver-file: versions/telemetry-workspace-version.txt
+
+tok-prod-org-name: nextgen-environments
+tok-prod-branch: master
+
+tor-prod-org-name: nextgen-environments
+tor-prod-branch: master
+
+fluentd-logs-image-path: genctl/fluentd-logs
+fluentd-telemetry-daemonset-image-path: genctl/fluentd-telemetry-daemonset
+configmap-reload-image-path: jimmidyson/configmap-reload
+k8s-prometheus-adapter-image-path: directxman12/k8s-prometheus-adapter
+k8s-sidecar-image-path: kiwigrid/k8s-sidecar
+kube-state-metrics-image-path: quay.io/coreos/kube-state-metrics
+metrics-server-image-path: gcr.io/google_containers/metrics-server
+pushgateway-image-path: prom/pushgateway
+
+tracing-repo-name: tracing
+tracing-org-name: genctl
+tracing-branch: master
+
+tracing-rps-image-path: genctl/tracing
+
+use-custom-tag: true
+
+genctl-change-history-repo-name: genctl-change-history
+genctl-change-history-org-name: genctl
+
+hostos-upgrade-payloads-repo-name: hostos-upgrade-payloads
+hostos-upgrade-payloads-org-name: cloudlab
+hostos-upgrade-payloads-branch: master
+
+sftp-host-security: w3-transfer.mul.ie.ibm.com
+sftp-push-directory: ptc21
+
+vault-enterprise-image-location: "vpc-vault/vault-enterprise-agent:1.43.0"
+
+ve-bastion-server: "dal13g4-bm2"
+ve-bundle-category-boot: "boot"
+ve-bundle-category-upgrade: "upgrade"
+ve-bundle-category-genctl-hermes: "genctl-hermes"
+ve-bundle-category-genctl-zfs-mrsos: "genctl-zfs-mrsos"
+ve-bundle-category-rias: "rias"
+
+ve-default-flavor: "zfs-mrsos"
+
+ve-genctl-component-ready-label-name: "Ready for VE"
+
+ve-smotainer-test-concurrent-instance-test: "tests/qa/cpap/qa/compute/tests/ConcurrentInstanceTest.py"
+ve-smotainer-test-k8-bvt-test: "-S  tests/qa/cpap/suites/k8_bvt.ini"
+ve-smotainer-test-single-threaded-test: " -S tests/qa/cpap/suites/bvt_single_threaded.ini"
+
+ve-smotainer-extra-tag-threads-one: "-N 1"
+ve-smotainer-extra-tag-instances: "--tc=num_instances:2"
+
+ve-smotainer-meta-tag-bvt: "purpose=bvt"
+ve-smotainer-meta-tag-concurrent: "purpose=concurrent"
+
+ve-deploy-server: "dal13g4-vdev1"
+ve-deploy-server-run-test: "dal13g4-vdev20"
+ve-smotainer-server: "dal13g4-vdev4"
+ve-smotainer-user: "jenkins_bot"
+# ve-service-endpoint: 'http://virtualenv.pok.stglabs.ibm.com:8080'
+ve-service-endpoint: 'http://9.114.87.50:8080'
+# ve-service-endpoint-dev: 'http://virtualenv.pok.stglabs.ibm.com:9090'
+ve-service-endpoint-dev: 'http://9.114.87.50:9090'
+
+wdc-prod-org-name: nextgen-environments
+wdc-prod-branch: master
+
+zabbix-org-name: genctl
+zabbix-repo-name: zabbix
+zabbix-branch: master
+
+zonal-utils-repo-name: zonal-utils
+zonal-utils-org-name: genctl
+zonal-utils-branch: master
+
+z-storage-workspace-repo-name: z-storage-workspace
+z-storage-workspace-org-name: genctl
+z-storage-workspace-branch: master
+
+z-infra-mgmt-repo-name: z-infra-mgmt
+z-infra-mgmt-org-name: genctl
+z-infra-mgmt-branch: master
+
+repository-configuration-check-label: VERIFY_REPOSITORY_CONFIGURATION
+secrets-added-to-all-envs-label-name: Secrets-Added-To-All-Env-Vault
+protected-branches-configuration-check-label: VERIFY_PROTECTED_BRANCHES_CONFIGURATION
+secrets-check-label: CHECK_SECRET_LABEL
+workspace-dependencies-file-check-label: VERIFY_WORKSPACE_DEPENDENCIES_FILE
+
+workspace-pipelines-status: concourse
+
+code-static-scan-check-label: CODE_STATIC_SCAN
+scan-go-ast-context-label: SCAN_GO_AST
+workspace-tests-check-label: workspace_tests
+promotion-tests-check-label: promotion-tests
+vuln-scan-check-label: vulnerability_scan
+k3s-run-check-label: "K3s unit test"
+vuln-scan-skip-label: false
+
+# By default we will fail the validate featureflags if there are errors
+# Workspaces that want to skip this behaviour should override to false
+validate-featureflags-fail-if-error: true
+
+# enable / merge from dev-integration check
+# This should probably be false for now with repo's opting in? vs opting out
+dev-integ-enable: true
+
+supported-hostos-release-bundles-z: "2 3 6"
+
+pipeline-type-default: merge-fail-enabled
+
+timeout-min: 15m
+timeout-avg: 60m
+timeout-2h: 120m
+timeout-max: 180m
+timeout-deploy: 240m
+timeout-super-max: 360m
+
+dev-regions-org-name: nextgen-environments
+dev-regions-repo-name: dev-regions
+dev-regions-branch: master
+dev-regions-merge-to-master-file: vetted-versions.yaml
+
+ci-bot-org-name: genctl-cicd
+ci-bot-repo-name: ci-bot
+ci-bot-branch: main
+
+# By default we run retag against ICR
+# For skipping retagging against ICR for a specific workspace, override this with true
+skip-retag-against-icr: false
+
+# By default we skip gosec tests (This flag is used only in one-pipeline logic)
+skip-code-static-scan: true
+
+# By default we do NOT want to exit on case of failure of code static scan task
+exit-on-task-failure-code-static-scan: false
+
+# By default we skip k3s tests (This flag is used only in one-pipeline logic)
+skip-k3s: true
+
+# By default we do NOT upload packages on pr pipelines (Therefore skip=true)
+# If a workspace wants to upload packages on PR pipeline, should have an override setting this flag to false
+# This refers to upload we do on the VPC CI side
+skip-upload-packages-on-pr-pipeline: true
+
+# By default we DO upload packages on merge pipelines (Therefore skip=false)
+# If a workspace does NOT want to upload packages on merge pipeline (For example, workspaces that do the upload by themselves)
+# Then they should have an override setting this flag to true
+skip-upload-packages-on-merge-pipeline: false
+
+packages-pre-release-dir: vpc_packages/pre_release
+packages-vetted-dir: vpc_packages/vetted
+packages-final-location-dir: vpc_packages
+
+packages-path-to-use-in-artifact-field-in-json: final_destination
+
+# Used in OnePipeline inventory files logic
+
+# Prefix for name files (To it we concantenate the short SHA)
+candidate-files-json-file-name-prefix: inventory
+candidate-files-zip-file-name-prefix: deployment_files
+
+# Directory where ZIP and JSON files are uploaded right after signing
+candidate-files-pre-release-dir: candidate_files/pre_release
+
+# Directory where ZIP and JSON files are moved at the end of merge to dev-integration pipeline
+candidate-files-vetted-dir: candidate_files/vetted
+
+# By default we do check the vetted files
+# Workspaces that should not checked vetted files, need to override this with true
+skip-check-vetted-files: false
+
+# Directory where ZIP file is set on merge to master pipeline
+zip-final-location-dir: vpc_deployment_archive_files
+
+# By default we do move inventory files
+# Workspaces that should not move inventory files, need to override this with true
+skip-move-inventory-files: false
+
+# By default we do signing
+# Workspaces that should not do signing, need to override this with true
+skip-one-pipeline-signing: false
+
+# By default, we do inventory add
+# Workspaces that should not do inventory add, need to override this with true
+skip-one-pipeline-inventory-add: false
+
+telemetry-dlc-env-type: development
+telemetry-dlc-env-name: dev03
+telemetry-dlc-team-name: dlc-vpc
+
+# Used in OnePipeline dynamic-scan
+dynamic-scan-vault-addr: "https://9.114.87.48:8200"
+
+# Used for evidence in PR
+evidence-in-pr-prereq-commands-file-name: "evidence_in_pr_prerequisites_commands.sh"
+
+#Jinja files validation in onepipeline
+skip-jinja-validation: true 
+
+low-level-release-bundle-types: "hostos kube kopilot bringup cloudnet sretools sdn-flowlogs"
+
+high-level-release-bundle-types: "rias genctl"
+
+ngdc-deploy-label: NGDC_DEPLOY
+
+apply-dmm-deploy-process: false
+
+#override FastDS endpoint address in CD ngdc/toolchain-scripts/fnds_deploy.sh
+fast-ds-address: "198.18.9.7"
+
+#IaC toolchains terraform repositories
+razee-toolchains-repo-name: razee-toolchains-ci-tf-module
+razee-toolchains-org-name: genctl-cicd
+razee-toolchains-branch: main
+
+globals-toolchains-repo-name: globals-toolchains-ci-tf-module
+globals-toolchains-org-name: genctl-cicd
+globals-toolchains-branch: main
+
+release-bundles-toolchains-repo-name: release-bundles-toolchains-ci-tf-module
+release-bundles-toolchains-org-name: genctl-cicd
+release-bundles-toolchains-branch: main
+
+sdn-toolchains-repo-name: sdn-toolchains-ci-tf-module
+sdn-toolchains-org-name: genctl-cicd
+sdn-toolchains-branch: main
+
+artifacts-toolchains-repo-name: artifacts-toolchains-ci-tf-module
+artifacts-toolchains-org-name: genctl-cicd
+artifacts-toolchains-branch: main
+
+one-off-toolchains-repo-name: one-off-toolchains-ci-tf-module
+one-off-toolchains-org-name: genctl-cicd
+one-off-toolchains-branch: main
+
+prod-artifacts-toolchains-repo-name: prod-artifacts-toolchains-ci-tf-module
+prod-artifacts-toolchains-org-name: genctl-cicd
+prod-artifacts-toolchains-branch: main
+
+iac-toolchains-repo-name: IaC-toolchains-ci-tf-module
+iac-toolchains-org-name: genctl-cicd
+iac-toolchains-branch: main
+
+re-toolchains-repo-name: re-toolchains-ci-tf-module
+re-toolchains-org-name: genctl-cicd
+re-toolchains-branch: main
+
+simple-toolchains-repo-name: simple-toolchains-ci-tf-module
+simple-toolchains-org-name: genctl-cicd
+simple-toolchains-branch: main
+
+vpc-ci-dev-toolchains-repo-name: vpc-ci-dev-toolchains-tf-module
+vpc-ci-dev-toolchains-org-name: genctl-cicd
+vpc-ci-dev-toolchains-branch: main
+
+vpc-icr-sandbox-url: us.icr.io/vpc-sandbox-docker-local
+suffix-for-icr-save-artifacts: _FOR_ICR
+
+icr-migration-mode: false
+
+# Being used in ffsld creation
+path-to-rias-etcd-ffsld: hack/deploy/rias-etcd-ng/featureflagsetld.tmpl
+path-to-rias-ffsld: hack/deploy/rias-ng/featureflagsetld.tmpl
+path-to-genctl-ffsld: hack/deploy/genctl/featureflagsetld.tmpl
+
+# Will be used to track Launch Darkly sunset
+launch-darkly-sunset-executed: true
+
+# Used for hook functionality
+exit-on-hook-failure: true
+set-ghe-status-on-hook: true
+
+# Being used in Mend SAST scan
+vpc-ci-universal-secrets-manager-public-endpoint: https://f759bf20-507c-45e8-ab1e-ef93051dd4bb.eu-gb.secrets-manager.appdomain.cloud
+run-static-scan-in-pr: false
+run-static-scan-in-pr-to-dev-int: false
+
+# Manifest
+skip-manifest: false
+
+#Inventory Validation
+skip-inventory-validation: false
+
+#Upload to COS
+skip-cos-upload: false
+
+#For auto-merge in Simple template toolchains
+simple_auto_merge: false
+simple_custom_finish: false
+
+# Being used in pr-master pipelines of high level release bundles in order to skip build and UT in case the PR is raised by CI workflow
+for-ci-only-ignore-build-ut-label: for-ci-only-ignore-build-ut
+
+# For cancelling old PR runs
+cancel-old-pr-pipeline-runs: true
+
+uuc-infrastructure-toolchains-repo-name: uuc-infrastructure-tf-module
+uuc-infrastructure-toolchains-org-name: genctl-cicd
+uuc-infrastructure-toolchains-branch: main
+
+#for uuc-ocp-provisioner
+uuc-ocp-provisioner-org-name: iaas-rhos-platform-india
+uuc-ocp-provisioner-repo-name: uuc-ocp-provisioner
+uuc-ocp-provisioner-branch: main
+
+# for uuc-toolchains
+uuc-toolchains-repo-name: uuc-toolchains-tf-module
+uuc-toolchains-org-name: genctl-cicd
+uuc-toolchains-branch: main
+
+#for cicd utils
+ci-cd-utils-org-name: genctl-cicd
+ci-cd-utils-repo-name: ci-cd-utils
+ci-cd-utils-branch: main
+
+#for uuc-toolchain branches
+uuc-ci-team-prod-branches: "core-services-ci slad-ci dcms-ci fabric-ci"
+uuc-cd-team-prod-branches: "core-services-cd slad-cd dcms-cd fabric-cd core-services-ops"
+

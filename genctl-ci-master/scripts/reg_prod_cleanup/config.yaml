@@ -1,0 +1,20 @@
+#
+# =============================================================================================
+# IBM Confidential
+# (C) Copyright IBM Corp. 2022
+# The source code for this program is not published or otherwise divested of its trade secrets,
+# irrespective of what has been deposited with the U.S. Copyright Office.
+# =============================================================================================
+#
+
+#########################################################
+# Configuration for the docker registry cleanup
+#########################################################
+# tag_life_days = tag existing for longer than <tag_life_days> will be deleted
+# keep_tag_count = count of tags to be saved regardless of their "Created" date
+# dry_run = Simulate registry cleanup without deleting. Lists the tags that will be deleted.
+#########################################################
+
+tag_life_days: 365
+keep_tag_count: 100
+dry_run: False

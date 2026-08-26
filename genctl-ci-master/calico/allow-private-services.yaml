@@ -1,0 +1,48 @@
+# This policy allows outgoing network traffic from worker nodes to other
+# IBM Cloud services that support private service endpoints.
+# The example nets in this policy are IBM Log Analysis with LogDNA.
+
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: allow-private-services
+spec:
+  egress:
+  # IBM Log Analysis with LogDNA
+  # Taken from: https://cloud.ibm.com/docs/log-analysis?topic=log-analysis-endpoints
+  - action: Allow
+    destination:
+      nets:
+      # IBM Log Analysis with LogDNA: eu-gb
+      - 166.9.34.2/32
+      - 166.9.34.4/32
+      - 166.9.36.2/32
+      - 166.9.36.3/32
+      - 166.9.38.4/32
+      - 166.9.38.5/32      
+      - 166.9.36.105/32
+      - 166.9.34.79/32
+      - 166.9.38.84/32      
+      - 166.9.244.22/32
+      - 166.9.244.53/32
+      - 166.9.244.85/32      
+      # IBM Log Analysis with LogDNA: ca-tor
+      - 166.9.76.26/32
+      - 166.9.76.29/32
+      - 166.9.77.23/32
+      - 166.9.77.26/32
+      - 166.9.78.24/32       
+      - 166.9.78.10/32 
+      - 166.9.76.10/32 
+      - 166.9.77.10/32 
+      - 166.9.247.151/32
+      - 166.9.247.182/32
+      - 166.9.247.201/32
+      ports:
+      - 80      
+    protocol: TCP
+    source: {}
+  order: 1900
+  selector: ibm.role == 'worker_private'
+  types:
+  - Egress

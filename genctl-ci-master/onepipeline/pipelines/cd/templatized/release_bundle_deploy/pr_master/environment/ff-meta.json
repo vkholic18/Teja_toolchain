@@ -1,0 +1,616 @@
+{
+    "rgw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-group-workspace"
+    },
+    "biw-image-version": {
+        "tags": [
+        "genctl",
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/bss-integration-workspace"
+    },
+    "hypersync-image-version": {
+        "tags": [
+        "genctl",
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/hypersync-integration-workspace"
+    },
+    "rhw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-health-workspace"
+    },
+    "cloudinit-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/cloudinit-workspace"
+    },
+    "rcw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-compute-workspace"
+    },
+    "rias-inception-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/genesis-deploy-artifacts"
+    },
+    "rias-globals-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/rias-globals"
+    },
+    "rfw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-file-workspace"
+    },
+    "ffw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/featureflags-workspace"
+    },
+    "isw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/infrastructure-service-workspace"
+    },
+    "keyreact-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/keyreact"
+    },
+    "mw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/monitoring-workspace"
+    },
+    "rew-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-extension-workspace"
+    },
+    "ri-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-image"
+    },
+    "ria-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "riaas/regional-ims-account"
+    },
+    "rmw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-migration-workspace"
+    },
+    "row-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-operations-workspace"
+    },
+    "rs-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "riaas/regional-storage"
+    },
+    "rit-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/rias-ingress-templates"
+    },
+    "ssw-image-version": {
+        "tags": [
+        "genctl",
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/security-service-workspace"
+    },
+    "tw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/telemetry-workspace"
+    },
+    "vsb-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "riaas/vpc-service-broker"
+    },
+    "tracing-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/tracing"
+    },
+    "rbw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-baremetal-workspace"
+    },
+    "rsw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-snapshot-workspace"
+    },
+    "sbw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/service-broker-workspace"
+    },
+    "rfl-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-flowlogs-workspace"
+    },
+    "rdcw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-dedicated-compute"
+    },
+    "aew-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/api-extension-workspace"
+    },
+    "aw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/api-workspace"
+    },
+    "cw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/compute-workspace"
+    },
+    "dw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/diagnostics-workspace"
+    },
+    "fw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/fleetman-workspace"
+    },
+    "is-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/image-service-workspace"
+    },
+    "keylore-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/keylore"
+    },
+    "km-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/keylore-monitor"
+    },
+    "nw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/network-workspace"
+    },
+    "osw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/operator-services-workspace"
+    },
+    "pcw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/projection-controller-workspace"
+    },
+    "sdpw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/sdp-workspace"
+    },
+    "storage-service-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/storage-service-workspace"
+    },
+    "sw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/storage-workspace"
+    },
+    "zsw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/z-storage-workspace"
+    },
+    "kali-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "cloudnet/kali"
+    },
+    "odz-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "cloudlab/ops-data-zonal"
+    },
+    "agw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/apigateway-workspace"
+    },
+    "cpw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/console-proxy-workspace"
+    },
+    "cos-url": {
+        "tags": [
+        "cos"
+        ],
+        "gitOrgRepo": null
+    },
+    "cos-bucket-name": {
+        "tags": [
+        "cos"
+        ],
+        "gitOrgRepo": null
+    },
+    "environment-type": {
+        "tags": [],
+        "gitOrgRepo": null
+    },
+    "rvw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-vpe-workspace"
+    },
+    "rdw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-dnlb-workspace"
+    },
+    "ld-environment": {
+        "tags": [],
+        "gitOrgRepo": null
+    },
+    "rnw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-network-workspace"
+    },
+    "cdho-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/cos-dedicated-host-operator"
+    },
+    "genctl-globals-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/genctl-globals"
+    },
+    "baremetal-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/baremetal-workspace"
+    },
+    "rmds-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/resource-metadata-workspace"
+    },
+    "rslmw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-slm-workspace"
+    },
+    "kw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/kerberos-workspace"
+    },
+    "acadia-storage-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/acadia-storage-workspace"
+    },
+    "nscon-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "cloudnet/nscon"
+    },
+    "rias-etcd-globals-version": {
+        "tags": [
+        "rias-etcd"
+        ],
+        "gitOrgRepo": "genctl/rias-etcd-globals"
+    },
+    "ap-image-version": {
+        "tags": [
+        "rias-etcd"
+        ],
+        "gitOrgRepo": "cloudlab/autoscale-processor"
+    },
+    "rrw-image-version": {
+        "tags": [
+        "rias-etcd"
+        ],
+        "gitOrgRepo": "cloudlab/regional-redis-workspace"
+    },
+    "pi-image-version": {
+        "tags": [],
+        "gitOrgRepo": null
+    },
+    "clpw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/calico-network-policies-workspace"
+    },
+    "neuvector-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/neuvector-network-policies"
+    },
+    "ridw-image-version": {
+        "tags": [],
+        "gitOrgRepo": "genctl/regional-instance-diagnostics-workspace"
+    },
+    "etc-operator-image-version": {
+        "tags": [
+        "rias-etcd"
+        ],
+        "gitOrgRepo": null
+    },
+    "etcd-operator-image-version": {
+        "tags": [
+        "rias-etcd"
+        ],
+        "gitOrgRepo": null
+    },
+    "resize-controller-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": null
+    },
+    "rias-etcd-image-version": {
+        "tags": [
+        "rias-etcd"
+        ],
+        "gitOrgRepo": null
+    },
+    "ops-extension-server-image-version": {
+        "tags": [
+        "ops"
+        ],
+        "gitOrgRepo": "cloudlab/ops-extension-server"
+    },
+    "ops-node-projection-image-version": {
+        "tags": [
+        "ops"
+        ],
+        "gitOrgRepo": "cloudlab/ops-node-projection"
+    },
+    "ops-etcd-image-version": {
+        "tags": [
+        "ops"
+        ],
+        "gitOrgRepo": "cloudlab/ops-etcd"
+    },
+    "ops-node-services-image-version": {
+        "tags": [
+        "ops"
+        ],
+        "gitOrgRepo": "cloudlab/ops-node-services"
+    },
+    "gdw-image-version": {
+        "tags": [],
+        "gitOrgRepo": "genctl/genesis-deploy-workspace"
+    },
+    "ops-node-device-projection-image-version": {
+        "tags": [
+        "ops"
+        ],
+        "gitOrgRepo": null
+    },
+    "ops-globals-version": {
+        "tags": [
+        "ops"
+        ],
+        "gitOrgRepo": "cloudlab/ops-globals"
+    },
+    "ops-etcd-globals-version": {
+        "tags": [
+        "ops"
+        ],
+        "gitOrgRepo": "cloudlab/ops-etcd-globals"
+    },
+    "smartnic-store-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/smartnic-store-workspace"
+    },
+    "denali-storage-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/denali-storage-workspace"
+    },
+    "z-infra-mgmt-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/z-infra-mgmt"
+    },
+    "rdrs-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-drs-workspace"
+    },
+    "ops-zonal-operator-agent-image-version": {
+        "tags": [
+        "ops"
+        ],
+        "gitOrgRepo": "cloudlab/ops-zonal-operator-agent"
+    },
+    "ops-vm-projection-image-version": {
+        "tags": [
+        "ops"
+        ],
+        "gitOrgRepo": "cloudlab/ops-vm-projection"
+    },
+    "ops-operator-actions-image-version": {
+        "tags": [
+        "ops"
+        ],
+        "gitOrgRepo": "cloudlab/ops-operator-actions"
+    },
+    "vecw-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/vpc-event-consumer-workspace"
+    },
+    "cblm-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/compute-billing-lifecycle-mgmt"
+    },
+    "absw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/acadia-baremetal-storage-workspace"
+    },
+    "z-hw-lm-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/z-hw-logging-monitoring"
+    },
+    "csic-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/cvoaas-sds-interface-controller"
+    },
+    "csc-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/cvoaas-service-controller"
+    },
+    "lw-image-version": {
+        "tags": [
+        "genctl",
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/logging-workspace"
+    },
+    "rcrs-image-version": {
+        "tags": [
+        "rias"
+        ],
+        "gitOrgRepo": "genctl/regional-compute-reservations"
+    },
+    "ops-zone-map-services-image-version": {
+        "tags": [
+        "ops"
+        ],
+        "gitOrgRepo": "cloudlab/ops-zone-map-services"
+    },
+    "ops-zone-map-projection-image-version": {
+        "tags": [
+        "ops"
+        ],
+        "gitOrgRepo": "cloudlab/ops-zone-map-projection"
+    },
+    "cnpw-image-version": {
+        "tags": [],
+        "gitOrgRepo": "genctl/cilium-network-policies-workspace"
+    },
+    "cit-image-version": {
+        "tags": [],
+        "gitOrgRepo": "genctl/citrix-ingress-templates"
+    },
+    "bsw-image-version": {
+        "tags": [
+        "genctl"
+        ],
+        "gitOrgRepo": "genctl/banff-storage-workspace"
+    },
+    "drsw-image-version": {
+        "tags": [],
+        "gitOrgRepo": "genctl/denali-regional-storage-workspace"
+    },
+    "caw-image-version": {
+        "tags": [],
+        "gitOrgRepo": "IPOPS-Automation/core-automation-workspace"
+    },
+    "ops-volume-workspace-image-version": {
+        "tags": [],
+        "gitOrgRepo": "cloudlab/ops-volume-workspace"
+    }
+}

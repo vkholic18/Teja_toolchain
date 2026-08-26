@@ -1,0 +1,13 @@
+version: '2'
+
+tasks:
+  simple-execute:
+    steps:
+      - name: execute
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/uuc/minimal/merge
+          ${PATH_TO_PIPELINE}/steps/build.sh

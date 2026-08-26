@@ -1,0 +1,2 @@
+GitPython==3.1.31
+tenacity==8.0.1

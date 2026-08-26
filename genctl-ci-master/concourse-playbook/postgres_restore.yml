@@ -1,0 +1,21 @@
+#Run a database restore
+#run using : ansible-playbook postgres_restore.yml  -e "pgpassword=password" --ask-become-pass
+---
+- hosts: localhost
+  connection: local
+  become: yes
+  become_user: root
+  var:
+    my_PGPASSWORD: "{{ pgpassword }}"
+  gather_facts: no
+  tasks:
+  - name: Running database restore
+    shell: |
+      BACKUP_FILENAME=`ls | tail -n 1`
+      bzip2 -dk ${BACKUP_FILENAME}
+      export PGPASSWORD={{pgpassword}}
+      pg_restore -U concourse -d concourse -h 172.18.0.2  ${BACKUP_FILENAME::-4}
+      rm ${BACKUP_FILENAME::-4}
+    args:
+      chdir: /concourse/backups/
+      executable: /bin/bash

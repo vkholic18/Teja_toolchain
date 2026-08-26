@@ -1,0 +1,57 @@
+version: '2'
+
+# CI Pipeline: code-checks, code-build, deploy-checks, deploy-release
+tasks:
+  code-checks:    
+    when: 'false'
+
+  code-build:
+    include:
+      - dind
+      - step-extension
+    displayName: manual-deploy-process
+    # code-build includes five configurable steps: setup, unit-test, build-artifact, sign-artifact, scan-artifact
+    steps:
+      - name: setup        
+        when: 'false'
+      - name: unit-test
+        when: false
+      - name: build-artifact
+        when: 'false'
+      - name: sign-artifact
+        when: 'false'        
+      - name: scan-artifact
+        when: 'false'
+      - name: step-extension
+        displayName: manual deployment
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260625182010
+        include:
+          - docker-socket
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/uuc/ci-consolidated/merge
+          ${PATH_TO_PIPELINE}/steps/deploy.sh
+
+  deploy-checks:
+    when: false
+
+  deploy-release:
+    when: false
+
+finally:
+  code-ci-finish:
+    steps:
+      - name: run-stage
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260625182010
+        script: |
+          #!/usr/bin/env bash
+          if [[ "$PIPELINE_DEBUG" == 1 ]]; then
+            trap env EXIT
+            env
+            set -x
+          fi
+          echo "Running code-ci-finish"
+          exit 0
+          

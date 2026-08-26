@@ -1,0 +1,15 @@
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: tekton-controller
+  namespace: tekton-pipelines
+spec:
+  egress:
+  - action: Allow
+    destination:
+      nets:      
+      - 172.20.0.1/32 #Kubernetes service endpoint
+  order: 1150
+  selector: app == 'tekton-pipelines-controller' || app == 'tekton-events-controller'
+  types:
+  - Egress

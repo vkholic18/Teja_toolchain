@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+find ./scripts -type f \( -name "*.py" -or -name "*.sh" \) -exec bash -c '
+if [ -x $1 ]; 
+then 
+    echo "$1 -> has an execution bit"; 
+else 
+    echo "$1 -> needs an execution bit"; 
+    chmod +x "$1";
+fi
+' None {} \;

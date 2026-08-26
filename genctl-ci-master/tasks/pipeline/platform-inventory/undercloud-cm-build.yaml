@@ -1,0 +1,31 @@
+##
+## =============================================================================================
+## IBM Confidential
+## (C) Copyright IBM Corp. 2021
+## The source code for this program is not published or otherwise divested of its trade secrets,
+## irrespective of what has been deposited with the U.S. Copyright Office.
+## =============================================================================================
+##
+
+---
+platform: linux
+
+params:
+  CC_ARTIF_ACCESS_TOKEN: ((wcp-genctl-docker-local-artifactory-token))
+
+inputs:
+- name: genctl-ci-repo
+- name: workspace
+- name: gh-release
+outputs:
+- name: workspace-updated
+
+run:
+  path: /bin/bash
+  args:
+  - -euc
+  - |
+    root_dir=$(pwd)
+    git clone workspace workspace-updated
+    mkdir -p $CM_OUTPUT_DIR
+    genctl-ci-repo/scripts/build_undercloud_cm.sh $root_dir $WORKSPACE-updated $CM_OUTPUT_DIR

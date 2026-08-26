@@ -1,0 +1,233 @@
+version: '2'
+
+tasks:
+  pr-code-checks:
+    include:
+      - dind
+    displayName: misc-scans-task-1
+    steps:
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail        
+        script: |
+          #!/usr/bin/env bash
+
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_dev_integration_v11          
+          # Run common PR checks first (cancellation and branch protection)
+          ${PATH_TO_GENCTL_CI}/onepipeline/jobs/onepipeline_common_pr_checks.sh
+          
+          ${PATH_TO_PIPELINE}/steps/misc-scans.sh
+
+      - name: detect-secrets
+        include:
+          - docker-socket
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        when: 'false'
+  
+  pr-code-checks-2:
+    include:
+      - dind
+    displayName: unit-test-task-2
+    runtimeClassName: x86-xxlarge
+    from: pr-code-checks
+    steps:
+      - name: checks-setup
+        when: 'false'
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_dev_integration_v11        
+          ${PATH_TO_PIPELINE}/steps/test.sh
+      - name: compliance-checks
+        when: 'false'
+
+  pr-code-checks-3:
+    include:
+      - dind
+    displayName: static-scan-task-3
+    runtimeClassName: x86-xxlarge
+    from: pr-code-checks
+    steps:
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: continue
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_dev_integration_v11        
+          ${PATH_TO_PIPELINE}/steps/static-scan.sh
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        when: 'false'
+  
+  pr-code-checks-4:
+    include:
+      - dind
+    runAfter:
+      - pr-code-checks  #misc-scans-task-1
+      - pr-code-checks-2  #unit-test-task-2
+    displayName: build-amd64-images-task-4
+    runtimeClassName: x86-xxlarge
+    from: pr-code-checks
+    steps:
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash          
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_dev_integration_v11
+          export BUILD_ARTIFACT_TYPE="images"
+          ${PATH_TO_PIPELINE}/steps/build_amd64_artifacts.sh
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: continue
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_dev_integration_v11
+          ${PATH_TO_PIPELINE}/steps/compliance-checks.sh
+
+  pr-code-checks-5:
+    include:
+      - dind
+    displayName: build-amd64-packages-task-5
+    runtimeClassName: x86-xxlarge
+    from: pr-code-checks
+    runAfter:
+      - pr-code-checks  #misc-scans-task-1
+      - pr-code-checks-2  #unit-test-task-2
+    steps:
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_dev_integration_v11
+          export BUILD_ARTIFACT_TYPE="packages"
+          ${PATH_TO_PIPELINE}/steps/build_amd64_artifacts.sh
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        when: 'false'
+  
+  pr-code-checks-6:
+    include:
+      - dind
+    displayName: build-s390x-images-task-6
+    runtimeClassName: s390x-xlarge
+    from: pr-code-checks
+    runAfter:
+      - pr-code-checks  #misc-scans-task-1
+      - pr-code-checks-2  #unit-test-task-2      
+    steps:
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_dev_integration_v11
+          export BUILD_ARTIFACT_TYPE="images"
+          ${PATH_TO_PIPELINE}/steps/build_s390x_images.sh
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        when: 'false'
+  
+  pr-code-checks-7:
+    include:
+      - dind
+    displayName: build-s390x-packages-task-7
+    runtimeClassName: s390x-xlarge
+    from: pr-code-checks
+    runAfter:
+      - pr-code-checks  #misc-scans-task-1
+      - pr-code-checks-2  #unit-test-task-2
+    steps:
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_dev_integration_v11
+          export BUILD_ARTIFACT_TYPE="packages"
+          ${PATH_TO_PIPELINE}/steps/build_s390x_packages.sh
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        when: 'false'  
+  
+  pr-code-checks-8:
+    include:
+      - dind
+    displayName: create-manifest-task-8
+    runAfter:
+      - pr-code-checks-4  #build-amd64-images-task-4
+      - pr-code-checks-6  #build-s390x-images-task-6
+    from: pr-code-checks
+    steps:
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_dev_integration_v11          
+          ${PATH_TO_PIPELINE}/steps/manifest.sh
+      - name: detect-secrets
+        when: 'false'
+      - name: unit-test
+        when: 'false'
+      - name: compliance-checks
+        when: 'false'
+
+finally:  
+  code-pr-finish:
+    steps:
+      - name: run-stage
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_dev_integration_v11          
+          ${PATH_TO_PIPELINE}/steps/pr-finish.sh

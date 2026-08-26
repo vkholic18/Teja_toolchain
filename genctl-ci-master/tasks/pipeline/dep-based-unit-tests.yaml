@@ -1,0 +1,39 @@
+##
+## =============================================================================================
+## IBM Confidential
+## © Copyright IBM Corp. 2020
+## The source code for this program is not published or otherwise divested of its trade secrets,
+## irrespective of what has been deposited with the U.S. Copyright Office.
+## =============================================================================================
+##
+
+# Note: This task depends on setup-dep-structure having been run prior to this task in order to setup "prepared-repo"
+---
+platform: linux
+
+inputs:
+- name: prepared-repo
+
+outputs:
+- name: coverage
+
+params:
+  GINKGO_DEFAULT_EVENTUALLY: 30s
+  GO_DIR: prepared-repo # Used by repository code, should match the input for this task
+
+run:
+  path: /bin/bash
+  args:
+  - -euc
+  - |
+    # This is passed to repo scripts, and is needed so the unit-tests can get the coverage directory
+    export BUILD_ROOT="${PWD}"
+
+    # Read the value from the repo_dir file
+    repo_dir=$(cat ${GO_DIR}/repo_dir)
+
+    # check the go version
+    go version
+
+    # Call the repo's file:
+    ${repo_dir}/hack/ci/run-unit-tests.sh

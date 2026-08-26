@@ -1,0 +1,9 @@
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: deny-all
+spec:
+  selector: has(projectcalico.org/namespace) && projectcalico.org/namespace != "kube-system" && projectcalico.org/namespace != "kube-public" && projectcalico.org/namespace != "kube-node-lease" && projectcalico.org/namespace != "ibm-cert-store" && projectcalico.org/namespace != "ibm-operators" && projectcalico.org/namespace != "ibm-services-system" && projectcalico.org/namespace != "ibm-system" && projectcalico.org/namespace != "teleport"
+  types:
+    - Egress
+    - Ingress

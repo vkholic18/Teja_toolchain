@@ -1,0 +1,67 @@
+version: '1'
+
+setup:
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  script: |
+    #!/usr/bin/env bash
+
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/cocoa_image_merge
+    export PATH_TO_COMMON_REPO="${WORKSPACE}/cicd-common"
+
+    # run the setup
+    ${PATH_TO_PIPELINE}/steps/setup.sh
+
+test:
+  dind: true
+  abort_on_failure: false
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  script: |
+    #!/usr/bin/env bash
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/cocoa_image_merge
+
+    # run the test
+    ${PATH_TO_PIPELINE}/steps/test.sh
+
+compliance-checks:
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  dind: true
+  abort_on_failure: false
+  image_pull_policy: IfNotPresent
+  script: |
+    #!/bin/sh
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/cocoa_image_merge
+
+    # run the compliance checks
+    ${PATH_TO_PIPELINE}/steps/compliance-checks.sh
+
+sign-artifact:
+  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.20
+  abort_on_failure: false
+  script: |
+    #!/bin/bash
+    echo "no op"
+    exit 0
+deploy:
+  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.20
+  abort_on_failure: true
+  script: |
+    #!/bin/bash
+    echo "no op"
+    echo 0
+acceptance-test:
+  abort_on_failure: false
+  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.20
+  script: |
+    #!/bin/bash
+    echo "no op"
+    exit 0
+release:
+  abort_on_failure: true
+  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.20
+  script: |
+    #!/usr/bin/env bash
+    echo "no op"
+    exit 0

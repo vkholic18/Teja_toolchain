@@ -1,0 +1,18 @@
+{
+    "master": {
+      "ci_checks_prefix": "concourse-ci",
+      "required_pull_request_reviews": false  ,
+      "required_status_checks": true  ,
+      "required_status_checks_names": [ "UNIT_TEST" ],
+      "required_linear_history": false ,
+      "enforce_admins": true
+    },
+    "dev-integration": {
+      "ci_checks_prefix": "concourse-ci",
+      "required_pull_request_reviews": true,
+      "required_status_checks": true  ,
+      "required_status_checks_names": ["VERIFY_REPOSITORY_CONFIGURATION", "VERIFY_PROTECTED_BRANCHES_CONFIGURATION"] ,
+      "required_linear_history": true ,
+      "enforce_admins": true
+    }
+} 

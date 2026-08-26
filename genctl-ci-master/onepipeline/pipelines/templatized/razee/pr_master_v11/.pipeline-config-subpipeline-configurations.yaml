@@ -1,0 +1,57 @@
+version: '2'
+
+tasks:
+  async-stage:
+    include:      
+      - dind
+    # async-stage includes one configurable step: run-stage
+    steps:
+      - name: run-stage
+        onError: stopAndFail
+        include:
+          - docker-socket
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533        
+      - name: brt-as-subpipeline
+        script: |
+          #!/usr/bin/env bash          
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_master_v11
+          ${PATH_TO_PIPELINE}/steps/brt_as_subpipeline.sh
+      
+      - name: deploy-ngdc-as-subpipeline
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_master_v11
+          ${PATH_TO_PIPELINE}/steps/deploy_ngdc_as_subpipeline.sh
+      
+      - name: dynamic-scan-as-subpipeline
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_master_v11
+          ${PATH_TO_PIPELINE}/steps/dynamic_scan_as_subpipeline.sh
+
+      - name: categorical-dynamic-scan-as-subpipeline
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_master_v11
+          ${PATH_TO_PIPELINE}/steps/categorical_dynamic_scan_as_subpipeline.sh
+          
+      - name: qz2-cluster-validations
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_master_v11
+          ${PATH_TO_PIPELINE}/steps/cluster_validations_brt_prerequisites.sh
+
+      - name: qz2-cluster-rollback
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/razee/pr_master_v11
+          ${PATH_TO_PIPELINE}/steps/qz2_cluster_rollback.sh
+          
+      - name: finish
+        when: false

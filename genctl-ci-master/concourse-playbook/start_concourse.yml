@@ -1,0 +1,19 @@
+#start up the concourse server.
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+  - name: starting up the concourse server.
+    shell: |
+      echo "=== Concourse is starting"
+      export CONCOURSE_EXTERNAL_URL="https://9.41.33.146:8443"
+      docker-compose start
+      docker-compose up -d
+      echo "=== Concourse start has completed: $?"
+    args:
+      chdir: /home/genadm/con
+      executable: /bin/bash
+    changed_when: false
+    register: results
+  - debug: var=results.stdout_lines

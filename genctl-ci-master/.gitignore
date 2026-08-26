@@ -1,0 +1,12 @@
+*-credentials.yaml
+*-cred.yaml
+/bosh
+.DS_Store
+.idea
+__pycache__
+pipelines/test
+.project
+# This is due to an issue in some pip versions, this content is generated when installing and is not deleted afterwards
+# This .gitignore lines, reduce the risk of commiting this undesired content
+tools/ci_python_tools/build
+tools/ci_python_tools/ci_python_tools.egg-info

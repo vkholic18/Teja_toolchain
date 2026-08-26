@@ -1,0 +1,34 @@
+version: '1'
+
+# No implementation of setup, using the default one
+
+test:
+  dind: true
+  abort_on_failure: false
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  script: |
+    #!/usr/bin/env bash
+    
+    # This is required because genctl-ci is a "special" pipeline in which we have two copies of genctl-ci
+    # One of the master for the .pipeline-config.yaml content itself
+    # Another one for the rest
+    # See: https://ibmcloudlab.slack.com/archives/CFQHG5PP1/p1710225146163979
+     
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/genctl-ci"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/genctl_ci_pr
+    ${PATH_TO_PIPELINE}/steps/test.sh
+
+compliance-checks:
+  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+  dind: true
+  abort_on_failure: true
+  image_pull_policy: IfNotPresent
+  script: |
+    # This is required because genctl-ci is a "special" pipeline in which we have two copies of genctl-ci
+    # One of the master for the .pipeline-config.yaml content itself
+    # Another one for the rest
+    # See: https://ibmcloudlab.slack.com/archives/CFQHG5PP1/p1710225146163979
+    
+    export PATH_TO_GENCTL_CI="${WORKSPACE}/genctl-ci"
+    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/genctl_ci_pr
+    ${PATH_TO_PIPELINE}/steps/compliance-checks.sh

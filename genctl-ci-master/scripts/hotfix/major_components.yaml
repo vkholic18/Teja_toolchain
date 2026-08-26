@@ -1,0 +1,140 @@
+# =============================================================================================
+# IBM Confidential
+# (C) Copyright IBM Corp. 2020
+# The source code for this program is not published or otherwise divested of its trade secrets,
+# irrespective of what has been deposited with the U.S. Copyright Office.
+# =============================================================================================
+# 
+# name of the major component. This is how it will be called in the hotfix config
+#   repository: org_name/repo_name of the major component's integration repository
+#   inventory:
+#     type: "submodules", "json_file", or "yaml_manifest"
+#     path: (required if type is json_file or yaml_manifest) path to the json file within the integration repository
+#   create_minor_pr_pipeline: (boolean) create a pr pipeline for minor component
+#   branch_var_override: (string, optional) name of the Concourse variable to override with the stable
+#                        branch in the minor component pipeline(s)
+#
+
+---
+genctl-orda-legacy:
+  repository: genctl/orda
+  pipeline_config:
+    merge: pipelines/genctl/genctl-release-bundle.yaml
+  inventory:
+    type: submodules
+  create_minor_pr_pipeline: false
+  branch_var_override: orda-branch
+
+genctl:
+  repository: genctl/genctl-release
+  pipeline_config:
+    merge: pipelines/genctl/genctl-release.yaml
+  inventory:
+    type: json_file
+    path: "component-input/inventory.json"
+  create_minor_pr_pipeline: false
+  branch_var_override: genctl-release-branch
+
+rias:
+  repository: genctl/rias-release
+  pipeline_config:
+    merge: pipelines/rias/rias-release.yaml
+  inventory:
+    type: json_file
+    path: "component-input/inventory.json"
+  create_minor_pr_pipeline: false
+  branch_var_override: rias-release-branch
+
+rias-etcd:
+  repository:  genctl/rias-etcd-release
+  pipeline_config:
+    merge: pipelines/rias/rias-release.yaml
+  inventory:
+    type: json_file
+    path: "component-input/inventory.json"
+  create_minor_pr_pipeline: false
+  branch_var_override: rias-etcd-release-branch
+
+# Kube
+etcd-base:
+  repository: cloudlab/etcd-base-release
+  pipeline_config:
+    pr: pipelines/templates/pr-template-kube-release.yaml
+    merge: pipelines/kube/etcd-base-release.yaml
+  inventory:
+    type: yaml_manifest
+    path: manifest.yml
+  create_minor_pr_pipeline: true
+
+kube-addon:
+  repository: cloudlab/kube-addon-release
+  pipeline_config:
+    pr: pipelines/templates/pr-template-kube-release.yaml
+    merge: pipelines/kube/kube-addon-release.yaml
+  inventory:
+    type: yaml_manifest
+    path: manifest.yml
+  create_minor_pr_pipeline: true
+
+kube-base:
+  repository: cloudlab/kube-base-release
+  pipeline_config:
+    pr: pipelines/templates/pr-template-kube-release.yaml
+    merge: pipelines/kube/kube-base-release.yaml
+  inventory:
+    type: yaml_manifest
+    path: manifest.yml
+  create_minor_pr_pipeline: true
+
+kube-define:
+  repository: cloudlab/kube-define-release
+  pipeline_config:
+    pr: pipelines/templates/pr-template-kube-release.yaml
+    merge: pipelines/kube/kube-define-release.yaml
+  inventory:
+    type: yaml_manifest
+    path: manifest.yml
+  create_minor_pr_pipeline: true
+
+#HostOS
+hostos-base-net-sw:
+  repository: cloudlab/hostos-base-net-sw-release
+  pipeline_config:
+    pr: pipelines/templates/pr-template-full-stack-bvt.yaml
+    merge: pipelines/os/hostos-base-net-sw-release.yaml
+  create_minor_pr_pipeline: false
+
+hostos-base-os-sw:
+  repository: cloudlab/hostos-base-os-sw-release
+  pipeline_config:
+    pr: pipelines/templates/pr-template-full-stack-bvt.yaml
+    merge: pipelines/os/hostos-base-os-sw-release.yaml
+  create_minor_pr_pipeline: false
+
+hostos-boot:
+  repository: cloudlab/hostos-boot-release
+  pipeline_config:
+    pr: pipelines/templates/pr-template-full-stack-bvt.yaml
+    merge: pipelines/os/hostos-boot-release.yaml
+  create_minor_pr_pipeline: false
+
+hostos-config:
+  repository: cloudlab/hostos-config-release
+  pipeline_config:
+    pr: pipelines/templates/pr-template-full-stack-bvt.yaml
+    merge: pipelines/os/hostos-config-release.yaml
+  create_minor_pr_pipeline: false
+
+hostos-kernel-patch:
+  repository: cloudlab/hostos-kernel-patch-release
+  pipeline_config:
+    pr: pipelines/templates/pr-template-full-stack-bvt.yaml
+    merge: pipelines/os/hostos-kernel-patch-release.yaml
+  create_minor_pr_pipeline: false
+
+hostos-nextgen-os-sw:
+  repository: cloudlab/hostos-nextgen-os-sw-release
+  pipeline_config:
+    pr: pipelines/templates/pr-template-full-stack-bvt.yaml
+    merge: pipelines/os/hostos-nextgen-os-sw-release.yaml
+  create_minor_pr_pipeline: false

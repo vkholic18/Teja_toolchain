@@ -1,0 +1,231 @@
+version: '2'
+
+tasks:
+  code-checks:
+    include:
+      - dind 
+    runtimeClassName: medium 
+    displayName: 01-detect-secrets
+    steps:
+      - name: checks-setup
+        when: 'false'
+      - name: detect-secrets
+        onError: stopAndFail
+        include:
+          - docker-socket
+      - name: compliance-checks
+        when: 'false'
+      - name: static-scan
+        when: 'false'
+      - name: peer-review
+        when: 'false'
+
+  code-checks-2:
+    include:
+      - dind 
+    runtimeClassName: medium  
+    displayName: 02-build-amd64-packages
+    from: code-checks
+    runAfter:
+      - code-checks
+    steps:
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash          
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/sdn/components/merge_v11
+          export BUILD_ARTIFACT_TYPE="packages"
+          ${PATH_TO_PIPELINE}/steps/build_amd64_artifacts.sh
+      - name: detect-secrets
+        when: 'false'
+      - name: compliance-checks
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/sdn/components/merge_v11
+          ${PATH_TO_PIPELINE}/steps/compliance-checks.sh
+      - name: static-scan
+        when: 'false'
+      - name: peer-review
+        when: 'false'
+
+  code-checks-3:
+    include:
+      - dind
+    runtimeClassName: medium
+    displayName: 03-build-s390x-packages
+    from: code-checks
+    runAfter:
+      - code-checks
+    steps:
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/sdn/components/merge_v11
+          export BUILD_ARTIFACT_TYPE="packages"
+          ${PATH_TO_PIPELINE}/steps/build_s390x_packages.sh
+      - name: detect-secrets
+        when: 'false'
+      - name: compliance-checks
+        when: 'false'
+      - name: static-scan
+        when: 'false'
+      - name: peer-review
+        when: 'false'
+
+  code-checks-4:
+    include:
+      - dind
+    runtimeClassName: medium
+    displayName: 04-unit-tests
+    from: code-checks
+    runAfter:
+      - code-checks
+    steps:
+      - name: checks-setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/sdn/components/merge_v11
+          ${PATH_TO_PIPELINE}/steps/test.sh
+      - name: detect-secrets
+        when: 'false'
+      - name: compliance-checks
+        when: 'false'
+      - name: peer-review
+        when: 'false'
+      - name: static-scan
+        when: 'false'
+
+  code-checks-5:
+    include:
+      - dind
+    runtimeClassName: medium
+    displayName: 05-static-scan
+    from: code-checks
+    runAfter:
+      - code-checks
+    steps:      
+      - name: checks-setup
+        when: 'false'
+      - name: detect-secrets
+        when: 'false'
+      - name: compliance-checks
+        when: 'false'
+      - name: peer-review
+        when: 'false'
+      - name: static-scan
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: continue
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/sdn/components/merge_v11
+          ${PATH_TO_PIPELINE}/steps/code-static-scan.sh
+
+  code-build:
+    include:
+      - dind
+    runtimeClassName: medium
+    displayName: 06-save-artifacts
+    runAfter:
+      - code-checks 
+      - code-checks-2 #02-build-amd64-packages
+      - code-checks-3 #03-build-s390x-packages
+      - code-checks-4 #unit-tests      
+    steps:
+      - name: setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/sdn/components/merge_v11          
+          ${PATH_TO_PIPELINE}/steps/save_artifacts.sh
+      - name: unit-test
+        when: 'false'
+      - name: build-artifact
+        when: 'false'
+      - name: sign-artifact
+        when: 'false'
+      - name: scan-artifact
+        when: 'false'
+
+  deploy-checks:
+    include:
+      - dind
+    runtimeClassName: medium
+    displayName: 07-upload-inventory
+    runAfter:
+      - code-build #06-save-artifacts
+    steps:
+      - name: deploy
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/sdn/components/merge_v11          
+          ${PATH_TO_PIPELINE}/steps/upload_inventory.sh
+      - name: dynamic-scan
+        when: 'false'
+      - name: acceptance-test
+        when: 'false'
+
+  deploy-release:
+    include:
+      - dind
+    runtimeClassName: medium
+    runAfter:
+      - deploy-checks
+    displayName: 08-deploy-release
+    # deploy-release includes one configurable step: run-stage
+    steps:
+      - name: run-stage
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        include:
+          - docker-socket
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/templatized/sdn/components/merge_v11
+          ${PATH_TO_PIPELINE}/steps/release.sh
+finally:  
+  code-ci-finish:
+    steps:
+      - name: run-stage
+        image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.54
+        script: |
+          #!/usr/bin/env bash
+          if [[ "$PIPELINE_DEBUG" == 1 ]]; then
+            trap env EXIT
+            env
+            set -x
+          fi
+          echo "Running code-ci-finish"
+          exit 0
+          

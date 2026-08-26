@@ -1,0 +1,42 @@
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: allow-egress-kube-components-private
+spec:
+  egress:
+  - action: Allow
+    destination:
+      ports:
+      - 53 # DNS
+      - 5353 # DNS
+      - 443 # for communication to block storage
+      # - 2049 # for communication with NFS file servers
+      # - 3260 # for communication to block storage
+      - 10250 # for VPN communication between the Kubernetes master and worker nodes
+      - 20000:32767 # TCP/UDP 20000:32767 for communication with the Kubernetes master
+      - 2040:2041 # TCP/UDP 2040 and 2041 on 172.20.0.0 for the etcd local proxy
+      - 5443 # calico apiserver
+      - 8443 # Required to create pipeline run task
+    protocol: UDP
+    source: {}
+  - action: Allow
+    destination:
+      ports:
+      - 53 #DNS
+      - 5353 #DNS
+      - 443 #communication to block storage
+      - 4443 # Kubernetes 1.19 or later
+      - 6443 # OpenShift 4.3 or later
+      # - 2049 # for communication with NFS file servers
+      # - 3260 # for communication to block storage
+      - 10250 # for VPN communication between the Kubernetes master and worker nodes
+      - 20000:32767 # TCP/UDP 20000:32767 for communication with the Kubernetes master
+      - 2040:2041 # TCP/UDP 2040 and 2041 on 172.20.0.0 for the etcd local proxy
+      - 5443 # calico apiserver
+      - 8443 # Required to create pipeline run task
+    protocol: TCP
+    source: {}
+  order: 1500
+  selector: projectcalico.org/orchestrator == 'k8s'
+  types:
+  - Egress

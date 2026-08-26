@@ -1,0 +1,77 @@
+[
+    {
+        "cve": "CVE-2024-3651",
+        "alwaysOmit": true
+    },
+    {
+        "cve": "CVE-2025-27516",
+        "alwaysOmit": true
+    },
+    {
+        "cve": "CLAIR-PYPI-URLLIB3-1707847996",
+        "expiration": "2025-09-23T12:32:48+05:30",
+        "comment": "Additional security in place" 
+    },
+    {
+        "cve": "CLAIR-PYPI-URLLIB3-1707842391",
+        "expiration": "2025-09-23T12:32:48+05:30",
+        "comment":"Additional preventive measures in place"
+    },
+    {
+        "cve": "CLAIR-PYPI-URLLIB3-2381225507",
+        "expiration": "2026-03-31T12:32:48+05:30",
+        "comment":"Additional preventive measures in place"
+    },
+    {
+        "cve": "CLAIR-PYPI-URLLIB3-2381220946",
+        "expiration": "2025-03-31T12:32:48+05:30",
+        "comment":"Additional preventive measures in place"
+    },
+    {
+        "cve": "CVE-2025-66471",
+        "alwaysOmit": true
+    },
+    {
+        "cve": "CVE-2025-66418",
+        "alwaysOmit": true
+    },
+    {
+        "cve": "CLAIR-PYPI-URLLIB3-2532780554",
+        "expiration": "2026-03-31T12:32:48+05:30",
+        "comment":"Additional preventive measures in place"
+    },
+    {
+        "cve": "CVE-2026-21441",
+        "alwaysOmit": true  
+    },
+    {
+        "cve": "CLAIR-PYPI-REQUESTS-3096228567",
+        "expiration": "2026-12-31T12:32:48+05:30",
+        "comment":"Additional preventive measures in place"
+    },
+    {
+        "cve": "CLAIR-PYPI-REQUESTS-3096184156",
+        "expiration": "2026-12-31T12:32:48+05:30",
+        "comment":"Additional preventive measures in place"
+    },
+    {
+        "cve": "CLAIR-PYPI-REQUESTS-3040850300",
+        "expiration": "2026-12-31T12:32:48+05:30",
+        "comment":"Additional preventive measures in place"
+    },
+    {
+        "cve": "CLAIR-PYPI-REQUESTS-3040786347",
+        "expiration": "2026-12-31T12:32:48+05:30",
+        "comment":"Additional preventive measures in place"
+    },
+    {
+        "cve": "CLAIR-PYPI-PYTEST-3040850241",
+        "expiration": "2026-12-31T12:32:48+05:30",
+        "comment":"Additional preventive measures in place"
+    },
+    {
+        "cve": "CLAIR-PYPI-PYTEST-3040781263",
+        "expiration": "2026-12-31T12:32:48+05:30",
+        "comment":"Additional preventive measures in place"
+    }
+]
