@@ -14,24 +14,8 @@ source ${PATH_TO_GENCTL_CI}/tools/ci_bash_tools/tools.sh
 # Source one-pipeline utils
 source ${PATH_TO_GENCTL_CI}/onepipeline/utils/one_pipeline_utils.sh
 
-# Source colors
-source ${PATH_TO_GENCTL_CI}/onepipeline/utils/colors.sh
-
 # this script is internal to devsecops/baseimage image
 source "${COMMONS_PATH}/terraform/terraform-utilities.sh"
-
-# Set the pipeline template type
-export PIPELINE_TYPE="merge"
-
-# Move to the CI temp dir
-pushd "${CI_TEMP_DIR}"
-
-# Convert & source pipeline params and override
-convert_and_source_pipeline_params_and_overrides "${PATH_TO_GENCTL_CI}" \
-"${PIPELINE_REPO_NAME}" "${PIPELINE_TYPE}"
-
-# Come back
-popd
 
 # remove previous terraform installation - new installation defaults to 1.2.9
 # "${COMMONS_PATH}/terraform/terraform-utilities.sh" has a function called terraform_install
@@ -62,11 +46,10 @@ rm -rf terraform.zip
 terraform_tfvars_setup
 terraform_env_export
 
-# Set pipeline environment
-PATH_TO_ENVIRONMENT_DIR="${PATH_TO_PIPELINE}/environment"
-
-# Prepare pipeline environment
-prepare_pipeline_environment "${PATH_TO_ENVIRONMENT_DIR}"
+# source required properties
+source $PATH_TO_PIPELINE/environment/vars.sh
+source $PATH_TO_PIPELINE/environment/secrets.sh
+source $PATH_TO_PIPELINE/environment/aliases.sh
 
 cd ${PATH_TO_WORKSPACE}
 
