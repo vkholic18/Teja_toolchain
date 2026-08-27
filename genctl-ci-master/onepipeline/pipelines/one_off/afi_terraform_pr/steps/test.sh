@@ -26,7 +26,7 @@ if which terraform; then
   rm -f $(which terraform)
 fi
 
-terraform_version="$(get_env terraform-version "1.10.2")"
+terraform_version="$(get_env terraform-version "1.15.8")"
 
 curl https://releases.hashicorp.com/terraform/$terraform_version/terraform_${terraform_version}_linux_amd64.zip -o terraform.zip
 unzip -o terraform.zip
