@@ -1,59 +1,45 @@
-version: '1'
+version: '2'
 
-setup:
-  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.16
-  script: |
-    #!/usr/bin/env bash
-    echo "no op"
-    exit 0
-test:
-  abort_on_failure: true
-  image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
-  script: |
-    #!/usr/bin/env bash
-    export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
-    export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/afi_terraform_merge
+# AFI Terraform Merge Pipeline
+tasks:
+  devmode-code-build:
+    displayName: Toolchains Provision
+    steps:
+      - name: setup
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/afi_terraform_merge
+          chmod +x ${PATH_TO_PIPELINE}/steps/setup.sh
+          ${PATH_TO_PIPELINE}/steps/setup.sh
 
-    # ensure scripts are executable
-    chmod +x ${PATH_TO_PIPELINE}/steps/test.sh
-    chmod +x ${PATH_TO_PIPELINE}/steps/setup.sh
+      - name: unit-test
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        onError: stopAndFail
+        script: |
+          #!/usr/bin/env bash
+          export PATH_TO_GENCTL_CI="${WORKSPACE}/one-pipeline-config-repo"
+          export PATH_TO_PIPELINE=${PATH_TO_GENCTL_CI}/onepipeline/pipelines/one_off/afi_terraform_merge
+          chmod +x ${PATH_TO_PIPELINE}/steps/test.sh
+          ${PATH_TO_PIPELINE}/steps/test.sh
 
-    # run the test
-    ${PATH_TO_PIPELINE}/steps/test.sh
-compliance-checks:
-  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.16
-  dind: true
-  abort_on_failure: false
-  image_pull_policy: IfNotPresent
-  script: |
-    #!/bin/sh
-    echo "no op"
-    exit 0
-sign-artifact:
-  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.16
-  abort_on_failure: false
-  script: |
-    #!/bin/bash
-    echo "no op"
-    exit 0
-deploy:
-  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.16
-  abort_on_failure: true
-  script: |
-    #!/bin/bash
-    echo "no op"
-    echo 0
-acceptance-test:
-  abort_on_failure: false
-  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.16
-  script: |
-    #!/bin/bash
-    echo "no op"
-    exit 0
-release:
-  abort_on_failure: true
-  image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.16
-  script: |
-    #!/usr/bin/env bash
-    echo "no op"
-    exit 0
+      - name: build-artifact
+        when: 'false'
+
+  devmode-deploy-checks:
+    when: 'false'
+
+  devmode-deploy-release:
+    when: 'false'
+
+finally:
+  code-ci-finish:
+    steps:
+      - name: run-stage
+        image: us.icr.io/genctl-cicd-onepipeline/genctl/golang-ci:22.20260817071533
+        script: |
+          #!/usr/bin/env bash
+          echo "AFI Terraform Merge Pipeline Finished"
+          exit 0
