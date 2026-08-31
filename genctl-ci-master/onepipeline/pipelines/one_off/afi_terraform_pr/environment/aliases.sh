@@ -13,7 +13,7 @@ export PATH_TO_WORKSPACE=${PATH_TO_WORKSPACE_REPO}
 
 # Used in auto-merge
 export PR_NUMBER=${PR_ID}
-export REPOSITORY_NAME=${ORG_AND_REPO}
-export GHE_API_URL=${IBM_GITHUB_API_URI_BASE}
-export GHE_API_TOKEN=${GH_TOKEN}
-export PR_SHA=${PR_HEADSHA}
+export REPOSITORY_NAME=${ORG_AND_REPO:-}
+export GHE_API_URL=${IBM_GITHUB_API_URI_BASE:-${GITHUB_API_URL:-https://github.ibm.com/api/v3}}
+export GHE_API_TOKEN=${GH_TOKEN:-${GITHUB_API_KEY:-}}
+export PR_SHA=${PR_HEADSHA:-}
