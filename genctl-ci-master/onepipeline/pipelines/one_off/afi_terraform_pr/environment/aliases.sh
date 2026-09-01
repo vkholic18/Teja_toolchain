@@ -6,13 +6,13 @@
 # irrespective of what has been deposited with the U.S. Copyright Office.
 # =============================================================================================
 
-export TF_WORKSPACE=$workspace_name
-export WORKSPACE_REPO_NAME=${PIPELINE_REPO_NAME}
+export TF_WORKSPACE=${workspace_name:-}
+export WORKSPACE_REPO_NAME=${PIPELINE_REPO_NAME:-}
 export PATH_TO_WORKSPACE_REPO="${WORKSPACE}/${WORKSPACE_REPO_NAME}"
 export PATH_TO_WORKSPACE=${PATH_TO_WORKSPACE_REPO}
 
 # Used in auto-merge
-export PR_NUMBER=${PR_ID}
+export PR_NUMBER=${PR_ID:-}
 export REPOSITORY_NAME=${ORG_AND_REPO:-}
 export GHE_API_URL=${IBM_GITHUB_API_URI_BASE:-${GITHUB_API_URL:-https://github.ibm.com/api/v3}}
 export GHE_API_TOKEN=${GH_TOKEN:-${GITHUB_API_KEY:-}}
