@@ -63,8 +63,8 @@ echo "Selecting workspace name: $workspace_name"
 # Set the SSH - needed for core module repo clone
 eval "$(ssh-agent -s)"
 echo -e "${GIT_PRIVATE_KEY}" | ssh-add -
-git config --global user.email "${VAULT_GIT_CONFIG_USER_EMAIL}"
-git config --global user.name "${VAULT_GIT_CONFIG_USERNAME}"
+git config --global user.email "${VAULT_GIT_CONFIG_USER_EMAIL:-}"
+git config --global user.name "${VAULT_GIT_CONFIG_USERNAME:-}"
 
 set +e
 # running terraform init
@@ -137,3 +137,4 @@ if [[ $PLAN_STATUS = "Failure" || $VLDT_STATUS = "Failure" || $INIT_STATUS = "Fa
 
   exit 1
 fi
+
