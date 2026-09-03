@@ -103,8 +103,12 @@ echo "Plan summary: $PLAN_SUMMARY"
 
 echo "This is a PR pipeline, sending plan report"
 python3 -m pip install -r ${PATH_TO_GENCTL_CI}/scripts/terraform_helper_funcs/requirements.txt
-echo python3 ${PATH_TO_GENCTL_CI}/scripts/terraform_helper_funcs/add_comment.py -pn $PR_NUMBER
-python3 ${PATH_TO_GENCTL_CI}/scripts/terraform_helper_funcs/add_comment.py -pn $PR_NUMBER
+if [[ -n "${PR_NUMBER:-}" ]]; then
+  echo python3 ${PATH_TO_GENCTL_CI}/scripts/terraform_helper_funcs/add_comment.py -pn $PR_NUMBER
+  python3 ${PATH_TO_GENCTL_CI}/scripts/terraform_helper_funcs/add_comment.py -pn $PR_NUMBER
+else
+  echo "PR_NUMBER is empty (likely issue-triggered run); skipping PR comment step"
+fi
 
 # Send Slack notification — verdict reflects plan success/failure
 if [[ "${PLAN_STATUS}" == "Success" ]]; then

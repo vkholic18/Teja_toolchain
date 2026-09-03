@@ -37,3 +37,49 @@ env_props_text=(
 
 export_env_props "${env_props_text[@]}" "text"
 export_env_props "${env_props_secure[@]}" "secure"
+
+# Resolve secure properties reliably when pipelines provide secret refs.
+resolve_secret_value() {
+    local key="$1"
+    local value=""
+    value="$(get_secret "$key" 2>/dev/null || true)"
+    if [[ -z "$value" ]]; then
+        value="$(get_env "$key" "" 2>/dev/null || true)"
+    fi
+    printf '%s' "$value"
+}
+
+resolve_text_value() {
+    local key="$1"
+    local default_value="${2:-}"
+    get_env "$key" "$default_value" 2>/dev/null || echo "$default_value"
+}
+
+# Keep backwards compatibility with older variable names while supporting the
+# newer test1 module variable contract.
+export TF_VAR_ibmcloud_api_key_value="$(resolve_secret_value "ibmcloud-api-key")"
+export TF_VAR_account_id="$(resolve_secret_value "account-id")"
+if [[ -z "${TF_VAR_account_id}" ]]; then
+    export TF_VAR_account_id="$(resolve_secret_value "ibmcloud-account-id")"
+fi
+export TF_VAR_cos_api_key="$(resolve_secret_value "cos-api-key")"
+export TF_VAR_artifactory_token="$(resolve_secret_value "ARTIFACTORY_TOKEN")"
+if [[ -z "${TF_VAR_artifactory_token}" ]]; then
+    export TF_VAR_artifactory_token="$(resolve_secret_value "artifactory_token")"
+fi
+export TF_VAR_pipeline_dockerconfigjson="$(resolve_secret_value "pipeline-dockerconfigjson")"
+export TF_VAR_pnp_ibmcloud_api_key="$(resolve_secret_value "pnp-ibmcloud-api-key")"
+export TF_VAR_git_token="$(resolve_secret_value "git-token")"
+
+export TF_VAR_tc_name="$(resolve_text_value "tc-name" "afi-ci-toolchain-tf-automation")"
+export TF_VAR_sm_name="$(resolve_text_value "sm-name" "")"
+export TF_VAR_sm_resource_group="$(resolve_text_value "sm-resource-grp" "")"
+export TF_VAR_sm_secret_ref="$(resolve_text_value "sm-secret-ref" "")"
+export TF_VAR_cos_instance_crn="$(resolve_text_value "cos-instance-crn" "")"
+export TF_VAR_cos_integration_endpoint="$(resolve_text_value "cos-integration-endpoint" "")"
+export TF_VAR_tc_build_repo_url="$(resolve_text_value "repo_url" "")"
+if [[ -z "${TF_VAR_tc_build_repo_url}" ]]; then
+    export TF_VAR_tc_build_repo_url="$(resolve_text_value "repository" "")"
+fi
+export TF_VAR_tc_afi_config_repo_url="$(resolve_text_value "repository" "")"
+export TF_VAR_tc_git_token_secret_ref="$(resolve_text_value "git-token-secret-ref" "")"
